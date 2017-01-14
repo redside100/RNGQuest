@@ -10,7 +10,6 @@ import android.view.View;
 public class CoreView extends View {
     public Canvas canvas;
     Typeface font;
-    public int width = getWidth(), height = getHeight();
     private CoreManager manager;
     private Loop loop;
     public CoreView(Context context) {
@@ -30,9 +29,9 @@ public class CoreView extends View {
         paint.setTextSize(150);
         paint.setStyle(Paint.Style.FILL);
         paint.setColor(Color.WHITE);
+        canvas.drawPaint(paint);
         manager.width = getWidth();
         manager.height = getHeight();
-        canvas.drawPaint(paint);
         manager.render(canvas, paint);
     }
     public void render(){
