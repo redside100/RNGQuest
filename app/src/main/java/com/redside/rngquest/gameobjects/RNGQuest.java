@@ -19,5 +19,6 @@ public class RNGQuest extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(new TestView(this));
+        //ur bad
     }
 }
