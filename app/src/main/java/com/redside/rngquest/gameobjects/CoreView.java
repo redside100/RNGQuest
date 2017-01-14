@@ -4,10 +4,12 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.Typeface;
 import android.view.View;
 
 public class CoreView extends View {
     public Canvas canvas;
+    Typeface font;
     public int width = getWidth(), height = getHeight();
     private CoreManager manager;
     private Loop loop;
@@ -18,18 +20,20 @@ public class CoreView extends View {
     private void init(){
         manager = new CoreManager();
         loop = new Loop(this);
+        font = Typeface.createFromAsset(getContext().getAssets(), "fonts/font.ttf");
     }
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
         Paint paint = new Paint();
+        paint.setTypeface(font);
         paint.setTextSize(150);
         paint.setStyle(Paint.Style.FILL);
         paint.setColor(Color.WHITE);
-        canvas.drawPaint(paint);
-        manager.render(canvas, paint);
         manager.width = getWidth();
         manager.height = getHeight();
+        canvas.drawPaint(paint);
+        manager.render(canvas, paint);
     }
     public void render(){
         invalidate();

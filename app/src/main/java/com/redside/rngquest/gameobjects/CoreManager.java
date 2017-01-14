@@ -18,5 +18,6 @@ public class CoreManager{
         radius = 100;
         paint.setColor(Color.parseColor("#000000"));
         canvas.drawCircle(width / 2, height / 2, radius, paint);
+        canvas.drawText("New font WHOAAA", width / 2 - 600, height / 2 + 250, paint);
     }
 }
