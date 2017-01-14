@@ -16,8 +16,8 @@ public class CoreView extends View {
         init();
     }
     private void init(){
-        loop = new Loop(this);
         manager = new CoreManager();
+        loop = new Loop(this);
     }
     @Override
     protected void onDraw(Canvas canvas) {
