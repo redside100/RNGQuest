@@ -7,16 +7,21 @@ import android.graphics.Paint;
 import android.graphics.Typeface;
 import android.view.View;
 
+import com.redside.rngquest.managers.CoreManager;
+import com.redside.rngquest.utils.Assets;
+
 public class CoreView extends View {
     public Canvas canvas;
     Typeface font;
     private CoreManager manager;
+    private Assets assets;
     private Loop loop;
     public CoreView(Context context) {
         super(context);
         init();
     }
     private void init(){
+        assets = new Assets(getContext());
         manager = new CoreManager();
         loop = new Loop(this);
         font = Typeface.createFromAsset(getContext().getAssets(), "fonts/font.ttf");

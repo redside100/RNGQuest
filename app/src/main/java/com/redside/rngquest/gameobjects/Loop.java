@@ -13,7 +13,7 @@ public class Loop {
     private int sleepTime;
     private int framesSkipped;
     private int framePeriod = 1000 / FPS;
-    private int maxFrameSkips = 5;
+    private int maxFrameSkips = 10;
     public Loop(CoreView coreView){
         sleepTime = 0;
         c = coreView;
