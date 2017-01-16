@@ -37,7 +37,7 @@ public class Background {
                 for (int i = 1; i < totalFrames; i++){
                     background.set(i, Assets.getBitmapFromMemory("background_title" + i));
                 }
-                if (xOff < CoreManager.width * 1.6){
+                if (xOff < CoreManager.width + clouds.getWidth()){
                     xOff++;
                 }else{
                     xOff = 0;
