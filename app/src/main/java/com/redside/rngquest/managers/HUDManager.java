@@ -15,7 +15,7 @@ public class HUDManager {
         height = CoreManager.height;
     }
     public void render(Canvas canvas, Paint paint){
-       drawCenteredText("RNG Quest", canvas, width / 2, height / 2 - 100, paint);
+       drawCenteredText("RNG Quest", canvas, width / 2, (int) (height / 3.5), paint);
     }
     public void drawCenteredText(String text, Canvas canvas, int x, int y, Paint paint){
         Rect bounds = new Rect();

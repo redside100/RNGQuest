@@ -12,7 +12,7 @@ public class Animator {
     private int frameAtPause, currentFrame;
 
     public Animator(ArrayList<Bitmap> frames){
-        this.frames = frames;
+        this.frames = new ArrayList<>(frames);
     }
 
     public void setSpeed(long speed){
