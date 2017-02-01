@@ -5,6 +5,8 @@ import android.content.res.AssetManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 
+import com.redside.rngquest.managers.CoreManager;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.HashMap;
@@ -21,6 +23,7 @@ public class Assets {
         db.put("background_title1", getBitmap(context, "backgrounds/title1.png"));
         db.put("background_title2", getBitmap(context, "backgrounds/title2.png"));
         db.put("background_title_clouds", getBitmap(context, "backgrounds/title_clouds.png"));
+        db.put("sprites_block", getBitmap(context, "sprites/block.png"));
     }
     public static Bitmap getBitmap(Context context, String filePath) {
         AssetManager assetManager = context.getAssets();

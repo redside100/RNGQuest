@@ -2,6 +2,8 @@ package com.redside.rngquest.gameobjects;
 
 import android.os.Handler;
 
+import java.util.Random;
+
 
 public class Loop {
     public static int FPS = 60;
@@ -12,8 +14,8 @@ public class Loop {
     private long timeDiff;
     private int sleepTime;
     private int framesSkipped;
-    private int framePeriod = 1000 / FPS;
-    private int maxFrameSkips = 10;
+    private int framePeriod = (int) (1000 / FPS);
+    private int maxFrameSkips = 5;
     public Loop(CoreView coreView){
         sleepTime = 0;
         c = coreView;
@@ -27,16 +29,15 @@ public class Loop {
                 c.render();
                 timeDiff = System.currentTimeMillis() - beginTime;
                 sleepTime = (int) (framePeriod - timeDiff);
-                if (sleepTime > 0){
-                    handler.postDelayed(runnable, sleepTime);
-                }
                 while (sleepTime < 0 && framesSkipped < maxFrameSkips) {
                     c.tick();
                     sleepTime += framePeriod;
                     framesSkipped++;
+                }
+                if (framesSkipped > 0){
                     System.out.println("Can't keep up! Skipped " + framesSkipped + " frames");
                 }
-
+                handler.postDelayed(runnable, sleepTime);
             }
         };
         handler.post(runnable);
