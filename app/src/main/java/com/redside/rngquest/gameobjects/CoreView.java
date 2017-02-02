@@ -42,7 +42,9 @@ public class CoreView extends View {
     }
     @Override
     public boolean onTouchEvent(MotionEvent e){
-        manager.touchEvent(e);
+        if (e.getAction() == MotionEvent.ACTION_DOWN){
+            manager.touchEvent(e);
+        }
         return true;
     }
     public void render(){
