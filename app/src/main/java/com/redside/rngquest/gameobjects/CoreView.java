@@ -5,6 +5,7 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Typeface;
+import android.view.MotionEvent;
 import android.view.View;
 
 import com.redside.rngquest.managers.CoreManager;
@@ -38,6 +39,11 @@ public class CoreView extends View {
         manager.width = getWidth();
         manager.height = getHeight();
         manager.render(canvas, paint);
+    }
+    @Override
+    public boolean onTouchEvent(MotionEvent e){
+        manager.touchEvent(e);
+        return true;
     }
     public void render(){
         invalidate();

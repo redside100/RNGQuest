@@ -4,17 +4,25 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Rect;
+import android.view.MotionEvent;
 
 public class HUDManager {
     private int width = 0;
     private int height = 0;
+    private ButtonManager buttonManager;
     public HUDManager(){
+        buttonManager = new ButtonManager();
     }
     public void tick(){
+        buttonManager.tick();
         width = CoreManager.width;
         height = CoreManager.height;
     }
+    public void touchEvent(MotionEvent e){
+        buttonManager.checkButtons(e);
+    }
     public void render(Canvas canvas, Paint paint){
+        buttonManager.render(canvas, paint);
         switch(CoreManager.state){
             case TITLE:
                 drawCenteredText("RNG Quest", canvas, width / 2, (int) (height / 3.5), paint);

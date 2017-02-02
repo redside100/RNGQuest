@@ -5,6 +5,7 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
+import android.view.MotionEvent;
 
 import com.redside.rngquest.utils.Assets;
 
@@ -26,7 +27,9 @@ public class CoreManager{
         hud = new HUDManager();
         background = new Background();
     }
-
+    public void touchEvent(MotionEvent e){
+        hud.touchEvent(e);
+    }
     public void tick(){
         background.tick();
         hud.tick();
