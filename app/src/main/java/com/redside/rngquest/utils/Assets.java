@@ -24,6 +24,7 @@ public class Assets {
         db.put("background_title2", getBitmap(context, "backgrounds/title2.png"));
         db.put("background_title_clouds", getBitmap(context, "backgrounds/title_clouds.png"));
         db.put("sprites_block", getBitmap(context, "sprites/block.png"));
+        db.put("button_play", getBitmap(context, "buttons/play.png"));
     }
     public static Bitmap getBitmap(Context context, String filePath) {
         AssetManager assetManager = context.getAssets();

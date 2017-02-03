@@ -10,13 +10,16 @@ import com.redside.rngquest.buttons.MenuPlayButton;
 import com.redside.rngquest.utils.Assets;
 
 public class HUDManager {
-    private int width = 0;
-    private int height = 0;
-    private static Bitmap box;
-    private ButtonManager buttonManager;
+    private static int width = 0;
+    private static int height = 0;
+    private static Bitmap play;
+    private static ButtonManager buttonManager;
     public HUDManager(){
+        this.width = CoreManager.width;
+        this.height = CoreManager.height;
         buttonManager = new ButtonManager();
-        box = Assets.getBitmapFromMemory("sprites_block.png");
+        play = Assets.getBitmapFromMemory("button_play");
+        onStateChange(ScreenState.TITLE);
     }
     public void tick(){
         buttonManager.tick();
@@ -27,9 +30,10 @@ public class HUDManager {
         buttonManager.checkButtons(e);
     }
     public static void onStateChange(ScreenState newState){
+        buttonManager.clearButtons();
         switch (newState){
             case TITLE:
-                MenuPlayButton b = new MenuPlayButton(box, CoreManager.width / 2, CoreManager.height / 2, "", 0);
+                MenuPlayButton b = new MenuPlayButton(play, width / 2, height / 2, "", 0);
                 b.create();
                 break;
         }

@@ -11,7 +11,7 @@ import java.util.ArrayList;
 
 
 public class Background {
-    private ArrayList<Bitmap> background;
+    private static ArrayList<Bitmap> background;
     private Bitmap clouds, block;
     private Animator animate;
     private int xOff = 0;
@@ -25,20 +25,26 @@ public class Background {
         animate.setSpeed(450);
         animate.play();
         animate.update(System.currentTimeMillis());
+        onStateChange(ScreenState.TITLE);
     }
     public void tick(){
-        // switch to a on state change later
         switch(CoreManager.state){
             case TITLE:
-                for (int i = 1; i < 2; i++){
-                    background.set(i, Assets.getBitmapFromMemory("background_title" + i));
-                }
                 if (xOff < CoreManager.width + clouds.getWidth()){
                     xOff++;
                 }else{
                     xOff = 0;
                 }
                 break;
+        }
+    }
+    public static void onStateChange(ScreenState newState){
+        background.clear();
+        switch (newState){
+            case TITLE:
+                for (int i = 1; i < 3; i++){
+                    background.add(Assets.getBitmapFromMemory("background_title" + i));
+                }
         }
     }
     public void render(Canvas canvas, Paint paint){

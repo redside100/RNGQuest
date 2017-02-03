@@ -15,17 +15,17 @@ public class Button{
     private int textSize;
     public Button(Bitmap image, int x, int y, String text, int textSize){
         this.image = image;
-        this.x = x;
-        this.y = y;
+        this.x = x - (getBitmap().getWidth() / 2);
+        this.y = y - (getBitmap().getHeight() / 2);
         this.text = text;
         this.textSize = textSize;
     }
     public void tick(){}
     public void render(Canvas canvas, Paint paint) {
-        canvas.drawBitmap(image, x, y, paint);
-        int nx = (x + getBitmap().getWidth()) / 2;
-        int ny = (y + getBitmap().getHeight()) / 2;
-        drawCenteredText(text, canvas, nx, ny, paint);
+        if (image != null){
+            canvas.drawBitmap(image, x, y, paint);
+            drawCenteredText(text, canvas, x, y, paint);
+        }
     }
     public int getX(){
         return x;

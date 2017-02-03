@@ -4,7 +4,9 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.Point;
 import android.graphics.Typeface;
+import android.view.Display;
 import android.view.MotionEvent;
 import android.view.View;
 
@@ -17,13 +19,17 @@ public class CoreView extends View {
     private CoreManager manager;
     private Assets assets;
     private Loop loop;
-    public CoreView(Context context) {
+    private int width;
+    private int height;
+    public CoreView(Context context, int width, int height) {
         super(context);
+        this.width = width;
+        this.height = height;
         init();
     }
     private void init(){
         assets = new Assets(getContext());
-        manager = new CoreManager();
+        manager = new CoreManager(width, height);
         loop = new Loop(this);
         font = Typeface.createFromAsset(getContext().getAssets(), "fonts/font.ttf");
     }
@@ -36,8 +42,6 @@ public class CoreView extends View {
         paint.setStyle(Paint.Style.FILL);
         paint.setColor(Color.WHITE);
         canvas.drawPaint(paint);
-        manager.width = getWidth();
-        manager.height = getHeight();
         manager.render(canvas, paint);
     }
     @Override

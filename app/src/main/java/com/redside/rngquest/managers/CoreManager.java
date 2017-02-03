@@ -15,17 +15,24 @@ public class CoreManager{
     private int tick = 0;
     private int xoff = 0;
     boolean left = true;
-    private HUDManager hud;
-    private Background background;
+    private static HUDManager hud;
+    private static Background background;
     private Assets assets;
     public static ScreenState state;
-    public CoreManager(){
+    public CoreManager(int width, int height){
+        this.width = width;
+        this.height = height;
         init();
     }
     public void init(){
         state = ScreenState.TITLE;
         hud = new HUDManager();
         background = new Background();
+        stateChange(ScreenState.TITLE);
+    }
+    public static void stateChange(ScreenState newState){
+        hud.onStateChange(newState);
+        background.onStateChange(newState);
     }
     public void touchEvent(MotionEvent e){
         hud.touchEvent(e);
