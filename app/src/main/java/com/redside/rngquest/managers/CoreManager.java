@@ -17,32 +17,47 @@ public class CoreManager{
     boolean left = true;
     private static HUDManager hud;
     private static Background background;
+    private static SEManager se;
     private Assets assets;
     public static ScreenState state;
+    public static boolean allowTouch = true;
     public CoreManager(int width, int height){
         this.width = width;
         this.height = height;
         init();
     }
     public void init(){
+        // Initialize HUD manager, background manager, and SE manager
         state = ScreenState.TITLE;
         hud = new HUDManager();
         background = new Background();
-        stateChange(ScreenState.TITLE);
+        se = new SEManager();
+        // Call first time onStateChange for HUD and Background
+        hud.onStateChange(state);
+        background.onStateChange(state);
     }
     public static void stateChange(ScreenState newState){
-        hud.onStateChange(newState);
-        background.onStateChange(newState);
+        // Usually state changes are handled in SE
+        se.onStateChange(newState);
     }
     public void touchEvent(MotionEvent e){
-        hud.touchEvent(e);
+        if (allowTouch){
+            hud.touchEvent(e);
+        }
     }
     public void tick(){
+        // Tick all managers in order
         background.tick();
         hud.tick();
+        se.tick();
+    }
+    public static void setAllowTouch(boolean touch){
+        allowTouch = touch;
     }
     public void render(Canvas canvas, Paint paint){
+        // Render all managers in order. This determines the layering
         background.render(canvas, paint);
         hud.render(canvas, paint);
+        se.render(canvas, paint);
     }
 }

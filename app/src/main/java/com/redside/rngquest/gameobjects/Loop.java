@@ -25,21 +25,26 @@ public class Loop {
             public void run() {
                 beginTime = System.currentTimeMillis();
                 framesSkipped = 0;
+                // Tick and render main manager
                 c.tick();
                 c.render();
                 timeDiff = System.currentTimeMillis() - beginTime;
                 sleepTime = (int) (framePeriod - timeDiff);
+                // If falling behind, skip a few frames and tick without rendering
                 while (sleepTime < 0 && framesSkipped < maxFrameSkips) {
                     c.tick();
                     sleepTime += framePeriod;
                     framesSkipped++;
                 }
                 if (framesSkipped > 0){
+                    // Display a warning in system out
                     System.out.println("Can't keep up! Skipped " + framesSkipped + " frames");
                 }
+                // Re-run the runnable
                 handler.postDelayed(runnable, sleepTime);
             }
         };
+        // Run the thing for the first time
         handler.post(runnable);
     }
 }

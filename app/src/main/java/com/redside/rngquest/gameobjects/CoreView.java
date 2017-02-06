@@ -28,6 +28,7 @@ public class CoreView extends View {
         init();
     }
     private void init(){
+        // Init assets, main manager, game loop, and set font
         assets = new Assets(getContext());
         manager = new CoreManager(width, height);
         loop = new Loop(this);
@@ -35,6 +36,7 @@ public class CoreView extends View {
     }
     @Override
     protected void onDraw(Canvas canvas) {
+        // Where everything is drawn
         super.onDraw(canvas);
         Paint paint = new Paint();
         paint.setTypeface(font);
@@ -46,15 +48,18 @@ public class CoreView extends View {
     }
     @Override
     public boolean onTouchEvent(MotionEvent e){
+        // Source of detecting touches. Only check for when the user taps
         if (e.getAction() == MotionEvent.ACTION_DOWN){
             manager.touchEvent(e);
         }
         return true;
     }
     public void render(){
+        // Invalidate recalls onDraw()
         invalidate();
     }
     public void tick(){
+        // Ticks the main manager.
         manager.tick();
     }
 }

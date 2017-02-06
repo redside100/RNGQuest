@@ -28,11 +28,13 @@ public class ButtonManager {
         buttons.clear();
     }
     public void render(Canvas canvas, Paint paint){
+        // Renders all active buttons
         for (Button button : buttons){
             button.render(canvas, paint);
         }
     }
     public void tick(){
+        // Ticks all active buttons
         for (Button button : buttons){
             button.tick();
         }
@@ -45,7 +47,7 @@ public class ButtonManager {
         }
     }
     public boolean buttonTouched(Button button, MotionEvent event) {
-        // spaghetti
+        // Super spaghetti, but works
         if (event.getX() >= button.getX() && event.getX() < (button.getX() + button.getBitmap().getWidth())
                 && event.getY() >= button.getY() && event.getY() < (button.getY() + button.getBitmap().getHeight())) {
             return true;

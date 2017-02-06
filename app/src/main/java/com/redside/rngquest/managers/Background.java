@@ -14,14 +14,17 @@ public class Background {
     private static ArrayList<Bitmap> background;
     private Bitmap clouds, block;
     private Animator animate;
-    private int xOff = 0;
+    private static int xOff = 0;
     public Background(){
+        // Load all required assets from memory
         clouds = Assets.getBitmapFromMemory("background_title_clouds");
         block = Assets.getBitmapFromMemory("sprites_block");
         background = new ArrayList<>();
         background.add(Assets.getBitmapFromMemory("background_title1"));
         background.add(Assets.getBitmapFromMemory("background_title2"));
         animate = new Animator(background);
+        // This is just defaulted for the first time initializing, assuming it starts on the title screen.
+        // This speed will be changed in onStateChange()
         animate.setSpeed(450);
         animate.play();
         animate.update(System.currentTimeMillis());
@@ -29,6 +32,8 @@ public class Background {
     }
     public void tick(){
         switch(CoreManager.state){
+            // All movement for things in the background are handled here.
+            case CHAR_SELECT:
             case TITLE:
                 if (xOff < CoreManager.width + clouds.getWidth()){
                     xOff++;
@@ -39,12 +44,15 @@ public class Background {
         }
     }
     public static void onStateChange(ScreenState newState){
+        // No matter what, clear all frames in the background, and reload.
         background.clear();
         switch (newState){
             case TITLE:
+            case CHAR_SELECT:
                 for (int i = 1; i < 3; i++){
                     background.add(Assets.getBitmapFromMemory("background_title" + i));
                 }
+                break;
         }
     }
     public void render(Canvas canvas, Paint paint){
@@ -53,7 +61,9 @@ public class Background {
             animate.update(System.currentTimeMillis());
         }
         switch(CoreManager.state){
+            // All moving objects in the background are drawn here.
             case TITLE:
+            case CHAR_SELECT:
                 canvas.drawBitmap(clouds, CoreManager.width - xOff, CoreManager.height / 10, paint);
                 break;
 
