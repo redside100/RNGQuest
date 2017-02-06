@@ -35,6 +35,7 @@ public class Background {
             // All movement for things in the background are handled here.
             case CHAR_SELECT:
             case TITLE:
+            case INFO:
                 if (xOff < CoreManager.width + clouds.getWidth()){
                     xOff++;
                 }else{
@@ -48,6 +49,7 @@ public class Background {
         background.clear();
         switch (newState){
             case TITLE:
+            case INFO:
             case CHAR_SELECT:
                 for (int i = 1; i < 3; i++){
                     background.add(Assets.getBitmapFromMemory("background_title" + i));
@@ -63,6 +65,7 @@ public class Background {
         switch(CoreManager.state){
             // All moving objects in the background are drawn here.
             case TITLE:
+            case INFO:
             case CHAR_SELECT:
                 canvas.drawBitmap(clouds, CoreManager.width - xOff, CoreManager.height / 10, paint);
                 break;

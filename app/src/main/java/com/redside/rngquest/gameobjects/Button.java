@@ -17,6 +17,7 @@ public class Button{
         this.image = image;
         this.x = x - (getBitmap().getWidth() / 2);
         this.y = y - (getBitmap().getHeight() / 2);
+        ButtonManager.addButton(this);
     }
     public void tick(){}
     public void render(Canvas canvas, Paint paint) {
@@ -33,9 +34,6 @@ public class Button{
     public void trigger(){}
     public Bitmap getBitmap(){
         return image;
-    }
-    public void create(){
-        ButtonManager.addButton(this);
     }
     public void destroy(){
         ButtonManager.removeButton(this);

@@ -1,5 +1,5 @@
 package com.redside.rngquest.entities;
 
-public class Player extends Entity {
+public class Player {
 
 }
