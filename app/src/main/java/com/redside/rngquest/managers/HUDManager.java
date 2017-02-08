@@ -16,6 +16,7 @@ public class HUDManager {
     private static int height = 0;
     private static Bitmap play, back, info;
     private static ButtonManager buttonManager;
+    public static int selection = 0;
     public HUDManager(){
         this.width = CoreManager.width;
         this.height = CoreManager.height;
