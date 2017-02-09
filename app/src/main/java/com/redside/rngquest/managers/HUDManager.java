@@ -6,9 +6,12 @@ import android.graphics.Paint;
 import android.graphics.Rect;
 import android.view.MotionEvent;
 
-import com.redside.rngquest.buttons.BackToMenuButton;
+import com.redside.rngquest.buttons.BackButton;
 import com.redside.rngquest.buttons.MenuInfoButton;
-import com.redside.rngquest.buttons.MenuPlayButton;
+import com.redside.rngquest.buttons.PlayButton;
+import com.redside.rngquest.buttons.TankSelectButton;
+import com.redside.rngquest.buttons.WarriorSelectButton;
+import com.redside.rngquest.buttons.WizardSelectButton;
 import com.redside.rngquest.utils.Assets;
 
 public class HUDManager {
@@ -22,7 +25,7 @@ public class HUDManager {
         this.height = CoreManager.height;
         // Init new button manager
         buttonManager = new ButtonManager();
-        // Load all button graphical assets
+        // Load all button bitmaps needed
         play = Assets.getBitmapFromMemory("button_play");
         back = Assets.getBitmapFromMemory("button_back");
         info = Assets.getBitmapFromMemory("button_info");
@@ -41,12 +44,22 @@ public class HUDManager {
         // Handle which buttons to create depending on the new state
         switch (newState){
             case TITLE:
-                MenuPlayButton bPlay = new MenuPlayButton(play, width / 2, height / 2);
-                MenuInfoButton bInfo = new MenuInfoButton(info, width / 2, (int) (height / 1.5));
+                PlayButton bPlayMenu = new PlayButton(play, width / 2, height / 2, ScreenState.CHAR_SELECT);
+                MenuInfoButton bInfoMenu = new MenuInfoButton(info, width / 2, (int) (height / 1.5));
                 break;
             case INFO:
+                BackButton bBackInfo = new BackButton(back, (int) (width * 0.9), (int) (height * 0.9), ScreenState.TITLE);
+                break;
             case CHAR_SELECT:
-                BackToMenuButton bBack = new BackToMenuButton(back, (int) (width * 0.9), (int) (height * 0.9));
+                BackButton bBackCS = new BackButton(back, (int) (width * 0.9), (int) (height * 0.9), ScreenState.TITLE);
+                Bitmap wizardCS = Assets.getBitmapFromMemory("sprites_wizard");
+                Bitmap warriorCS = Assets.getBitmapFromMemory("sprites_warrior");
+                Bitmap tankCS = Assets.getBitmapFromMemory("sprites_tank");
+                WizardSelectButton bWizardCS = new WizardSelectButton(wizardCS, (width / 4), (height / 2));
+                WarriorSelectButton bWarriorCS = new WarriorSelectButton(warriorCS, (width / 2), (height / 2));
+                TankSelectButton bTankCS = new TankSelectButton(tankCS, (width / 4) * 3, (height / 2));
+
+
                 break;
         }
     }
@@ -55,15 +68,34 @@ public class HUDManager {
         buttonManager.render(canvas, paint);
         // Render all text, HUD items, etc. depending on state
         switch(CoreManager.state){
+
+            // Title Screen
             case TITLE:
                 drawCenteredText("RNG Quest", canvas, width / 2, (int) (height / 3.5), paint, 150);
                 break;
+
+            // Info Screen
             case INFO:
                 drawCenteredText("Info", canvas, width / 2, (int) (height / 3.5), paint, 150);
                 drawCenteredText("There's nothing here lol", canvas, width / 2, height / 2, paint, 100);
                 break;
+
+            // Character Selection Screen
             case CHAR_SELECT:
                 drawCenteredText("Character Select", canvas, width / 2, (int) (height / 3.5), paint, 150);
+                String character = "";
+                switch(selection){
+                    case 1: // Wizard
+                        character = "Wizard: +15 ATK (70%), +20 HP, +70% EVA";
+                        break;
+                    case 2:
+                        character = "Warrior: +12 ATK (50%), +50 HP, +30% EVA";
+                        break;
+                    case 3:
+                        character = "Tank: +7 ATK (40%), +90 HP, + 20% EVA";
+                        break;
+                }
+                drawCenteredText(character, canvas, width / 2, (int) (height * 0.83), paint, 75);
                 break;
         }
     }

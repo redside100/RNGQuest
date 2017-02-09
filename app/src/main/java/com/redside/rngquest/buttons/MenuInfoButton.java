@@ -4,6 +4,7 @@ package com.redside.rngquest.buttons;
 import android.graphics.Bitmap;
 
 import com.redside.rngquest.gameobjects.Button;
+import com.redside.rngquest.managers.HUDManager;
 import com.redside.rngquest.managers.SEManager;
 import com.redside.rngquest.managers.ScreenState;
 

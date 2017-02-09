@@ -24,6 +24,9 @@ public class Assets {
         db.put("background_title2", getBitmap(context, "backgrounds/title2.png"));
         db.put("background_title_clouds", getBitmap(context, "backgrounds/title_clouds.png"));
         db.put("sprites_block", getBitmap(context, "sprites/block.png"));
+        db.put("sprites_wizard", getBitmap(context, "sprites/wizard.png"));
+        db.put("sprites_warrior", getBitmap(context, "sprites/warrior.png"));
+        db.put("sprites_tank", getBitmap(context, "sprites/tank.png"));
         db.put("button_play", getBitmap(context, "buttons/play.png"));
         db.put("button_back", getBitmap(context, "buttons/back.png"));
         db.put("button_info", getBitmap(context, "buttons/info.png"));

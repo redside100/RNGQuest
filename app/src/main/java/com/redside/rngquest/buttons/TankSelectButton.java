@@ -5,12 +5,12 @@ import android.graphics.Bitmap;
 import com.redside.rngquest.gameobjects.Button;
 import com.redside.rngquest.managers.HUDManager;
 
-public class WizardSelectButton extends Button {
-    public WizardSelectButton(Bitmap image, int x, int y){
+public class TankSelectButton extends Button {
+    public TankSelectButton(Bitmap image, int x, int y){
         super(image, x, y);
     }
     @Override
     public void trigger(){
-        HUDManager.selection = 1;
+        HUDManager.selection = 3;
     }
 }
