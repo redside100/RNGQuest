@@ -89,10 +89,10 @@ public class HUDManager {
                         character = "Wizard: +15 ATK (70%), +20 HP, +70% EVA";
                         break;
                     case 2:
-                        character = "Warrior: +12 ATK (50%), +50 HP, +30% EVA";
+                        character = "Warrior: +12 ATK (50%), +50 HP, +5 AMR, +30% EVA";
                         break;
                     case 3:
-                        character = "Tank: +7 ATK (40%), +90 HP, + 20% EVA";
+                        character = "Tank: +7 ATK (40%), +90 HP, +20 AMR, +20% EVA";
                         break;
                 }
                 drawCenteredText(character, canvas, width / 2, (int) (height * 0.83), paint, 75);
