@@ -2,6 +2,7 @@ package com.redside.rngquest.buttons;
 
 import android.graphics.Bitmap;
 
+import com.redside.rngquest.entities.Player;
 import com.redside.rngquest.gameobjects.Button;
 import com.redside.rngquest.managers.HUDManager;
 
@@ -12,5 +13,6 @@ public class WarriorSelectButton extends Button {
     @Override
     public void trigger(){
         HUDManager.selection = 2;
+        Player.spawn(2);
     }
 }

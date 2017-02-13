@@ -8,9 +8,9 @@ import com.redside.rngquest.managers.HUDManager;
 import com.redside.rngquest.managers.SEManager;
 import com.redside.rngquest.managers.ScreenState;
 
-public class BackButton extends Button {
+public class StateChangeButton extends Button {
     private ScreenState newState;
-    public BackButton(Bitmap image, int x, int y, ScreenState newState){
+    public StateChangeButton(Bitmap image, int x, int y, ScreenState newState){
         super(image, x, y);
         this.newState = newState;
     }

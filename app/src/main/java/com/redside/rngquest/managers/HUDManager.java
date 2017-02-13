@@ -6,9 +6,7 @@ import android.graphics.Paint;
 import android.graphics.Rect;
 import android.view.MotionEvent;
 
-import com.redside.rngquest.buttons.BackButton;
-import com.redside.rngquest.buttons.MenuInfoButton;
-import com.redside.rngquest.buttons.PlayButton;
+import com.redside.rngquest.buttons.StateChangeButton;
 import com.redside.rngquest.buttons.TankSelectButton;
 import com.redside.rngquest.buttons.WarriorSelectButton;
 import com.redside.rngquest.buttons.WizardSelectButton;
@@ -44,21 +42,20 @@ public class HUDManager {
         // Handle which buttons to create depending on the new state
         switch (newState){
             case TITLE:
-                PlayButton bPlayMenu = new PlayButton(play, width / 2, height / 2, ScreenState.CHAR_SELECT);
-                MenuInfoButton bInfoMenu = new MenuInfoButton(info, width / 2, (int) (height / 1.5));
+                StateChangeButton bPlayMenu = new StateChangeButton(play, width / 2, height / 2, ScreenState.CHAR_SELECT);
+                StateChangeButton bInfoMenu = new StateChangeButton(info, width / 2, (int) (height / 1.5), ScreenState.INFO);
                 break;
             case INFO:
-                BackButton bBackInfo = new BackButton(back, (int) (width * 0.9), (int) (height * 0.9), ScreenState.TITLE);
+                StateChangeButton bBackInfo = new StateChangeButton(back, (int) (width * 0.9), (int) (height * 0.9), ScreenState.TITLE);
                 break;
             case CHAR_SELECT:
-                BackButton bBackCS = new BackButton(back, (int) (width * 0.9), (int) (height * 0.9), ScreenState.TITLE);
+                StateChangeButton bBackCS = new StateChangeButton(back, (int) (width * 0.9), (int) (height * 0.9), ScreenState.TITLE);
                 Bitmap wizardCS = Assets.getBitmapFromMemory("sprites_wizard");
                 Bitmap warriorCS = Assets.getBitmapFromMemory("sprites_warrior");
                 Bitmap tankCS = Assets.getBitmapFromMemory("sprites_tank");
                 WizardSelectButton bWizardCS = new WizardSelectButton(wizardCS, (width / 4), (height / 2));
                 WarriorSelectButton bWarriorCS = new WarriorSelectButton(warriorCS, (width / 2), (height / 2));
                 TankSelectButton bTankCS = new TankSelectButton(tankCS, (width / 4) * 3, (height / 2));
-
 
                 break;
         }
@@ -88,10 +85,10 @@ public class HUDManager {
                     case 1: // Wizard
                         character = "Wizard: +15 ATK (70%), +20 HP, +70% EVA";
                         break;
-                    case 2:
+                    case 2: // Warrior
                         character = "Warrior: +12 ATK (50%), +50 HP, +5 AMR, +30% EVA";
                         break;
-                    case 3:
+                    case 3: // Tank
                         character = "Tank: +7 ATK (40%), +90 HP, +20 AMR, +20% EVA";
                         break;
                 }
