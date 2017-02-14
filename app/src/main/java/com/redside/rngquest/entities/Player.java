@@ -1,9 +1,11 @@
 package com.redside.rngquest.entities;
 
 public class Player {
-    private static int hp, maxHp, atk, atkChance, evade, armor, maxArmor;
+    private static int hp, maxHp, atk, atkChance, evade, armor, maxArmor, gold;
+    private static boolean dead = false;
     public Player(){}
     public static void spawn(int choice){
+        dead = false;
         // reset stats and stuff
         // 1 is Wizard, 2 is Warrior, 3 is Tank
         switch(choice){
@@ -37,6 +39,49 @@ public class Player {
         }
 
     }
+    public static void addGold(int amount){
+        gold += amount;
+    }
+    public static void removeGold(int amount){
+        if (gold - amount >= 0){
+            gold -= amount;
+        }else{
+            gold = 0;
+        }
+    }
+    public static boolean hasEnoughGold(int amount){
+        return (gold >= amount);
+    }
+    public static void damage(int amount){
+        if (armor > 0){
+            amount -= armor;
+            if (armor - amount >= 0){
+                armor -= amount;
+            }else{
+                armor = 0;
+            }
+        }
+        if (hp - amount >= 0){
+            hp -= amount;
+        }else{
+            hp = 0;
+            dead = true;
+        }
+    }
+    public static void heal(int amount){
+        if (hp + amount <= maxHp){
+            hp += amount;
+        }else{
+            hp = maxHp;
+        }
+    }
+    public static void addArmor(int amount){
+        if (armor + amount <= maxArmor){
+            armor += amount;
+        }else{
+            armor = maxArmor;
+        }
+    }
     public static int getHP(){
         return hp;
     }
@@ -57,6 +102,12 @@ public class Player {
     }
     public static int getMaxArmor(){
         return  maxArmor;
+    }
+    public static int getGold(){
+        return gold;
+    }
+    public static boolean isDead(){
+        return dead;
     }
 
 

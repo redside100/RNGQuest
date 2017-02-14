@@ -6,6 +6,7 @@ import android.graphics.Paint;
 import android.graphics.Rect;
 import android.view.MotionEvent;
 
+import com.redside.rngquest.buttons.StartGameButton;
 import com.redside.rngquest.buttons.StateChangeButton;
 import com.redside.rngquest.buttons.TankSelectButton;
 import com.redside.rngquest.buttons.WarriorSelectButton;
@@ -15,7 +16,7 @@ import com.redside.rngquest.utils.Assets;
 public class HUDManager {
     private static int width = 0;
     private static int height = 0;
-    private static Bitmap play, back, info;
+    private static Bitmap play, back, info, start;
     private static ButtonManager buttonManager;
     public static int selection = 0;
     public HUDManager(){
@@ -27,6 +28,7 @@ public class HUDManager {
         play = Assets.getBitmapFromMemory("button_play");
         back = Assets.getBitmapFromMemory("button_back");
         info = Assets.getBitmapFromMemory("button_info");
+        start = Assets.getBitmapFromMemory("button_start");
         onStateChange(ScreenState.TITLE);
     }
     public void tick(){
@@ -49,7 +51,8 @@ public class HUDManager {
                 StateChangeButton bBackInfo = new StateChangeButton(back, (int) (width * 0.9), (int) (height * 0.9), ScreenState.TITLE);
                 break;
             case CHAR_SELECT:
-                StateChangeButton bBackCS = new StateChangeButton(back, (int) (width * 0.9), (int) (height * 0.9), ScreenState.TITLE);
+                StateChangeButton bBackCS = new StateChangeButton(back, (int) (width * 0.1), (int) (height * 0.9), ScreenState.TITLE);
+                StartGameButton bStartCS = new StartGameButton(start, (int) (width * 0.9), (int) (height * 0.9));
                 Bitmap wizardCS = Assets.getBitmapFromMemory("sprites_wizard");
                 Bitmap warriorCS = Assets.getBitmapFromMemory("sprites_warrior");
                 Bitmap tankCS = Assets.getBitmapFromMemory("sprites_tank");

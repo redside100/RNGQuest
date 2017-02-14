@@ -1,5 +1,5 @@
 package com.redside.rngquest.managers;
 
 public enum ScreenState {
-    TITLE, INFO, CHAR_SELECT, NEW_LEVEL, BATTLE, REWARD
+    TITLE, INFO, CHAR_SELECT, STAGE_TRANSITION, BATTLE, REWARD, SHOP
 }
