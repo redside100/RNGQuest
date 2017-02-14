@@ -32,6 +32,12 @@ public class Animator {
             }
         }
     }
+    public void replace(ArrayList<Bitmap> frames){
+        stop();
+        reset();
+        this.frames = frames;
+        play();
+    }
     public void play(){
         isRunning = true;
         prevTime = 0;

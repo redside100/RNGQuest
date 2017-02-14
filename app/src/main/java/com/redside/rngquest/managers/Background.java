@@ -13,7 +13,7 @@ import java.util.ArrayList;
 public class Background {
     private static ArrayList<Bitmap> background;
     private Bitmap clouds, block;
-    private Animator animate;
+    private static Animator animate;
     private static int xOff = 0;
     public Background(){
         // Load all required assets from memory
@@ -53,7 +53,12 @@ public class Background {
             case CHAR_SELECT:
                 for (int i = 1; i < 3; i++){
                     background.add(Assets.getBitmapFromMemory("background_title" + i));
+                    animate.replace(background);
                 }
+                break;
+            case STAGE_TRANSITION:
+                background.add(Assets.getBitmapFromMemory("background_black"));
+                animate.replace(background);
                 break;
         }
     }

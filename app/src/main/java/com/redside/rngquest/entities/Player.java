@@ -2,6 +2,7 @@ package com.redside.rngquest.entities;
 
 public class Player {
     private static int hp, maxHp, atk, atkChance, evade, armor, maxArmor, gold;
+    private static Role role;
     private static boolean dead = false;
     public Player(){}
     public static void spawn(int choice){
@@ -10,6 +11,7 @@ public class Player {
         // 1 is Wizard, 2 is Warrior, 3 is Tank
         switch(choice){
             case 1:
+                role = Role.MAGE;
                 hp = 20;
                 maxHp = 20;
                 atk = 15;
@@ -19,6 +21,7 @@ public class Player {
                 maxArmor = 0;
                 break;
             case 2:
+                role = Role.WARRIOR;
                 hp = 50;
                 maxHp = 50;
                 atk = 12;
@@ -28,6 +31,7 @@ public class Player {
                 maxArmor = 5;
                 break;
             case 3:
+                role = Role.TANK;
                 hp = 90;
                 maxHp = 90;
                 atk = 7;
@@ -108,6 +112,12 @@ public class Player {
     }
     public static boolean isDead(){
         return dead;
+    }
+    public static Role getRole(){
+        return role;
+    }
+    public enum Role{
+        MAGE, WARRIOR, TANK;
     }
 
 

@@ -16,7 +16,7 @@ public class StartGameButton extends Button {
     public void trigger(){
         if (HUDManager.selection != 0){
             // Set screen state to STAGE_TRANSITION after when that is set up
-            SEManager.playEffect(SEManager.Effect.FADE_TRANSITION, ScreenState.TITLE);
+            SEManager.playEffect(SEManager.Effect.FADE_TRANSITION, ScreenState.STAGE_TRANSITION);
         }
     }
 }

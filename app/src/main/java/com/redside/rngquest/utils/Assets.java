@@ -20,6 +20,7 @@ public class Assets {
         init();
     }
     public void init(){
+        db.put("background_black", getBitmap(context, "backgrounds/black.png"));
         db.put("background_title1", getBitmap(context, "backgrounds/title1.png"));
         db.put("background_title2", getBitmap(context, "backgrounds/title2.png"));
         db.put("background_title_clouds", getBitmap(context, "backgrounds/title_clouds.png"));

@@ -2,6 +2,7 @@ package com.redside.rngquest.managers;
 
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
 import android.view.MotionEvent;
@@ -11,6 +12,7 @@ import com.redside.rngquest.buttons.StateChangeButton;
 import com.redside.rngquest.buttons.TankSelectButton;
 import com.redside.rngquest.buttons.WarriorSelectButton;
 import com.redside.rngquest.buttons.WizardSelectButton;
+import com.redside.rngquest.entities.Player;
 import com.redside.rngquest.utils.Assets;
 
 public class HUDManager {
@@ -41,15 +43,20 @@ public class HUDManager {
     public static void onStateChange(ScreenState newState){
         // Clear buttons no matter what
         buttonManager.clearButtons();
-        // Handle which buttons to create depending on the new state
+        // Handle what to do depending on each state
         switch (newState){
+
             case TITLE:
                 StateChangeButton bPlayMenu = new StateChangeButton(play, width / 2, height / 2, ScreenState.CHAR_SELECT);
                 StateChangeButton bInfoMenu = new StateChangeButton(info, width / 2, (int) (height / 1.5), ScreenState.INFO);
                 break;
+
+
             case INFO:
                 StateChangeButton bBackInfo = new StateChangeButton(back, (int) (width * 0.9), (int) (height * 0.9), ScreenState.TITLE);
                 break;
+
+
             case CHAR_SELECT:
                 StateChangeButton bBackCS = new StateChangeButton(back, (int) (width * 0.1), (int) (height * 0.9), ScreenState.TITLE);
                 StartGameButton bStartCS = new StartGameButton(start, (int) (width * 0.9), (int) (height * 0.9));
@@ -85,8 +92,8 @@ public class HUDManager {
                 drawCenteredText("Character Select", canvas, width / 2, (int) (height / 3.5), paint, 150);
                 String character = "";
                 switch(selection){
-                    case 1: // Wizard
-                        character = "Wizard: +15 ATK (70%), +20 HP, +70% EVA";
+                    case 1: // Mage
+                        character = "Mage: +15 ATK (70%), +20 HP, +70% EVA";
                         break;
                     case 2: // Warrior
                         character = "Warrior: +12 ATK (50%), +50 HP, +5 AMR, +30% EVA";
@@ -96,6 +103,45 @@ public class HUDManager {
                         break;
                 }
                 drawCenteredText(character, canvas, width / 2, (int) (height * 0.83), paint, 75);
+                break;
+
+            // Stage Transition Screen
+            case STAGE_TRANSITION:
+                paint.setColor(Color.YELLOW);
+                drawCenteredText("Stage " + GameManager.getStage(), canvas, width / 2, (int) (height / 3.5), paint, 150);
+                paint.setColor(Color.WHITE);
+                String role = "";
+                Bitmap picture = null;
+                switch(Player.getRole()){
+                    case MAGE:
+                        role = "Mage";
+                        picture = Assets.getBitmapFromMemory("sprites_wizard");
+                        break;
+                    case WARRIOR:
+                        role = "Warrior";
+                        picture = Assets.getBitmapFromMemory("sprites_warrior");
+                        break;
+                    case TANK:
+                        role = "Tank";
+                        picture = Assets.getBitmapFromMemory("sprites_tank");
+                        break;
+                }
+                drawCenteredText(role, canvas, (int) (width * 0.3), (int) (height / 2.5), paint, 120);
+                drawCenteredBitmap(picture, canvas, paint, (int) (width * 0.3), (int) (height * 0.6));
+                String[] info = {
+                        "HP: " + Player.getHP() + "/" + Player.getMaxHP(),
+                        "ATK: " + Player.getATK() + " (" + Player.getATKChance() + "%)",
+                        "AMR: " + Player.getArmor() + "/" + Player.getMaxArmor(),
+                        "EVA: " + Player.getEvade() + "%"
+                };
+                int[] colors = {Color.GREEN, Color.RED, Color.GRAY, Color.CYAN};
+                double factor = 0.45;
+                for (int i = 0; i < 4; i++){
+                    paint.setColor(colors[i]);
+                    canvas.drawText(info[i], (int) (width * 0.5), (int) (height * factor), paint);
+                    paint.setColor(Color.WHITE);
+                    factor += 0.1;
+                }
                 break;
         }
     }
@@ -109,5 +155,10 @@ public class HUDManager {
         float old = paint.getTextSize();
         canvas.drawText(text, x, y, paint);
         paint.setTextSize(old);
+    }
+    public void drawCenteredBitmap(Bitmap bitmap, Canvas canvas, Paint paint, int x, int y){
+        x -= (bitmap.getWidth() / 2);
+        y -= (bitmap.getHeight() / 2);
+        canvas.drawBitmap(bitmap, x, y, paint);
     }
 }
