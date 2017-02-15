@@ -7,6 +7,7 @@ public class Player {
     public Player(){}
     public static void spawn(int choice){
         dead = false;
+        gold = 0;
         // reset stats and stuff
         // 1 is Wizard, 2 is Warrior, 3 is Tank
         switch(choice){

@@ -128,6 +128,11 @@ public class HUDManager {
                 }
                 drawCenteredText(role, canvas, (int) (width * 0.3), (int) (height / 2.5), paint, 120);
                 drawCenteredBitmap(picture, canvas, paint, (int) (width * 0.3), (int) (height * 0.6));
+
+                paint.setColor(Color.YELLOW);
+                drawCenteredText(Player.getGold() + " G", canvas, (int) (width * 0.3), (int) (height * 0.91), paint, 100);
+                paint.setColor(Color.WHITE);
+
                 String[] info = {
                         "HP: " + Player.getHP() + "/" + Player.getMaxHP(),
                         "ATK: " + Player.getATK() + " (" + Player.getATKChance() + "%)",
@@ -135,7 +140,7 @@ public class HUDManager {
                         "EVA: " + Player.getEvade() + "%"
                 };
                 int[] colors = {Color.GREEN, Color.RED, Color.GRAY, Color.CYAN};
-                double factor = 0.45;
+                double factor = 0.47;
                 for (int i = 0; i < 4; i++){
                     paint.setColor(colors[i]);
                     canvas.drawText(info[i], (int) (width * 0.5), (int) (height * factor), paint);
