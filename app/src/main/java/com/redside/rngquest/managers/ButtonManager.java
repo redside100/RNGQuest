@@ -1,6 +1,5 @@
 package com.redside.rngquest.managers;
 
-import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.view.MotionEvent;

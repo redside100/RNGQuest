@@ -60,6 +60,10 @@ public class Background {
                 background.add(Assets.getBitmapFromMemory("background_black"));
                 animate.replace(background);
                 break;
+            case BATTLE:
+                background.add(Assets.getBitmapFromMemory("background_black"));
+                animate.replace(background);
+                break;
         }
     }
     public void render(Canvas canvas, Paint paint){

@@ -7,25 +7,30 @@ import android.graphics.Paint;
 import android.graphics.Rect;
 import android.view.MotionEvent;
 
+import com.redside.rngquest.buttons.AttackButton;
+import com.redside.rngquest.buttons.DefendButton;
 import com.redside.rngquest.buttons.StartGameButton;
 import com.redside.rngquest.buttons.StateChangeButton;
 import com.redside.rngquest.buttons.TankSelectButton;
 import com.redside.rngquest.buttons.WarriorSelectButton;
 import com.redside.rngquest.buttons.WizardSelectButton;
 import com.redside.rngquest.entities.Player;
+import com.redside.rngquest.hudobjects.FadedText;
 import com.redside.rngquest.utils.Assets;
 
 public class HUDManager {
-    private static int width = 0;
-    private static int height = 0;
+    public static int width = 0;
+    public static int height = 0;
     private static Bitmap play, back, info, start;
     private static ButtonManager buttonManager;
+    private static FadedTextManager fadedTextManager;
     public static int selection = 0;
     public HUDManager(){
         this.width = CoreManager.width;
         this.height = CoreManager.height;
         // Init new button manager
         buttonManager = new ButtonManager();
+        fadedTextManager = new FadedTextManager();
         // Load all button bitmaps needed
         play = Assets.getBitmapFromMemory("button_play");
         back = Assets.getBitmapFromMemory("button_back");
@@ -34,8 +39,9 @@ public class HUDManager {
         onStateChange(ScreenState.TITLE);
     }
     public void tick(){
-        // Tick button manager
+        // Tick button manager + faded text
         buttonManager.tick();
+        fadedTextManager.tick();
     }
     public void touchEvent(MotionEvent e){
         buttonManager.checkButtons(e);
@@ -66,13 +72,22 @@ public class HUDManager {
                 WizardSelectButton bWizardCS = new WizardSelectButton(wizardCS, (width / 4), (height / 2));
                 WarriorSelectButton bWarriorCS = new WarriorSelectButton(warriorCS, (width / 2), (height / 2));
                 TankSelectButton bTankCS = new TankSelectButton(tankCS, (width / 4) * 3, (height / 2));
+                break;
 
+            case BATTLE:
+                Bitmap attack = Assets.getBitmapFromMemory("button_attack");
+                Bitmap defend = Assets.getBitmapFromMemory("button_defend");
+                //temp
+                StateChangeButton bBackB = new StateChangeButton(back, width / 2, (int) (height * 0.9), ScreenState.TITLE);
+                AttackButton bAttack = new AttackButton(attack, (int) (width * 0.08), (int) (height * 0.87));
+                DefendButton bDefend = new DefendButton(defend, (int) (width * 0.92), (int) (height * 0.87));
                 break;
         }
     }
     public void render(Canvas canvas, Paint paint){
-        // Render all buttons
+        // Render all buttons + faded text
         buttonManager.render(canvas, paint);
+        fadedTextManager.render(canvas, paint);
         // Render all text, HUD items, etc. depending on state
         switch(CoreManager.state){
 
@@ -148,6 +163,11 @@ public class HUDManager {
                     factor += 0.1;
                 }
                 break;
+
+            // Incoming Enemy Screen
+            case INCOMING_ENEMY:
+
+                break;
         }
     }
     public void drawCenteredText(String text, Canvas canvas, int x, int y, Paint paint, int textSize){
@@ -165,5 +185,9 @@ public class HUDManager {
         x -= (bitmap.getWidth() / 2);
         y -= (bitmap.getHeight() / 2);
         canvas.drawBitmap(bitmap, x, y, paint);
+    }
+    public static void displayFadeMessage(String message, int x, int y, int seconds, int textSize, int color){
+        FadedText fade = new FadedText(message, seconds, x, y, textSize, color);
+        fade.play();
     }
 }

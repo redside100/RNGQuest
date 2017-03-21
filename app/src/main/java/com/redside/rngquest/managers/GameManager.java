@@ -30,9 +30,10 @@ public class GameManager {
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        SEManager.playEffect(SEManager.Effect.FADE_TRANSITION, ScreenState.TITLE);
+                        SEManager.playEffect(SEManager.Effect.FADE_TRANSITION, ScreenState.BATTLE);
                     }
-                }, 4000);
+                }, 3500);
+                break;
         }
     }
 }
