@@ -49,6 +49,7 @@ public class HUDManager {
     public static void onStateChange(ScreenState newState){
         // Clear buttons no matter what
         buttonManager.clearButtons();
+        fadedTextManager.clear();
         // Handle what to do depending on each state
         switch (newState){
 
@@ -167,6 +168,31 @@ public class HUDManager {
             // Incoming Enemy Screen
             case INCOMING_ENEMY:
 
+                break;
+
+            // Battle Screen
+            case BATTLE:
+                Bitmap hpIcon = Assets.getBitmapFromMemory("icons_hp");
+                Bitmap armorIcon = Assets.getBitmapFromMemory("icons_armor");
+                Bitmap evadeIcon = Assets.getBitmapFromMemory("icons_evade");
+                String iconInfo[] = {
+                        Player.getHP() + "/" + Player.getMaxHP(),
+                        Player.getArmor() + "/" + Player.getMaxArmor(),
+                        Player.getEvade() + "%"
+                };
+                int[] iconColors = {Color.RED, Color.GRAY, Color.CYAN};
+                double iconFactor = 0.08;
+                float oldTextSize = paint.getTextSize();
+                paint.setTextSize(75);
+                drawCenteredBitmap(hpIcon, canvas, paint, (int) (width * 0.05), (int) (height * 0.06));
+                drawCenteredBitmap(armorIcon, canvas, paint, (int) (width * 0.05), (int) (height * 0.17));
+                drawCenteredBitmap(evadeIcon, canvas, paint, (int) (width * 0.05), (int) (height * 0.26));
+                for (int i = 0; i < 3; i++){
+                    paint.setColor(iconColors[i]);
+                    canvas.drawText(iconInfo[i], (int) (width * 0.1), (int) (height * iconFactor), paint);
+                    iconFactor += 0.1;
+                }
+                paint.setTextSize(oldTextSize);
                 break;
         }
     }
