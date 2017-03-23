@@ -4,6 +4,7 @@ import android.content.Entity;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 
+import com.redside.rngquest.entities.Player;
 import com.redside.rngquest.entities.SlashAnimation;
 
 public class BattleManager {

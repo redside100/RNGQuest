@@ -156,7 +156,7 @@ public class HUDManager {
                         "AMR: " + Player.getArmor() + "/" + Player.getMaxArmor(),
                         "EVA: " + Player.getEvade() + "%"
                 };
-                int[] colors = {Color.GREEN, Color.RED, Color.GRAY, Color.CYAN};
+                int[] colors = {Color.RED, Color.rgb(255, 80, 0), Color.CYAN, Color.GREEN};
                 double factor = 0.47;
                 for (int i = 0; i < 4; i++){
                     paint.setColor(colors[i]);
@@ -183,20 +183,16 @@ public class HUDManager {
                         Player.getATK() + " (" + Player.getATKChance() + "%)",
                         Player.getEvade() + "%"
                 };
-                int[] iconColors = {Color.GREEN, Color.GRAY, Color.RED, Color.CYAN};
+                int[] iconColors = {Color.RED, Color.CYAN, Color.rgb(255, 80, 0), Color.GREEN};
                 double iconFactor = 0.1;
-                float oldTextSize = paint.getTextSize();
-                paint.setTextSize(75);
                 drawCenteredBitmap(hpIcon, canvas, paint, (int) (width * 0.05), (int) (height * 0.08));
                 drawCenteredBitmap(armorIcon, canvas, paint, (int) (width * 0.05), (int) (height * 0.18));
                 drawCenteredBitmap(swordsIcon, canvas, paint, (int) (width * 0.05), (int) (height * 0.28));
                 drawCenteredBitmap(evadeIcon, canvas, paint, (int) (width * 0.05), (int) (height * 0.38));
                 for (int i = 0; i < 4; i++){
-                    paint.setColor(iconColors[i]);
-                    canvas.drawText(iconInfo[i], (int) (width * 0.1), (int) (height * iconFactor), paint);
+                    drawTextWithBorder(iconInfo[i], canvas, (int) (width * 0.1), (int) (height * iconFactor), paint, 75, iconColors[i]);
                     iconFactor += 0.1;
                 }
-                paint.setTextSize(oldTextSize);
                 break;
         }
     }
@@ -217,6 +213,39 @@ public class HUDManager {
         x -= (bitmap.getWidth() / 2);
         y -= (bitmap.getHeight() / 2);
         canvas.drawBitmap(bitmap, x, y, paint);
+    }
+    public void drawTextWithBorder(String text, Canvas canvas, int x, int y, Paint paint, int textSize, int color){
+        paint.setColor(color);
+        float old = paint.getTextSize();
+        paint.setTextSize(textSize);
+        paint.setStyle(Paint.Style.FILL);
+        paint.setShadowLayer(3, 0, 0, Color.BLACK);
+        // Draw normal text
+        canvas.drawText(text, x, y, paint);
+        paint.setShadowLayer(0, 0, 0, Color.BLACK);
+        paint.setTextSize(old);
+        paint.setColor(Color.WHITE);
+    }
+    public void drawCenteredTextWithBorder(String text, Canvas canvas, int x, int y, Paint paint, int textSize, int color){
+        paint.setColor(color);
+        float old = paint.getTextSize();
+        paint.setTextSize(textSize);
+        paint.setStyle(Paint.Style.FILL);
+
+        Rect bounds = new Rect();
+        // Get bounds of the text, then center
+        paint.getTextBounds(text, 0, text.length(), bounds);
+        x -= bounds.width() / 2;
+        y -= bounds.height() / 2;
+
+        // Draw normal text
+        paint.setShadowLayer(3, 0, 0, Color.BLACK);
+        canvas.drawText(text, x, y, paint);
+        paint.setShadowLayer(0, 0, 0, Color.BLACK);
+        // Draw black border
+
+        paint.setTextSize(old);
+        paint.setColor(Color.WHITE);
     }
     public static void displayFadeMessage(String message, int x, int y, int seconds, int textSize, int color){
         FadedText fade = new FadedText(message, seconds, x, y, textSize, color);

@@ -87,6 +87,12 @@ public class Player {
             armor = maxArmor;
         }
     }
+    public static void increaseMaxHealth(int amount){
+        maxHp += amount;
+    }
+    public static void increaseMaxArmor(int amount){
+        maxArmor += amount;
+    }
     public static int getHP(){
         return hp;
     }

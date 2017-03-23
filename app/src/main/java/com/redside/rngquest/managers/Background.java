@@ -61,7 +61,7 @@ public class Background {
                 animate.replace(background);
                 break;
             case BATTLE:
-                background.add(Assets.getBitmapFromMemory("background_black"));
+                background.add(Assets.getBitmapFromMemory("background_forest"));
                 animate.replace(background);
                 break;
         }

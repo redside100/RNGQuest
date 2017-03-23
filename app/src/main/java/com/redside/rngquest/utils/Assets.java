@@ -25,7 +25,7 @@ public class Assets {
         db.put("background_title1", getBitmap(context, "backgrounds/title1.png"));
         db.put("background_title2", getBitmap(context, "backgrounds/title2.png"));
         db.put("background_title_clouds", getBitmap(context, "backgrounds/title_clouds.png"));
-
+        db.put("background_forest", getBitmap(context, "backgrounds/forest.png"));
 
         db.put("sprites_block", getBitmap(context, "sprites/block.png"));
         db.put("sprites_wizard", getBitmap(context, "sprites/wizard.png"));
