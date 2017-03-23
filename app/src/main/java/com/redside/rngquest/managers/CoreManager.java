@@ -18,6 +18,7 @@ public class CoreManager{
     private static HUDManager hud;
     private static Background background;
     private static SEManager se;
+    private static GameManager gm;
     private Assets assets;
     public static ScreenState state;
     public static boolean allowTouch = true;
@@ -32,6 +33,7 @@ public class CoreManager{
         hud = new HUDManager();
         background = new Background();
         se = new SEManager();
+        gm = new GameManager();
         // Call first time onStateChange for HUD and Background
         hud.onStateChange(state);
         background.onStateChange(state);
@@ -50,6 +52,7 @@ public class CoreManager{
         background.tick();
         hud.tick();
         se.tick();
+        gm.tick();
     }
     public static void setAllowTouch(boolean touch){
         allowTouch = touch;

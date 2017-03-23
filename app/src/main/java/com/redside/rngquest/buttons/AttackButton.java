@@ -16,6 +16,5 @@ public class AttackButton extends Button {
     @Override
     public void trigger(){
         BattleManager.playerAttack();
-        HUDManager.displayFadeMessage("Lol this button does nothing", (HUDManager.width / 2), (HUDManager.height / 2), 2, 125, Color.WHITE);
     }
 }

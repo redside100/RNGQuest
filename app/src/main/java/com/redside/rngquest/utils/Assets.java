@@ -32,6 +32,9 @@ public class Assets {
         db.put("sprites_warrior", getBitmap(context, "sprites/warrior.png"));
         db.put("sprites_tank", getBitmap(context, "sprites/tank.png"));
 
+        for (int i = 0; i < 8; i++){
+            db.put("sprites_slash_" + i, getBitmap(context, "sprites/slash/slash" + i + ".png"));
+        }
 
         db.put("button_play", getBitmap(context, "buttons/play.png"));
         db.put("button_back", getBitmap(context, "buttons/back.png"));
@@ -43,6 +46,7 @@ public class Assets {
         db.put("icons_hp", getBitmap(context, "icons/hp.png"));
         db.put("icons_armor", getBitmap(context, "icons/armor.png"));
         db.put("icons_evade", getBitmap(context, "icons/evade.png"));
+        db.put("icons_swords", getBitmap(context, "icons/swords.png"));
 
     }
     public static Bitmap getBitmap(Context context, String filePath) {

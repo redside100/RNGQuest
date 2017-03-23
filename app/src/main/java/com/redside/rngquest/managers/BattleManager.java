@@ -4,11 +4,19 @@ import android.content.Entity;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 
+import com.redside.rngquest.entities.SlashAnimation;
+
 public class BattleManager {
     private boolean preBattle = false;
     private boolean inBattle = false;
     private Entity currentEnemy = null;
-    private int tick;
+    private static int tick;
+    private static int width;
+    private static int height;
+    public BattleManager(){
+        this.width = HUDManager.width;
+        this.height = HUDManager.height;
+    }
     public void tick(){
 
     }
@@ -20,7 +28,7 @@ public class BattleManager {
         preBattle = true;
     }
     public static void playerAttack(){
-
+        new SlashAnimation(width / 2, height / 2);
     }
     public static void playerDefend(){
 

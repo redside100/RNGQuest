@@ -24,6 +24,7 @@ public class HUDManager {
     private static Bitmap play, back, info, start;
     private static ButtonManager buttonManager;
     private static FadedTextManager fadedTextManager;
+    private static EntityManager entityManager;
     public static int selection = 0;
     public HUDManager(){
         this.width = CoreManager.width;
@@ -31,6 +32,7 @@ public class HUDManager {
         // Init new button manager
         buttonManager = new ButtonManager();
         fadedTextManager = new FadedTextManager();
+        entityManager = new EntityManager();
         // Load all button bitmaps needed
         play = Assets.getBitmapFromMemory("button_play");
         back = Assets.getBitmapFromMemory("button_back");
@@ -40,6 +42,7 @@ public class HUDManager {
     }
     public void tick(){
         // Tick button manager + faded text
+        entityManager.tick();
         buttonManager.tick();
         fadedTextManager.tick();
     }
@@ -49,6 +52,7 @@ public class HUDManager {
     public static void onStateChange(ScreenState newState){
         // Clear buttons no matter what
         buttonManager.clearButtons();
+        entityManager.clear();
         fadedTextManager.clear();
         // Handle what to do depending on each state
         switch (newState){
@@ -88,24 +92,25 @@ public class HUDManager {
     public void render(Canvas canvas, Paint paint){
         // Render all buttons + faded text
         buttonManager.render(canvas, paint);
+        entityManager.render(canvas, paint);
         fadedTextManager.render(canvas, paint);
         // Render all text, HUD items, etc. depending on state
         switch(CoreManager.state){
 
             // Title Screen
             case TITLE:
-                drawCenteredText("RNG Quest", canvas, width / 2, (int) (height / 3.5), paint, 150);
+                drawCenteredText("RNG Quest", canvas, width / 2, (int) (height / 3.5), paint, 150, Color.WHITE);
                 break;
 
             // Info Screen
             case INFO:
-                drawCenteredText("Info", canvas, width / 2, (int) (height / 3.5), paint, 150);
-                drawCenteredText("There's nothing here lol", canvas, width / 2, height / 2, paint, 100);
+                drawCenteredText("Info", canvas, width / 2, (int) (height / 3.5), paint, 150, Color.WHITE);
+                drawCenteredText("There's nothing here lol", canvas, width / 2, height / 2, paint, 100, Color.WHITE);
                 break;
 
             // Character Selection Screen
             case CHAR_SELECT:
-                drawCenteredText("Character Select", canvas, width / 2, (int) (height / 3.5), paint, 150);
+                drawCenteredText("Character Select", canvas, width / 2, (int) (height / 3.5), paint, 150, Color.WHITE);
                 String character = "";
                 switch(selection){
                     case 1: // Mage
@@ -118,14 +123,12 @@ public class HUDManager {
                         character = "Tank: +7 ATK (40%), +90 HP, +20 AMR, +20% EVA";
                         break;
                 }
-                drawCenteredText(character, canvas, width / 2, (int) (height * 0.83), paint, 75);
+                drawCenteredText(character, canvas, width / 2, (int) (height * 0.83), paint, 75, Color.rgb(0,191,255));
                 break;
 
             // Stage Transition Screen
             case STAGE_TRANSITION:
-                paint.setColor(Color.YELLOW);
-                drawCenteredText("Stage " + GameManager.getStage(), canvas, width / 2, (int) (height / 3.5), paint, 150);
-                paint.setColor(Color.WHITE);
+                drawCenteredText("Stage " + GameManager.getStage(), canvas, width / 2, (int) (height / 3.5), paint, 150, Color.YELLOW);
                 String role = "";
                 Bitmap picture = null;
                 switch(Player.getRole()){
@@ -142,12 +145,10 @@ public class HUDManager {
                         picture = Assets.getBitmapFromMemory("sprites_tank");
                         break;
                 }
-                drawCenteredText(role, canvas, (int) (width * 0.3), (int) (height / 2.5), paint, 120);
+                drawCenteredText(role, canvas, (int) (width * 0.3), (int) (height / 2.5), paint, 120, Color.WHITE);
                 drawCenteredBitmap(picture, canvas, paint, (int) (width * 0.3), (int) (height * 0.6));
 
-                paint.setColor(Color.YELLOW);
-                drawCenteredText(Player.getGold() + " G", canvas, (int) (width * 0.3), (int) (height * 0.91), paint, 100);
-                paint.setColor(Color.WHITE);
+                drawCenteredText(Player.getGold() + " G", canvas, (int) (width * 0.3), (int) (height * 0.91), paint, 100, Color.YELLOW);
 
                 String[] info = {
                         "HP: " + Player.getHP() + "/" + Player.getMaxHP(),
@@ -175,19 +176,22 @@ public class HUDManager {
                 Bitmap hpIcon = Assets.getBitmapFromMemory("icons_hp");
                 Bitmap armorIcon = Assets.getBitmapFromMemory("icons_armor");
                 Bitmap evadeIcon = Assets.getBitmapFromMemory("icons_evade");
+                Bitmap swordsIcon = Assets.getBitmapFromMemory("icons_swords");
                 String iconInfo[] = {
                         Player.getHP() + "/" + Player.getMaxHP(),
                         Player.getArmor() + "/" + Player.getMaxArmor(),
+                        Player.getATK() + " (" + Player.getATKChance() + "%)",
                         Player.getEvade() + "%"
                 };
-                int[] iconColors = {Color.RED, Color.GRAY, Color.CYAN};
-                double iconFactor = 0.08;
+                int[] iconColors = {Color.GREEN, Color.GRAY, Color.RED, Color.CYAN};
+                double iconFactor = 0.1;
                 float oldTextSize = paint.getTextSize();
                 paint.setTextSize(75);
-                drawCenteredBitmap(hpIcon, canvas, paint, (int) (width * 0.05), (int) (height * 0.06));
-                drawCenteredBitmap(armorIcon, canvas, paint, (int) (width * 0.05), (int) (height * 0.17));
-                drawCenteredBitmap(evadeIcon, canvas, paint, (int) (width * 0.05), (int) (height * 0.26));
-                for (int i = 0; i < 3; i++){
+                drawCenteredBitmap(hpIcon, canvas, paint, (int) (width * 0.05), (int) (height * 0.08));
+                drawCenteredBitmap(armorIcon, canvas, paint, (int) (width * 0.05), (int) (height * 0.18));
+                drawCenteredBitmap(swordsIcon, canvas, paint, (int) (width * 0.05), (int) (height * 0.28));
+                drawCenteredBitmap(evadeIcon, canvas, paint, (int) (width * 0.05), (int) (height * 0.38));
+                for (int i = 0; i < 4; i++){
                     paint.setColor(iconColors[i]);
                     canvas.drawText(iconInfo[i], (int) (width * 0.1), (int) (height * iconFactor), paint);
                     iconFactor += 0.1;
@@ -196,7 +200,8 @@ public class HUDManager {
                 break;
         }
     }
-    public void drawCenteredText(String text, Canvas canvas, int x, int y, Paint paint, int textSize){
+    public void drawCenteredText(String text, Canvas canvas, int x, int y, Paint paint, int textSize, int color){
+        paint.setColor(color);
         paint.setTextSize(textSize);
         Rect bounds = new Rect();
         // Get bounds of the text, then center
@@ -206,6 +211,7 @@ public class HUDManager {
         float old = paint.getTextSize();
         canvas.drawText(text, x, y, paint);
         paint.setTextSize(old);
+        paint.setColor(Color.WHITE);
     }
     public void drawCenteredBitmap(Bitmap bitmap, Canvas canvas, Paint paint, int x, int y){
         x -= (bitmap.getWidth() / 2);

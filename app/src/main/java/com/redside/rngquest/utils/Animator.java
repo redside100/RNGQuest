@@ -10,7 +10,6 @@ public class Animator {
     private long prevTime, speed;
     public Bitmap sprite;
     private int frameAtPause, currentFrame;
-
     public Animator(ArrayList<Bitmap> frames){
         this.frames = new ArrayList<>(frames);
     }
@@ -21,13 +20,13 @@ public class Animator {
     public void update(long time){
         if (isRunning){
             if (time - prevTime >= speed){
-                currentFrame++;
                 try{
                     sprite = frames.get(currentFrame);
                 }catch(IndexOutOfBoundsException e){
                     reset();
                     sprite = frames.get(currentFrame);
                 }
+                currentFrame++;
                 prevTime = time;
             }
         }

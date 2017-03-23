@@ -6,6 +6,10 @@ import android.os.Handler;
 public class GameManager {
     public static int stage = 1;
     public static int part = 1;
+    private BattleManager battleManager;
+    public GameManager(){
+        battleManager = new BattleManager();
+    }
     public static void nextStage(){
         stage++;
     }
@@ -35,5 +39,8 @@ public class GameManager {
                 }, 3500);
                 break;
         }
+    }
+    public static void tick(){
+
     }
 }
