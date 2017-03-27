@@ -26,7 +26,7 @@ public class SlashAnimation extends Entity{
         this.x = x;
         this.y = y;
         animator = new Animator(frames);
-        animator.setSpeed(130);
+        animator.setSpeed(80);
         animator.play();
         animator.update(System.currentTimeMillis());
         alive = true;
@@ -52,14 +52,6 @@ public class SlashAnimation extends Entity{
     public void destroy(){
         alive = false;
         EntityManager.removeEntity(this);
-    }
-
-    public boolean equals(Object obj){
-        if (obj == null) return false;
-        if (obj == this) return true;
-        if (!(obj instanceof Entity)) return false;
-        Entity o = (Entity) obj;
-        return o.i == this.i;
     }
 
     public void drawCenteredBitmap(Bitmap bitmap, Canvas canvas, Paint paint, int x, int y){

@@ -48,8 +48,8 @@ public class CoreView extends View {
     }
     @Override
     public boolean onTouchEvent(MotionEvent e){
-        // Source of detecting touches. Only check for when the user taps
-        if (e.getAction() == MotionEvent.ACTION_DOWN){
+        // Source of detecting touches. Only check for when the user lets go
+        if (e.getAction() == MotionEvent.ACTION_UP){
             manager.touchEvent(e);
         }
         return true;

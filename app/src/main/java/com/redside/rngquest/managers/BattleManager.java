@@ -1,17 +1,12 @@
 package com.redside.rngquest.managers;
-
-import android.content.Entity;
-import android.graphics.Canvas;
-import android.graphics.Paint;
-
-import com.redside.rngquest.entities.Player;
+import com.redside.rngquest.entities.Ghost;
 import com.redside.rngquest.entities.SlashAnimation;
 
 public class BattleManager {
     private boolean preBattle = false;
     private boolean inBattle = false;
-    private Entity currentEnemy = null;
-    private static int tick;
+    private Object currentEnemy = null;
+    private static int tick = 0;
     private static int width;
     private static int height;
     public BattleManager(){
@@ -21,10 +16,7 @@ public class BattleManager {
     public void tick(){
 
     }
-    public void render(Canvas canvas, Paint paint){
-
-    }
-    public void startBattle(Entity enemy){
+    public void startBattle(Object enemy){
         this.currentEnemy = enemy;
         preBattle = true;
     }

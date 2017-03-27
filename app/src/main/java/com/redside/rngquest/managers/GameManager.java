@@ -3,12 +3,18 @@ package com.redside.rngquest.managers;
 
 import android.os.Handler;
 
+import com.redside.rngquest.entities.Ghost;
+
 public class GameManager {
     public static int stage = 1;
     public static int part = 1;
-    private BattleManager battleManager;
+    private static int width;
+    private static int height;
+    private static BattleManager battleManager;
     public GameManager(){
         battleManager = new BattleManager();
+        width = HUDManager.width;
+        height = HUDManager.height;
     }
     public static void nextStage(){
         stage++;
@@ -37,6 +43,9 @@ public class GameManager {
                         SEManager.playEffect(SEManager.Effect.FADE_TRANSITION, ScreenState.BATTLE);
                     }
                 }, 3500);
+                break;
+            case BATTLE:
+                battleManager.startBattle(new Ghost(30, 30, width / 2, height / 2));
                 break;
         }
     }

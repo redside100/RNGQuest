@@ -36,6 +36,10 @@ public class Assets {
             db.put("sprites_slash_" + i, getBitmap(context, "sprites/slash/slash" + i + ".png"));
         }
 
+        for (int i = 0; i < 3; i++){
+            db.put("sprites_ghost_" + i, getBitmap(context, "sprites/ghost/ghost" + i + ".png"));
+        }
+
         db.put("button_play", getBitmap(context, "buttons/play.png"));
         db.put("button_back", getBitmap(context, "buttons/back.png"));
         db.put("button_info", getBitmap(context, "buttons/info.png"));
