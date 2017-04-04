@@ -4,6 +4,7 @@ package com.redside.rngquest.managers;
 import android.os.Handler;
 
 import com.redside.rngquest.entities.Ghost;
+import com.redside.rngquest.utils.Assets;
 
 public class GameManager {
     public static int stage = 1;
@@ -35,7 +36,13 @@ public class GameManager {
     }
     public static void onStateChange(ScreenState newState){
         switch(newState){
+            case TITLE:
+                if (Soundtrack.getCurrentSong() != Song.TITLE){
+                    Soundtrack.playSong(Song.TITLE);
+                }
+                break;
             case STAGE_TRANSITION:
+                Soundtrack.playSong(Song.WAVE);
                 // Switch to next screen in 4 seconds
                 new Handler().postDelayed(new Runnable() {
                     @Override
@@ -45,11 +52,12 @@ public class GameManager {
                 }, 3500);
                 break;
             case BATTLE:
+                Soundtrack.playSong(Song.SHOP);
                 battleManager.startBattle(new Ghost(30, 30, width / 2, height / 2));
                 break;
         }
     }
-    public static void tick(){
-
+    public void tick(){
+        battleManager.tick();
     }
 }

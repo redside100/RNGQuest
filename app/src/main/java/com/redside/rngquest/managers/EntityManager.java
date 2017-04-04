@@ -25,6 +25,7 @@ public class EntityManager {
         ArrayList<Entity> temp = new ArrayList<>(entities);
         for (Entity e : temp){
             e.tick();
+            e.shadowTick();
         }
     }
     public void render(Canvas canvas, Paint paint){

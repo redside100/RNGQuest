@@ -14,19 +14,17 @@ public class SlashAnimation extends Entity{
 
     private boolean alive;
     private Animator animator;
-    private int x;
-    private int y;
+
     public SlashAnimation(int x, int y){
+        super(0, 0, x, y);
         super.i = this;
         ArrayList<Bitmap> frames = new ArrayList<>();
         for (int i = 0; i < 8; i++){
             Bitmap frame = Assets.getBitmapFromMemory("sprites_slash_" + i);
             frames.add(frame);
         }
-        this.x = x;
-        this.y = y;
         animator = new Animator(frames);
-        animator.setSpeed(80);
+        animator.setSpeed(90);
         animator.play();
         animator.update(System.currentTimeMillis());
         alive = true;

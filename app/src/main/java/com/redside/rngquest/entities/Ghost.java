@@ -12,20 +12,15 @@ import java.util.ArrayList;
 public class Ghost extends Entity{
 
     private boolean alive;
+    private boolean shaking = false;
     private int tick = 0;
-
-    private int x;
-    private int y;
-    private int hp;
-    private int atk;
 
     private Bitmap currentSprite;
     private ArrayList<Bitmap> sprites = new ArrayList<>();
-    private EAState state = EAState.IDLE;
 
     public Ghost(int hp, int atk, int x, int y){
 
-        super.i = this;
+        super(hp, atk, x, y);
 
         for (int i = 0; i < 3; i++){
             sprites.add(Assets.getBitmapFromMemory("sprites_ghost_" + i));
@@ -33,16 +28,13 @@ public class Ghost extends Entity{
 
         // 0 = Idle, 1 = Attack, 2 = Damage
         currentSprite = sprites.get(0);
-
-        this.x = x;
-        this.y = y;
-        this.hp = hp;
-        this.atk = atk;
         alive = true;
         EntityManager.addEntity(this);
     }
+
+    @Override
     public void setState(EAState newState){
-        state = newState;
+        super.state = newState;
         switch(newState){
             case IDLE:
                 currentSprite = sprites.get(0);
@@ -60,21 +52,20 @@ public class Ghost extends Entity{
     public void tick(){
         // Hover
         if (tick >= 0 && tick <= 30){
-            y--;
+            super.y--;
         }
         else if (tick >= 31 && tick <= 60){
-            y++;
+            super.y++;
         }
         else if (tick == 61){
             tick = 0;
         }
-
         tick++;
     }
 
     @Override
     public void render(Canvas canvas, Paint paint){
-        drawCenteredBitmap(currentSprite, canvas, paint, x, y);
+        drawCenteredBitmap(currentSprite, canvas, paint, super.x, super.y);
     }
 
     public void destroy(){

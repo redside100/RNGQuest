@@ -11,12 +11,14 @@ import android.view.MotionEvent;
 import android.view.View;
 
 import com.redside.rngquest.managers.CoreManager;
+import com.redside.rngquest.managers.Soundtrack;
 import com.redside.rngquest.utils.Assets;
 
 public class CoreView extends View {
     public Canvas canvas;
     Typeface font;
     private CoreManager manager;
+    private Soundtrack soundtrack;
     private Assets assets;
     private Loop loop;
     private int width;

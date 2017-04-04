@@ -37,6 +37,7 @@ public class CoreManager{
         // Call first time onStateChange for HUD and Background
         hud.onStateChange(state);
         background.onStateChange(state);
+        gm.onStateChange(state);
     }
     public static void stateChange(ScreenState newState){
         // Usually state changes are handled in SE
