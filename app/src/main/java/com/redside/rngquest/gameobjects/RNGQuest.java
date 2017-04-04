@@ -5,6 +5,8 @@ import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.view.View;
 
+import com.redside.rngquest.managers.Soundtrack;
+
 
 public class RNGQuest extends Activity {
     @Override
@@ -24,4 +26,16 @@ public class RNGQuest extends Activity {
     }
     @Override
     public void onBackPressed() {}
+    @Override
+    public void onPause(){
+        super.onPause();
+        Soundtrack.pause();
+        Loop.paused = true;
+    }
+    @Override
+    public void onResume(){
+        super.onResume();
+        Soundtrack.resume();
+        Loop.paused = false;
+    }
 }

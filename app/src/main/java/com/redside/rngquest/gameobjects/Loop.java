@@ -7,6 +7,7 @@ import java.util.Random;
 
 public class Loop {
     public static int FPS = 60;
+    public static boolean paused = false;
     private Handler handler;
     private Runnable runnable;
     private final CoreView c;
@@ -26,13 +27,17 @@ public class Loop {
                 beginTime = System.currentTimeMillis();
                 framesSkipped = 0;
                 // Tick and render main manager
-                c.tick();
-                c.render();
+                if (!paused){
+                    c.tick();
+                    c.render();
+                }
                 timeDiff = System.currentTimeMillis() - beginTime;
                 sleepTime = (int) (framePeriod - timeDiff);
                 // If falling behind, skip a few frames and tick without rendering
                 while (sleepTime < 0 && framesSkipped < maxFrameSkips) {
-                    c.tick();
+                    if (!paused){
+                        c.tick();
+                    }
                     sleepTime += framePeriod;
                     framesSkipped++;
                 }

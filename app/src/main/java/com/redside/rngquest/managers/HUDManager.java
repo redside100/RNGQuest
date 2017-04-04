@@ -23,7 +23,7 @@ public class HUDManager {
     public static int height = 0;
     private static Bitmap play, back, info, start;
     private static ButtonManager buttonManager;
-    private static FadedTextManager fadedTextManager;
+    private static AnimatedTextManager animatedTextManager;
     private static EntityManager entityManager;
     public static int selection = 0;
     public HUDManager(){
@@ -31,7 +31,7 @@ public class HUDManager {
         this.height = CoreManager.height;
         // Init new button manager
         buttonManager = new ButtonManager();
-        fadedTextManager = new FadedTextManager();
+        animatedTextManager = new AnimatedTextManager();
         entityManager = new EntityManager();
         // Load all button bitmaps needed
         play = Assets.getBitmapFromMemory("button_play");
@@ -44,7 +44,7 @@ public class HUDManager {
         // Tick button manager + faded text
         entityManager.tick();
         buttonManager.tick();
-        fadedTextManager.tick();
+        animatedTextManager.tick();
     }
     public void touchEvent(MotionEvent e){
         buttonManager.checkButtons(e);
@@ -53,7 +53,7 @@ public class HUDManager {
         // Clear buttons no matter what
         buttonManager.clearButtons();
         entityManager.clear();
-        fadedTextManager.clear();
+        animatedTextManager.clear();
         // Handle what to do depending on each state
         switch (newState){
 
@@ -93,7 +93,7 @@ public class HUDManager {
         // Render all buttons + faded text
         buttonManager.render(canvas, paint);
         entityManager.render(canvas, paint);
-        fadedTextManager.render(canvas, paint);
+        animatedTextManager.render(canvas, paint);
         // Render all text, HUD items, etc. depending on state
         switch(CoreManager.state){
 

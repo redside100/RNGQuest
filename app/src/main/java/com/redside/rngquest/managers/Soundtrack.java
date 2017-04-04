@@ -54,4 +54,14 @@ public class Soundtrack {
             song = Song.NONE;
         }
     }
+    public static void pause(){
+        if (mediaPlayer.isPlaying()){
+            mediaPlayer.pause();
+        }
+    }
+    public static void resume(){
+        if (!mediaPlayer.isPlaying() && mediaPlayer != null){
+            mediaPlayer.start();
+        }
+    }
 }
