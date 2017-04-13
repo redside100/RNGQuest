@@ -26,8 +26,8 @@ public class Player {
                 hp = 50;
                 maxHp = 50;
                 atk = 12;
-                atkChance = 50;
-                evade = 30;
+                atkChance = 55;
+                evade = 35;
                 armor = 5;
                 maxArmor = 5;
                 break;
@@ -59,10 +59,11 @@ public class Player {
     }
     public static void damage(int amount){
         if (armor > 0){
-            amount -= armor;
             if (armor - amount >= 0){
                 armor -= amount;
+                amount = 0;
             }else{
+                amount -= armor;
                 armor = 0;
             }
         }

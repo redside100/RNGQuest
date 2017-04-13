@@ -16,7 +16,7 @@ public class SlashAnimation extends Entity{
     private Animator animator;
 
     public SlashAnimation(int x, int y){
-        super(0, 0, x, y);
+        super("SlashAnimation", 0, 0, x, y);
         super.i = this;
         ArrayList<Bitmap> frames = new ArrayList<>();
         for (int i = 0; i < 8; i++){

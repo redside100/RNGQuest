@@ -14,6 +14,7 @@ import com.redside.rngquest.buttons.StateChangeButton;
 import com.redside.rngquest.buttons.TankSelectButton;
 import com.redside.rngquest.buttons.WarriorSelectButton;
 import com.redside.rngquest.buttons.WizardSelectButton;
+import com.redside.rngquest.entities.Entity;
 import com.redside.rngquest.entities.Player;
 import com.redside.rngquest.hudobjects.FadedText;
 import com.redside.rngquest.utils.Assets;
@@ -117,7 +118,7 @@ public class HUDManager {
                         character = "Mage: +15 ATK (70%), +20 HP, +70% EVA";
                         break;
                     case 2: // Warrior
-                        character = "Warrior: +12 ATK (50%), +50 HP, +5 AMR, +30% EVA";
+                        character = "Warrior: +12 ATK (55%), +50 HP, +5 AMR, +35% EVA";
                         break;
                     case 3: // Tank
                         character = "Tank: +7 ATK (40%), +90 HP, +20 AMR, +20% EVA";
@@ -173,6 +174,8 @@ public class HUDManager {
 
             // Battle Screen
             case BATTLE:
+
+                // Draw all icons and player stats
                 Bitmap hpIcon = Assets.getBitmapFromMemory("icons_hp");
                 Bitmap armorIcon = Assets.getBitmapFromMemory("icons_armor");
                 Bitmap evadeIcon = Assets.getBitmapFromMemory("icons_evade");
@@ -192,6 +195,15 @@ public class HUDManager {
                 for (int i = 0; i < 4; i++){
                     drawTextWithBorder(iconInfo[i], canvas, (int) (width * 0.1), (int) (height * iconFactor), paint, 75, iconColors[i]);
                     iconFactor += 0.1;
+                }
+
+                // Draw current enemy HP
+                Entity currEnemy = BattleManager.getCurrentEnemy();
+                if (currEnemy != null){
+                    drawCenteredTextWithBorder(currEnemy.getName() + ": " + currEnemy.getHP() + "/" + currEnemy.getMaxHP(), canvas, width / 2,
+                            (int) (height * 0.12), paint, 75, Color.rgb(0,191,255));
+                }else{
+                    drawCenteredTextWithBorder("Waiting enemy...", canvas, width / 2, (int) (height * 0.12), paint, 75, Color.rgb(0,191,255));
                 }
                 break;
         }
@@ -247,8 +259,8 @@ public class HUDManager {
         paint.setTextSize(old);
         paint.setColor(Color.WHITE);
     }
-    public static void displayFadeMessage(String message, int x, int y, int seconds, int textSize, int color){
-        FadedText fade = new FadedText(message, seconds, x, y, textSize, color);
+    public static void displayFadeMessage(String message, int x, int y, int ticks, int textSize, int color){
+        FadedText fade = new FadedText(message, ticks, x, y, textSize, color);
         fade.play();
     }
 }

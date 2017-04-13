@@ -21,6 +21,9 @@ public class Soundtrack {
             case SHOP:
                 afd = Assets.getSoundDescFromMemory("shop_theme");
                 break;
+            case BATTLE:
+                afd = Assets.getSoundDescFromMemory("battle_theme");
+                break;
             case WAVE:
                 afd = Assets.getSoundDescFromMemory("wave_theme");
                 break;

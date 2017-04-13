@@ -69,4 +69,26 @@ public class AnimatedText {
         paint.setTextSize(old);
         paint.setColor(Color.WHITE);
     }
+    public void drawCenteredTextWithBorder(String text, Canvas canvas, int x, int y, Paint paint, int textSize, int color){
+        paint.setColor(color);
+        float old = paint.getTextSize();
+        paint.setTextSize(textSize);
+        paint.setAlpha(currAlpha);
+
+        paint.setStyle(Paint.Style.FILL);
+        Rect bounds = new Rect();
+        // Get bounds of the text, then center
+        paint.getTextBounds(text, 0, text.length(), bounds);
+        x -= bounds.width() / 2;
+        y -= bounds.height() / 2;
+
+        // Draw normal text
+        paint.setShadowLayer(3, 0, 0, Color.BLACK);
+        canvas.drawText(text, x, y, paint);
+        paint.setShadowLayer(0, 0, 0, Color.BLACK);
+        // Draw black border
+
+        paint.setTextSize(old);
+        paint.setColor(Color.WHITE);
+    }
 }

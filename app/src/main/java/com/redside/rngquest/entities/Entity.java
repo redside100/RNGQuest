@@ -6,11 +6,8 @@ import android.graphics.Paint;
 public class Entity {
 
     public Object i;
-    public int hp;
-    public int atk;
-    public int x;
-    public int y;
-    private int oldX;
+    public int hp, maxHp, atk, x, y, oldX;
+    public String name;
     public EAState state = EAState.IDLE;
     private boolean shaking = false;
     private int lefttick = 0;
@@ -18,15 +15,54 @@ public class Entity {
     private int shaketick = 0;
     private int maxShakeTicks = 0;
     private boolean shakeleft = false, shakeright = false;
-    public Entity(int hp, int atk, int x, int y){
+    public Entity(String name, int hp, int atk, int x, int y){
+        this.name = name;
         this.hp = hp;
+        this.maxHp = hp;
         this.atk = atk;
         this.x = x;
         this.y = y;
         this.oldX = x;
         i = this;
     }
-    public void setState(EAState newState){}
+    public void setState(EAState newState){
+        state = newState;
+    }
+    public String getName(){
+        return name;
+    }
+    public EAState getState(){
+        return state;
+    }
+    public int getHP(){
+        return hp;
+    }
+    public int getMaxHP(){
+        return maxHp;
+    }
+    public int getAtk(){
+        return atk;
+    }
+    public void damage(int amount){
+        if (hp - amount > 0){
+            hp -= amount;
+        }else{
+            hp = 0;
+        }
+    }
+    public void heal(int amount){
+        if (hp + amount < maxHp){
+            hp += amount;
+        }else{
+            hp = maxHp;
+        }
+    }
+    public boolean isDead(){
+        if (hp == 0){
+            return true;
+        }
+        return false;
+    }
     public void tick(){
 
     }

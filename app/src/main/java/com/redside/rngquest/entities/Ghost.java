@@ -20,7 +20,7 @@ public class Ghost extends Entity{
 
     public Ghost(int hp, int atk, int x, int y){
 
-        super(hp, atk, x, y);
+        super("Ghost", hp, atk, x, y);
 
         for (int i = 0; i < 3; i++){
             sprites.add(Assets.getBitmapFromMemory("sprites_ghost_" + i));

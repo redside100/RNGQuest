@@ -9,7 +9,7 @@ public class SEManager {
     private static int tick = 0;
     private static int opacity = 0;
     private static boolean running = false;
-    private static boolean fadein = false;
+    private static boolean fade = false;
     private static Effect currentEffect = Effect.NOTHING;
     private static ScreenState nextState = null;
 
@@ -18,12 +18,12 @@ public class SEManager {
             // Check for current playing effects
             case FADE_TRANSITION:
                 // Check for black screen fading in
-                if (tick < 32 && fadein){
+                if (tick < 27 && fade){
                     tick++;
                     // Check if fully faded (at 31 ticks)
-                    if (tick == 31){
+                    if (tick == 26){
                         // Set states, and prepare to fade out
-                        fadein = false;
+                        fade = false;
                         CoreManager.state = nextState;
                         HUDManager.onStateChange(nextState);
                         Background.onStateChange(nextState);
@@ -31,7 +31,7 @@ public class SEManager {
                         HUDManager.selection = 0;
                     }
                     // Check if fading out
-                }else if (tick < 32 && !fadein){
+                }else if (tick < 27 && !fade){
                     tick--;
                     // Check if fully faded out (31 ticks)
                     if (tick == 0){
@@ -42,6 +42,27 @@ public class SEManager {
                     }
                 }
                 // When opacity is 255, it is fully visible, when it is 0 it is fully transparent
+                if (tick * 10 < 255){
+                    opacity = tick * 10;
+                }else{
+                    opacity = 255;
+                }
+                break;
+            case GREEN_FLASH:
+            case YELLOW_FLASH:
+            case RED_FLASH:
+                if (tick < 12 && fade){
+                    tick++;
+                    if (tick == 11){
+                        fade = false;
+                    }
+                }else if (tick < 12 && !fade){
+                    tick--;
+                    if (tick == 0){
+                        running = false;
+                        currentEffect = Effect.NOTHING;
+                    }
+                }
                 opacity = tick * 8;
                 break;
         }
@@ -56,6 +77,27 @@ public class SEManager {
                     paint.setAlpha(opacity);
                     canvas.drawRect(rect, paint);
                     break;
+                case RED_FLASH:
+                    // For red flash, create a red rectangle that covers the whole screen
+                    Rect flash = new Rect(0, 0, CoreManager.width, CoreManager.height);
+                    paint.setColor(Color.RED);
+                    paint.setAlpha(opacity);
+                    canvas.drawRect(flash, paint);
+                    break;
+                case YELLOW_FLASH:
+                    // For red flash, create a red rectangle that covers the whole screen
+                    Rect flashY = new Rect(0, 0, CoreManager.width, CoreManager.height);
+                    paint.setColor(Color.YELLOW);
+                    paint.setAlpha(opacity);
+                    canvas.drawRect(flashY, paint);
+                    break;
+                case GREEN_FLASH:
+                    // For red flash, create a red rectangle that covers the whole screen
+                    Rect flashG = new Rect(0, 0, CoreManager.width, CoreManager.height);
+                    paint.setColor(Color.GREEN);
+                    paint.setAlpha(opacity);
+                    canvas.drawRect(flashG, paint);
+                    break;
             }
         }
     }
@@ -67,9 +109,33 @@ public class SEManager {
             tick = 0;
             switch(effect){
                 case FADE_TRANSITION:
-                    fadein = true;
+                    fade = true;
                     // Temporarily disable user input while transitioning
                     CoreManager.setAllowTouch(false);
+                    break;
+                case RED_FLASH:
+                case GREEN_FLASH:
+                case YELLOW_FLASH:
+                    fade = true;
+                    break;
+            }
+        }
+    }
+    public static void playEffect(Effect effect){
+        if (!running){
+            running = true;
+            currentEffect = effect;
+            tick = 0;
+            switch(effect){
+                case FADE_TRANSITION:
+                    fade = true;
+                    // Temporarily disable user input while transitioning
+                    CoreManager.setAllowTouch(false);
+                    break;
+                case RED_FLASH:
+                case GREEN_FLASH:
+                case YELLOW_FLASH:
+                    fade = true;
                     break;
             }
         }
@@ -78,6 +144,6 @@ public class SEManager {
 
     }
     public enum Effect {
-        NOTHING, FADE_TRANSITION, SHAKE, RED_FLASH, YELLOW_FLASH
+        NOTHING, FADE_TRANSITION, SHAKE, RED_FLASH, YELLOW_FLASH, GREEN_FLASH
     }
 }

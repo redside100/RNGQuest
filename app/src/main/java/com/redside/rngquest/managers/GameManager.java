@@ -12,6 +12,8 @@ public class GameManager {
     private static int width;
     private static int height;
     private static BattleManager battleManager;
+    private static int tick = 0;
+    private static boolean sTransition = false;
     public GameManager(){
         battleManager = new BattleManager();
         width = HUDManager.width;
@@ -35,6 +37,7 @@ public class GameManager {
         return part;
     }
     public static void onStateChange(ScreenState newState){
+        battleManager.close();
         switch(newState){
             case TITLE:
                 if (Soundtrack.getCurrentSong() != Song.TITLE){
@@ -43,21 +46,27 @@ public class GameManager {
                 break;
             case STAGE_TRANSITION:
                 Soundtrack.playSong(Song.WAVE);
-                // Switch to next screen in 4 seconds
-                new Handler().postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        SEManager.playEffect(SEManager.Effect.FADE_TRANSITION, ScreenState.BATTLE);
-                    }
-                }, 3500);
+                // Switch to next screen in 3 seconds
+                sTransition = true;
+                break;
+            case INFO:
+                Soundtrack.playSong(Song.SHOP);
                 break;
             case BATTLE:
-                Soundtrack.playSong(Song.SHOP);
-                battleManager.startBattle(new Ghost(30, 30, width / 2, height / 2));
+                Soundtrack.playSong(Song.BATTLE);
+                battleManager.startBattle(new Ghost(30, 7, width / 2, height / 2));
                 break;
         }
     }
     public void tick(){
         battleManager.tick();
+        if (sTransition){
+            tick++;
+            if (tick == 195){
+                tick = 0;
+                sTransition = false;
+                SEManager.playEffect(SEManager.Effect.FADE_TRANSITION, ScreenState.BATTLE);
+            }
+        }
     }
 }

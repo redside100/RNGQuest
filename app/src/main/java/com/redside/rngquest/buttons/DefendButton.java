@@ -15,6 +15,6 @@ public class DefendButton extends Button {
     @Override
     public void trigger(){
         BattleManager.playerDefend();
-        HUDManager.displayFadeMessage("Lol this button does nothing", (HUDManager.width / 2), (HUDManager.height / 2), 2, 100, Color.RED);
+        HUDManager.displayFadeMessage("Lol this button does nothing", (HUDManager.width / 2), (HUDManager.height / 2), 120, 100, Color.RED);
     }
 }

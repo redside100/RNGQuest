@@ -58,6 +58,8 @@ public class Assets {
         soundDb.put("title_theme", getSoundDesc(context, "sounds/title.ogg"));
         soundDb.put("shop_theme", getSoundDesc(context, "sounds/shop.ogg"));
         soundDb.put("wave_theme", getSoundDesc(context, "sounds/wave.ogg"));
+        soundDb.put("battle_theme", getSoundDesc(context, "sounds/battle.ogg"));
+
     }
     public static Bitmap getBitmap(Context context, String filePath) {
         AssetManager assetManager = context.getAssets();
