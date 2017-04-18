@@ -48,6 +48,11 @@ public class CoreManager{
             hud.touchEvent(e);
         }
     }
+    public void preTouchEvent(MotionEvent e){
+        if (allowTouch){
+            hud.preTouchEvent(e);
+        }
+    }
     public void tick(){
         // Tick all managers in order
         background.tick();

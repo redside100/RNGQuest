@@ -40,8 +40,16 @@ public class ButtonManager {
     }
     public void checkButtons(MotionEvent event){
         for (Button button : buttons){
+            button.setAlpha(255);
             if (buttonTouched(button, event)){
                 button.trigger();
+            }
+        }
+    }
+    public void checkButtonPretouch(MotionEvent event){
+        for (Button button : buttons){
+            if (buttonTouched(button, event)){
+                button.setAlpha(153);
             }
         }
     }

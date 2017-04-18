@@ -13,6 +13,7 @@ public class Button{
     private int y;
     private String text;
     private int textSize;
+    private int currAlpha = 255;
     public Button(Bitmap image, int x, int y){
         this.image = image;
         this.x = x - (getBitmap().getWidth() / 2);
@@ -22,8 +23,14 @@ public class Button{
     public void tick(){}
     public void render(Canvas canvas, Paint paint) {
         if (image != null){
+            int oldAlpha = paint.getAlpha();
+            paint.setAlpha(currAlpha);
             canvas.drawBitmap(image, x, y, paint);
+            paint.setAlpha(oldAlpha);
         }
+    }
+    public void setAlpha(int alpha){
+        currAlpha = alpha;
     }
     public int getX(){
         return x;

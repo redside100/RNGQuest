@@ -51,6 +51,7 @@ public class SEManager {
             case GREEN_FLASH:
             case YELLOW_FLASH:
             case RED_FLASH:
+            case BLUE_FLASH:
                 if (tick < 12 && fade){
                     tick++;
                     if (tick == 11){
@@ -85,18 +86,25 @@ public class SEManager {
                     canvas.drawRect(flash, paint);
                     break;
                 case YELLOW_FLASH:
-                    // For red flash, create a red rectangle that covers the whole screen
+                    // For yellow flash, create a yellow rectangle that covers the whole screen
                     Rect flashY = new Rect(0, 0, CoreManager.width, CoreManager.height);
                     paint.setColor(Color.YELLOW);
                     paint.setAlpha(opacity);
                     canvas.drawRect(flashY, paint);
                     break;
                 case GREEN_FLASH:
-                    // For red flash, create a red rectangle that covers the whole screen
+                    // For green flash, create a green rectangle that covers the whole screen
                     Rect flashG = new Rect(0, 0, CoreManager.width, CoreManager.height);
                     paint.setColor(Color.GREEN);
                     paint.setAlpha(opacity);
                     canvas.drawRect(flashG, paint);
+                    break;
+                case BLUE_FLASH:
+                    // For blue flash, create a blue rectangle that covers the whole screen
+                    Rect flashB = new Rect(0, 0, CoreManager.width, CoreManager.height);
+                    paint.setColor(Color.rgb(0,191,255));
+                    paint.setAlpha(opacity);
+                    canvas.drawRect(flashB, paint);
                     break;
             }
         }
@@ -115,6 +123,7 @@ public class SEManager {
                     break;
                 case RED_FLASH:
                 case GREEN_FLASH:
+                case BLUE_FLASH:
                 case YELLOW_FLASH:
                     fade = true;
                     break;
@@ -134,6 +143,7 @@ public class SEManager {
                     break;
                 case RED_FLASH:
                 case GREEN_FLASH:
+                case BLUE_FLASH:
                 case YELLOW_FLASH:
                     fade = true;
                     break;
@@ -144,6 +154,6 @@ public class SEManager {
 
     }
     public enum Effect {
-        NOTHING, FADE_TRANSITION, SHAKE, RED_FLASH, YELLOW_FLASH, GREEN_FLASH
+        NOTHING, FADE_TRANSITION, SHAKE, RED_FLASH, YELLOW_FLASH, GREEN_FLASH, BLUE_FLASH
     }
 }

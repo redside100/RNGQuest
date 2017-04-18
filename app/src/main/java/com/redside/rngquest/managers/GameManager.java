@@ -23,12 +23,7 @@ public class GameManager {
         stage++;
     }
     public static void nextPart(){
-        if (part < 8){
-            part++;
-        }else{
-            part = 1;
-            nextStage();
-        }
+        part++;
     }
     public static int getStage(){
         return stage;
@@ -40,6 +35,7 @@ public class GameManager {
         battleManager.close();
         switch(newState){
             case TITLE:
+                reset();
                 if (Soundtrack.getCurrentSong() != Song.TITLE){
                     Soundtrack.playSong(Song.TITLE);
                 }
@@ -54,9 +50,13 @@ public class GameManager {
                 break;
             case BATTLE:
                 Soundtrack.playSong(Song.BATTLE);
-                battleManager.startBattle(new Ghost(30, 7, width / 2, height / 2));
+                BattleManager.setBattleState(BattleManager.BattleState.BATTLE_START);
                 break;
         }
+    }
+    public static void reset(){
+        stage = 1;
+        part = 1;
     }
     public void tick(){
         battleManager.tick();

@@ -8,19 +8,17 @@ import com.redside.rngquest.managers.EntityManager;
 import com.redside.rngquest.utils.Assets;
 
 import java.util.ArrayList;
-
 public class Ghost extends Entity{
 
-    private boolean alive;
     private boolean shaking = false;
     private int tick = 0;
 
     private Bitmap currentSprite;
     private ArrayList<Bitmap> sprites = new ArrayList<>();
 
-    public Ghost(int hp, int atk, int x, int y){
+    public Ghost(int hp, int atk, int x, int y, int startingAlpha){
 
-        super("Ghost", hp, atk, x, y);
+        super("Ghost", hp, atk, x, y, startingAlpha);
 
         for (int i = 0; i < 3; i++){
             sprites.add(Assets.getBitmapFromMemory("sprites_ghost_" + i));
@@ -28,8 +26,6 @@ public class Ghost extends Entity{
 
         // 0 = Idle, 1 = Attack, 2 = Damage
         currentSprite = sprites.get(0);
-        alive = true;
-        EntityManager.addEntity(this);
     }
 
     @Override
@@ -65,12 +61,10 @@ public class Ghost extends Entity{
 
     @Override
     public void render(Canvas canvas, Paint paint){
+        int oldAlpha = paint.getAlpha();
+        paint.setAlpha(super.currAlpha);
         drawCenteredBitmap(currentSprite, canvas, paint, super.x, super.y);
-    }
-
-    public void destroy(){
-        alive = false;
-        EntityManager.removeEntity(this);
+        paint.setAlpha(oldAlpha);
     }
 
     public void drawCenteredBitmap(Bitmap bitmap, Canvas canvas, Paint paint, int x, int y){

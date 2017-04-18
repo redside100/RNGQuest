@@ -50,6 +50,9 @@ public class HUDManager {
     public void touchEvent(MotionEvent e){
         buttonManager.checkButtons(e);
     }
+    public void preTouchEvent(MotionEvent e){
+        buttonManager.checkButtonPretouch(e);
+    }
     public static void onStateChange(ScreenState newState){
         // Clear buttons no matter what
         buttonManager.clearButtons();
@@ -84,7 +87,7 @@ public class HUDManager {
                 Bitmap attack = Assets.getBitmapFromMemory("button_attack");
                 Bitmap defend = Assets.getBitmapFromMemory("button_defend");
                 //temp
-                StateChangeButton bBackB = new StateChangeButton(back, width / 2, (int) (height * 0.9), ScreenState.TITLE);
+                StateChangeButton bBackB = new StateChangeButton(back, width / 2, (int) (height * 0.92), ScreenState.TITLE);
                 AttackButton bAttack = new AttackButton(attack, (int) (width * 0.08), (int) (height * 0.87));
                 DefendButton bDefend = new DefendButton(defend, (int) (width * 0.92), (int) (height * 0.87));
                 break;
@@ -118,10 +121,10 @@ public class HUDManager {
                         character = "Mage: +15 ATK (70%), +20 HP, +70% EVA";
                         break;
                     case 2: // Warrior
-                        character = "Warrior: +12 ATK (55%), +50 HP, +5 AMR, +35% EVA";
+                        character = "Warrior: +12 ATK (55%), +50 HP, +10 AMR, +35% EVA";
                         break;
                     case 3: // Tank
-                        character = "Tank: +7 ATK (40%), +90 HP, +20 AMR, +20% EVA";
+                        character = "Tank: +7 ATK (40%), +90 HP, +40 AMR, +20% EVA";
                         break;
                 }
                 drawCenteredText(character, canvas, width / 2, (int) (height * 0.83), paint, 75, Color.rgb(0,191,255));

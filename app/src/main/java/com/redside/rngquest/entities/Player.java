@@ -1,12 +1,10 @@
 package com.redside.rngquest.entities;
 
 public class Player {
-    private static int hp, maxHp, atk, atkChance, evade, armor, maxArmor, gold;
+    private static int hp, maxHp, atk, atkChance, evade, armor, maxArmor, gold, atkChanceBonus = 0;
     private static Role role;
-    private static boolean dead = false;
-    public Player(){}
     public static void spawn(int choice){
-        dead = false;
+        atkChanceBonus = 0;
         gold = 0;
         // reset stats and stuff
         // 1 is Wizard, 2 is Warrior, 3 is Tank
@@ -28,8 +26,8 @@ public class Player {
                 atk = 12;
                 atkChance = 55;
                 evade = 35;
-                armor = 5;
-                maxArmor = 5;
+                armor = 10;
+                maxArmor = 10;
                 break;
             case 3:
                 role = Role.TANK;
@@ -38,14 +36,24 @@ public class Player {
                 atk = 7;
                 atkChance = 40;
                 evade = 20;
-                armor = 20;
-                maxArmor = 20;
+                armor = 40;
+                maxArmor = 40;
                 break;
         }
 
     }
+    public static void addAtkChanceBonus(int bonus){
+        atkChanceBonus += bonus;
+    }
+    public static void resetAtkChanceBonus(){
+        atkChanceBonus = 0;
+    }
     public static void addGold(int amount){
-        gold += amount;
+        if (gold + amount < 9999){
+            gold += amount;
+        }else{
+            gold = 9999;
+        }
     }
     public static void removeGold(int amount){
         if (gold - amount >= 0){
@@ -71,7 +79,6 @@ public class Player {
             hp -= amount;
         }else{
             hp = 0;
-            dead = true;
         }
     }
     public static void heal(int amount){
@@ -104,10 +111,34 @@ public class Player {
         return atk;
     }
     public static int getATKChance(){
+        return atkChance + atkChanceBonus;
+    }
+    public static int getRealATKChance(){
         return atkChance;
+    }
+    public static void addATK(int amount){
+        if (atk + amount < 9999){
+            atk += amount;
+        }else{
+            atk = 9999;
+        }
+    }
+    public static void addATKChance(int amount){
+        if (atkChance + amount < 100){
+            atkChance += amount;
+        }else{
+            atkChance = 100;
+        }
     }
     public static int getEvade(){
         return evade;
+    }
+    public static void addEvade(int amount){
+        if (evade + amount < 100){
+            evade += amount;
+        }else{
+            evade = 100;
+        }
     }
     public static int getArmor(){
         return armor;
@@ -119,7 +150,7 @@ public class Player {
         return gold;
     }
     public static boolean isDead(){
-        return dead;
+        return (hp == 0);
     }
     public static Role getRole(){
         return role;

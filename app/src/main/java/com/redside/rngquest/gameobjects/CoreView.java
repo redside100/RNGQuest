@@ -53,6 +53,8 @@ public class CoreView extends View {
         // Source of detecting touches. Only check for when the user lets go
         if (e.getAction() == MotionEvent.ACTION_UP){
             manager.touchEvent(e);
+        }else if (e.getAction() == MotionEvent.ACTION_DOWN){
+            manager.preTouchEvent(e);
         }
         return true;
     }
