@@ -156,6 +156,8 @@ public class BattleManager {
                     case 10:
                         currentEnemy.setState(EAState.ATTACK);
                         currentEnemy.shake(25);
+                        break;
+                    case 20:
                         if (RNG.pass(100 - Player.getEvade())){
                             SEManager.playEffect(SEManager.Effect.RED_FLASH);
                             Player.damage(currentEnemy.getAtk());
@@ -164,10 +166,10 @@ public class BattleManager {
                             SEManager.playEffect(SEManager.Effect.GREEN_FLASH);
                         }
                         break;
-                    case 80:
+                    case 90:
                         currentEnemy.setState(EAState.IDLE);
                         break;
-                    case 100:
+                    case 110:
                         if (Player.isDead()){
                             // end game
                         }else{

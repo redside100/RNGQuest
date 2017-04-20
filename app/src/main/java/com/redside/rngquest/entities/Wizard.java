@@ -30,7 +30,7 @@ public class Wizard extends Entity{
             idleFrames.add(Assets.getBitmapFromMemory("sprites_wizard_idle_" + i));
         }
 
-        for (int i = 0; i < 8; i++){
+        for (int i = 0; i < 10; i++){
             attackFrames.add(Assets.getBitmapFromMemory("sprites_wizard_attack_" + i));
         }
 
@@ -53,7 +53,6 @@ public class Wizard extends Entity{
                 animator.replace(attackFrames);
                 break;
             case DAMAGE:
-            case DEATH:
                 animator.replace(damageFrame);
                 break;
         }

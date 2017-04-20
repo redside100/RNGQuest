@@ -12,12 +12,11 @@ import java.util.ArrayList;
 
 public class SlashAnimation extends Entity{
 
-    private boolean alive;
     private Animator animator;
 
     public SlashAnimation(int x, int y){
         super("SlashAnimation", 0, 0, x, y, 255);
-        super.i = this;
+
         ArrayList<Bitmap> frames = new ArrayList<>();
         for (int i = 0; i < 8; i++){
             Bitmap frame = Assets.getBitmapFromMemory("sprites_slash_" + i);
@@ -27,29 +26,17 @@ public class SlashAnimation extends Entity{
         animator.setSpeed(90);
         animator.play();
         animator.update(System.currentTimeMillis());
-        alive = true;
-        EntityManager.addEntity(this);
-    }
 
-    @Override
-    public void tick(){
     }
 
     @Override
     public void render(Canvas canvas, Paint paint){
-        if (alive){
-            drawCenteredBitmap(animator.sprite, canvas, paint, x, y);
-            if (animator.isDoneAnimation()){
-                destroy();
-                animator.stop();
-            }
-            animator.update(System.currentTimeMillis());
+        drawCenteredBitmap(animator.sprite, canvas, paint, x, y);
+        if (animator.isDoneAnimation()){
+            super.destroy();
+            animator.stop();
         }
-    }
-
-    public void destroy(){
-        alive = false;
-        EntityManager.removeEntity(this);
+        animator.update(System.currentTimeMillis());
     }
 
     public void drawCenteredBitmap(Bitmap bitmap, Canvas canvas, Paint paint, int x, int y){

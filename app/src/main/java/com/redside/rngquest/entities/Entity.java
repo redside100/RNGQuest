@@ -12,7 +12,7 @@ public class Entity {
     public String name;
     public EAState state = EAState.IDLE;
     public int currAlpha = 0;
-    private boolean shaking = false, fadingIn = false, fadingOut = false, alive = false;
+    public boolean shaking = false, fadingIn = false, fadingOut = false, alive = false;
     private int leftTick = 0;
     private int rightTick = 0;
     private int fadeTick = 0;

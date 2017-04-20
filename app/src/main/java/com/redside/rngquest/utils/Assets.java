@@ -47,7 +47,7 @@ public class Assets {
             bitmapDb.put("sprites_wizard_idle_" + i, getBitmap(context, "sprites/wizard/wizard_idle/wizard_idle" + i + ".png"));
         }
 
-        for (int i = 0; i < 8; i++){
+        for (int i = 0; i < 10; i++){
             bitmapDb.put("sprites_wizard_attack_" + i, getBitmap(context, "sprites/wizard/wizard_attack/wizard_attack" + i + ".png"));
         }
 

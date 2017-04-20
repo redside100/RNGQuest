@@ -39,7 +39,6 @@ public class Ghost extends Entity{
                 currentSprite = sprites.get(1);
                 break;
             case DAMAGE:
-            case DEATH:
                 currentSprite = sprites.get(2);
                 break;
         }
