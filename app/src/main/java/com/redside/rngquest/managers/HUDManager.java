@@ -17,6 +17,7 @@ import com.redside.rngquest.buttons.WizardSelectButton;
 import com.redside.rngquest.entities.Entity;
 import com.redside.rngquest.entities.Player;
 import com.redside.rngquest.hudobjects.FadedText;
+import com.redside.rngquest.hudobjects.ParabolicText;
 import com.redside.rngquest.utils.Assets;
 
 public class HUDManager {
@@ -265,5 +266,9 @@ public class HUDManager {
     public static void displayFadeMessage(String message, int x, int y, int ticks, int textSize, int color){
         FadedText fade = new FadedText(message, ticks, x, y, textSize, color);
         fade.play();
+    }
+    public static void displayParabolicText(String message, int x, int y, int ticks, int textSize, int color, double directionVec){
+        ParabolicText parabola = new ParabolicText(message, ticks, x, y, textSize, color, directionVec);
+        parabola.play();
     }
 }

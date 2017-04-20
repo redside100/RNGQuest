@@ -6,6 +6,7 @@ import com.redside.rngquest.entities.Entity;
 import com.redside.rngquest.entities.Ghost;
 import com.redside.rngquest.entities.Player;
 import com.redside.rngquest.entities.SlashAnimation;
+import com.redside.rngquest.entities.Wizard;
 import com.redside.rngquest.utils.RNG;
 
 public class BattleManager {
@@ -28,7 +29,15 @@ public class BattleManager {
             case BATTLE_START:
                 switch(tick){
                     case 10:
-                        startBattle(new Ghost(30, 7, width / 2, height / 2, 0));
+                        int spawn = RNG.number(1, 2);
+                        switch(spawn){
+                            case 1:
+                                startBattle(new Ghost(30, 7, width / 2, height / 2, 0));
+                                break;
+                            case 2:
+                                startBattle(new Wizard(30, 7, width / 2, height / 2, 0));
+                                break;
+                        }
                         currentEnemy.fadeIn(60);
                         break;
                     case 140:
@@ -80,8 +89,11 @@ public class BattleManager {
                             battleState = BattleState.BATTLE_START;
                             tick = 0;
                         }else{
-                            // Go to shop
+                            HUDManager.displayFadeMessage("Stage " + GameManager.getStage() + " cleared!", width / 2, height / 2, 60, 100, Color.YELLOW);
                         }
+                        break;
+                    case 200:
+                        // go to shop
                         break;
                 }
                 tick++;
@@ -90,12 +102,17 @@ public class BattleManager {
                 switch(tick){
                     case 10:
                         if (RNG.pass(Player.getATKChance())){
+                            if (RNG.yesNo()){
+                                HUDManager.displayParabolicText("-" + Player.getATK(), currentEnemy.x, (int) (currentEnemy.y - height * 0.1), 90, 90, Color.RED, -7);
+                            }else{
+                                HUDManager.displayParabolicText("-" + Player.getATK(), currentEnemy.x, (int) (currentEnemy.y - height * 0.1), 90, 90, Color.RED, 7);
+                            }
                             SEManager.playEffect(SEManager.Effect.YELLOW_FLASH);
                             currentEnemy.shake(70);
                             currentEnemy.damage(Player.getATK());
                             currentEnemy.setState(EAState.DAMAGE);
                         }else{
-                            HUDManager.displayFadeMessage("MISS", currentEnemy.x, (int) (currentEnemy.y - height * 0.1), 30, 100, Color.RED);
+                            HUDManager.displayFadeMessage("MISS", currentEnemy.x, (int) (currentEnemy.y - height * 0.15), 30, 100, Color.RED);
                         }
                         Player.resetAtkChanceBonus();
                         break;
@@ -122,7 +139,7 @@ public class BattleManager {
                         SEManager.playEffect(SEManager.Effect.BLUE_FLASH);
                         int armorAmount = RNG.number(Player.getMaxArmor() / 4, Player.getMaxArmor() / 3);
                         int atkChanceAmount = RNG.number(Player.getRealATKChance() / 15, Player.getRealATKChance() / 10);
-                        HUDManager.displayFadeMessage("+ " + armorAmount + " AMR", width / 2, (int) (height * 0.7), 30, 90, Color.CYAN);
+                        HUDManager.displayFadeMessage("+ " + armorAmount + " AMR", width / 2, (int) (height * 0.72), 30, 90, Color.CYAN);
                         HUDManager.displayFadeMessage("+ " + atkChanceAmount + "% ATK chance until next attack", width / 2, (int) (height * 0.8), 30, 90, Color.rgb(255, 80, 0));
                         Player.addAtkChanceBonus(atkChanceAmount);
                         Player.addArmor(armorAmount);

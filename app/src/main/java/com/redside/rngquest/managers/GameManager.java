@@ -21,6 +21,7 @@ public class GameManager {
     }
     public static void nextStage(){
         stage++;
+        part = 1;
     }
     public static void nextPart(){
         part++;

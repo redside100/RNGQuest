@@ -43,6 +43,16 @@ public class Assets {
             bitmapDb.put("sprites_ghost_" + i, getBitmap(context, "sprites/ghost/ghost" + i + ".png"));
         }
 
+        for (int i = 0; i < 10; i++){
+            bitmapDb.put("sprites_wizard_idle_" + i, getBitmap(context, "sprites/wizard/wizard_idle/wizard_idle" + i + ".png"));
+        }
+
+        for (int i = 0; i < 8; i++){
+            bitmapDb.put("sprites_wizard_attack_" + i, getBitmap(context, "sprites/wizard/wizard_attack/wizard_attack" + i + ".png"));
+        }
+
+        bitmapDb.put("sprites_wizard_damage", getBitmap(context, "sprites/wizard/wizard_damage.png"));
+
         bitmapDb.put("button_play", getBitmap(context, "buttons/play.png"));
         bitmapDb.put("button_back", getBitmap(context, "buttons/back.png"));
         bitmapDb.put("button_info", getBitmap(context, "buttons/info.png"));

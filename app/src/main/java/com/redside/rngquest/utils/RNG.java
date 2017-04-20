@@ -11,4 +11,7 @@ public class RNG {
     public static int number(int min, int max){
         return random.nextInt(max - min + 1) + min;
     }
+    public static boolean yesNo(){
+        return random.nextBoolean();
+    }
 }
