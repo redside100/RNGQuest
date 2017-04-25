@@ -6,6 +6,7 @@ public class ParabolicText extends AnimatedText{
     private double directionVec;
     private int vertexX;
     private int vertexY;
+
     public ParabolicText(String text, int ticks, int x, int y, int textSize, int color, double directionVec){
         super(text, x, y, textSize, color, 255);
         this.ticks = ticks;
@@ -18,7 +19,10 @@ public class ParabolicText extends AnimatedText{
     public void tick(){
         if (super.active){
             if (tick != ticks){
+                // Increment x by the amount given (if positive, it travels right, if negative, it travels left)
                 super.x += directionVec;
+                // Use the equation y = -0.004(x - vertexX)^2 + vertexY
+                // Since y gets larger as it travels down, the a value must be positive instead of negative
                 super.y = (int) (0.004 * Math.pow(x - this.vertexX, 2) + this.vertexY);
             }else{
                 super.destroy();

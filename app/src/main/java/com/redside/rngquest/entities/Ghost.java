@@ -4,13 +4,11 @@ import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 
-import com.redside.rngquest.managers.EntityManager;
 import com.redside.rngquest.utils.Assets;
 
 import java.util.ArrayList;
 public class Ghost extends Entity{
 
-    private boolean shaking = false;
     private int tick = 0;
 
     private Bitmap currentSprite;
@@ -20,6 +18,7 @@ public class Ghost extends Entity{
 
         super("Ghost", hp, atk, x, y, startingAlpha);
 
+        // Add ghost sprites (idle, attack, damage)
         for (int i = 0; i < 3; i++){
             sprites.add(Assets.getBitmapFromMemory("sprites_ghost_" + i));
         }

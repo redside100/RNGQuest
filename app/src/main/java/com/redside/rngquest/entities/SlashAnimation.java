@@ -18,6 +18,7 @@ public class SlashAnimation extends Entity{
         super("SlashAnimation", 0, 0, x, y, 255);
 
         ArrayList<Bitmap> frames = new ArrayList<>();
+        // Add slash frames
         for (int i = 0; i < 8; i++){
             Bitmap frame = Assets.getBitmapFromMemory("sprites_slash_" + i);
             frames.add(frame);
@@ -32,6 +33,7 @@ public class SlashAnimation extends Entity{
     @Override
     public void render(Canvas canvas, Paint paint){
         drawCenteredBitmap(animator.sprite, canvas, paint, x, y);
+        // Destroy this entity if the animation is done
         if (animator.isDoneAnimation()){
             super.destroy();
             animator.stop();

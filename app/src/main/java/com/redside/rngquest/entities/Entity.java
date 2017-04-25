@@ -22,6 +22,7 @@ public class Entity {
     private boolean shakeLeft = false, shakeRight = false;
 
     public Entity(String name, int hp, int atk, int x, int y, int startingAlpha){
+
         currAlpha = startingAlpha;
         this.name = name;
         this.hp = hp;
@@ -30,7 +31,10 @@ public class Entity {
         this.x = x;
         this.y = y;
         this.oldX = x;
+
+        // Used for comparing this object in lists
         i = this;
+
         EntityManager.addEntity(this);
         alive = true;
     }
@@ -70,21 +74,33 @@ public class Entity {
     public boolean isDead(){
         return (hp == 0);
     }
+
+    // To be overridden
     public void tick(){
 
     }
+
+    // Not to be overridden. Handles shaking and fading for all entities
     public void shadowTick(){
         if (shaking){
+
+            // Start by shaking left
             if (shakeTick == 0){
                 shakeLeft = true;
                 shakeRight = false;
             }
+            // Make sure it hasn't reached the max ticks
             if (shakeTick < maxShakeTicks){
+
                 shakeTick++;
+
+
                 if (shakeLeft){
                     x -= 3;
                     leftTick += 1;
+                    // Allow seven ticks left
                     if (leftTick == 7){
+                        // Switch to right
                         leftTick = 0;
                         shakeLeft = false;
                         shakeRight = true;
@@ -93,7 +109,9 @@ public class Entity {
                 if (shakeRight){
                     x += 3;
                     rightTick += 1;
+                    // Allow seven ticks right
                     if (rightTick == 7){
+                        // Switch to left
                         rightTick = 0;
                         shakeRight = false;
                         shakeLeft = true;
@@ -101,6 +119,7 @@ public class Entity {
                 }
             }
             else{
+                // Maximum ticks reached, reset
                 shaking = false;
                 shakeTick = 0;
                 maxShakeTicks = 0;
@@ -111,6 +130,7 @@ public class Entity {
         }
         if (fadingIn){
             if (fadeTick < maxFadeTicks){
+                // Increment the alpha evenly according to the total tick time
                 int amount = 255 / maxFadeTicks + 1;
                 fadeTick++;
 
@@ -120,6 +140,7 @@ public class Entity {
                     currAlpha = 255;
                 }
             }else{
+                // Maximum ticks reach, reset
                 fadingIn = false;
                 fadeTick = 0;
                 maxFadeTicks = 0;
@@ -127,6 +148,7 @@ public class Entity {
         }
         if (fadingOut){
             if (fadeTick < maxFadeTicks){
+                // Inc alpha evenly
                 int amount = 255 / maxFadeTicks + 1;
                 fadeTick++;
 
@@ -136,6 +158,7 @@ public class Entity {
                     currAlpha = 0;
                 }
             }else{
+                // Max reached, reset
                 fadingOut = false;
                 fadeTick = 0;
                 maxFadeTicks = 0;

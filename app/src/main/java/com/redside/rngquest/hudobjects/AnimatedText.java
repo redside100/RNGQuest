@@ -5,6 +5,7 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
 
+import com.redside.rngquest.gameobjects.CoreView;
 import com.redside.rngquest.managers.AnimatedTextManager;
 
 public class AnimatedText {
@@ -56,7 +57,9 @@ public class AnimatedText {
     }
 
     public void drawCenteredText(String text, Canvas canvas, int x, int y, Paint paint, int textSize, int color){
-        paint.setTextSize(textSize);
+        float old = paint.getTextSize();
+        double scaledTextSize = textSize * CoreView.resources.getDisplayMetrics().density;
+        paint.setTextSize((int) scaledTextSize);
         paint.setColor(color);
         paint.setAlpha(currAlpha);
         Rect bounds = new Rect();
@@ -64,7 +67,6 @@ public class AnimatedText {
         paint.getTextBounds(text, 0, text.length(), bounds);
         x -= bounds.width() / 2;
         y -= bounds.height() / 2;
-        float old = paint.getTextSize();
         canvas.drawText(text, x, y, paint);
         paint.setTextSize(old);
         paint.setColor(Color.WHITE);
@@ -72,7 +74,8 @@ public class AnimatedText {
     public void drawCenteredTextWithBorder(String text, Canvas canvas, int x, int y, Paint paint, int textSize, int color){
         paint.setColor(color);
         float old = paint.getTextSize();
-        paint.setTextSize(textSize);
+        double scaledTextSize = textSize * CoreView.resources.getDisplayMetrics().density;
+        paint.setTextSize((int) scaledTextSize);
         paint.setAlpha(currAlpha);
 
         paint.setStyle(Paint.Style.FILL);

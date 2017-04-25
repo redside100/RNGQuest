@@ -53,6 +53,10 @@ public class GameManager {
                 Soundtrack.playSong(Song.BATTLE);
                 BattleManager.setBattleState(BattleManager.BattleState.BATTLE_START);
                 break;
+            case SHOP:
+                Soundtrack.playSong(Song.SHOP);
+                nextStage();
+                break;
         }
     }
     public static void reset(){

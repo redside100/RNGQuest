@@ -7,7 +7,7 @@ public class Player {
         atkChanceBonus = 0;
         gold = 0;
         // reset stats and stuff
-        // 1 is Wizard, 2 is Warrior, 3 is Tank
+        // 1 is Mage, 2 is Warrior, 3 is Tank
         switch(choice){
             case 1:
                 role = Role.MAGE;

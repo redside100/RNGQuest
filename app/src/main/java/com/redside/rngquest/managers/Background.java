@@ -53,18 +53,18 @@ public class Background {
             case CHAR_SELECT:
                 for (int i = 1; i < 3; i++){
                     background.add(Assets.getBitmapFromMemory("background_title" + i));
-                    animate.replace(background);
                 }
                 break;
             case STAGE_TRANSITION:
                 background.add(Assets.getBitmapFromMemory("background_black"));
-                animate.replace(background);
                 break;
             case BATTLE:
                 background.add(Assets.getBitmapFromMemory("background_forest"));
-                animate.replace(background);
                 break;
+            default:
+                background.add(Assets.getBitmapFromMemory("background_black"));
         }
+        animate.replace(background);
     }
     public void render(Canvas canvas, Paint paint){
         if (background != null){

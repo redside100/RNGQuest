@@ -9,7 +9,7 @@ import com.redside.rngquest.utils.Assets;
 
 import java.util.ArrayList;
 
-public class Wizard extends Entity{
+public class Blob extends Entity{
 
     private int tick = 0;
     private Animator animator;
@@ -18,35 +18,30 @@ public class Wizard extends Entity{
     private ArrayList<Bitmap> attackFrames = new ArrayList<>();
     private ArrayList<Bitmap> damageFrame = new ArrayList<>();
 
-    public Wizard(int hp, int atk, int x, int y, int startingAlpha){
+    public Blob(int hp, int atk, int x, int y, int startingAlpha){
 
-        super("Wizard", hp, atk, x, y, startingAlpha);
+        super("Blob", hp, atk, x, y, startingAlpha);
 
-        // Add forward idle frames
-        for (int i = 0; i < 10; i++){
-            idleFrames.add(Assets.getBitmapFromMemory("sprites_wizard_idle_" + i));
-        }
-
-        // Add reverse idle frames
-        for (int i = 9; i >= 0; i--){
-            idleFrames.add(Assets.getBitmapFromMemory("sprites_wizard_idle_" + i));
-        }
-
-        // Add wizard attack frames
-        for (int i = 0; i < 10; i++){
-            attackFrames.add(Assets.getBitmapFromMemory("sprites_wizard_attack_" + i));
-        }
-
-        // Add extra 5 frames in case of lag (so animation will only play one time);
+        // Add idle frames
         for (int i = 0; i < 5; i++){
-            attackFrames.add(Assets.getBitmapFromMemory("sprites_wizard_attack_9"));
+            idleFrames.add(Assets.getBitmapFromMemory("sprites_blob_idle_" + i));
+        }
+
+        // Add attack frames
+        for (int i = 0; i < 12; i++){
+            attackFrames.add(Assets.getBitmapFromMemory("sprites_blob_attack_" + i));
+        }
+
+        // Add extra 10 frames in case of lag
+        for (int i = 0; i < 10; i++){
+            attackFrames.add(Assets.getBitmapFromMemory("sprites_blob_attack_0"));
         }
 
         // Add damage frame (sadly, it has to be a list because it renders the current animator sprite
-        damageFrame.add(Assets.getBitmapFromMemory("sprites_wizard_damage"));
+        damageFrame.add(Assets.getBitmapFromMemory("sprites_blob_damage"));
 
         animator = new Animator(idleFrames);
-        animator.setSpeed(120);
+        animator.setSpeed(150);
         animator.play();
         animator.update(System.currentTimeMillis());
     }
@@ -57,12 +52,15 @@ public class Wizard extends Entity{
         switch(newState){
             case IDLE:
                 animator.replace(idleFrames);
+                animator.setSpeed(150);
                 break;
             case ATTACK:
                 animator.replace(attackFrames);
+                animator.setSpeed(80);
                 break;
             case DAMAGE:
                 animator.replace(damageFrame);
+                animator.setSpeed(150);
                 break;
         }
     }

@@ -1,6 +1,7 @@
 package com.redside.rngquest.gameobjects;
 
 import android.content.Context;
+import android.content.res.Resources;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -23,15 +24,17 @@ public class CoreView extends View {
     private Loop loop;
     private int width;
     private int height;
+    public static Resources resources;
     public CoreView(Context context, int width, int height) {
         super(context);
         this.width = width;
         this.height = height;
+        this.resources = getResources();
         init();
     }
     private void init(){
         // Init assets, main manager, game loop, and set font
-        assets = new Assets(getContext());
+        assets = new Assets(getContext(), width, height);
         manager = new CoreManager(width, height);
         loop = new Loop(this);
         font = Typeface.createFromAsset(getContext().getAssets(), "fonts/font.ttf");

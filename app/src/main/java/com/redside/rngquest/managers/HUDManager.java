@@ -7,6 +7,7 @@ import android.graphics.Paint;
 import android.graphics.Rect;
 import android.view.MotionEvent;
 
+import com.redside.rngquest.R;
 import com.redside.rngquest.buttons.AttackButton;
 import com.redside.rngquest.buttons.DefendButton;
 import com.redside.rngquest.buttons.StartGameButton;
@@ -16,6 +17,7 @@ import com.redside.rngquest.buttons.WarriorSelectButton;
 import com.redside.rngquest.buttons.WizardSelectButton;
 import com.redside.rngquest.entities.Entity;
 import com.redside.rngquest.entities.Player;
+import com.redside.rngquest.gameobjects.CoreView;
 import com.redside.rngquest.hudobjects.FadedText;
 import com.redside.rngquest.hudobjects.ParabolicText;
 import com.redside.rngquest.utils.Assets;
@@ -89,8 +91,14 @@ public class HUDManager {
                 Bitmap defend = Assets.getBitmapFromMemory("button_defend");
                 //temp
                 StateChangeButton bBackB = new StateChangeButton(back, width / 2, (int) (height * 0.92), ScreenState.TITLE);
+
                 AttackButton bAttack = new AttackButton(attack, (int) (width * 0.08), (int) (height * 0.87));
                 DefendButton bDefend = new DefendButton(defend, (int) (width * 0.92), (int) (height * 0.87));
+                break;
+
+            case SHOP:
+                // temp
+                StateChangeButton nextB = new StateChangeButton(play, width / 2, height / 2, ScreenState.STAGE_TRANSITION);
                 break;
         }
     }
@@ -104,18 +112,18 @@ public class HUDManager {
 
             // Title Screen
             case TITLE:
-                drawCenteredText("RNG Quest", canvas, width / 2, (int) (height / 3.5), paint, 150, Color.WHITE);
+                drawCenteredText("RNG Quest", canvas, width / 2, (int) (height / 3.5), paint, 50, Color.WHITE);
                 break;
 
             // Info Screen
             case INFO:
-                drawCenteredText("Info", canvas, width / 2, (int) (height / 3.5), paint, 150, Color.WHITE);
-                drawCenteredText("There's nothing here lol", canvas, width / 2, height / 2, paint, 100, Color.WHITE);
+                drawCenteredText("Info", canvas, width / 2, (int) (height / 3.5), paint, 50, Color.WHITE);
+                drawCenteredText("There's nothing here lol", canvas, width / 2, height / 2, paint, 30, Color.WHITE);
                 break;
 
             // Character Selection Screen
             case CHAR_SELECT:
-                drawCenteredText("Character Select", canvas, width / 2, (int) (height / 3.5), paint, 150, Color.WHITE);
+                drawCenteredText("Character Select", canvas, width / 2, (int) (height / 3.5), paint, 50, Color.WHITE);
                 String character = "";
                 switch(selection){
                     case 1: // Mage
@@ -128,12 +136,12 @@ public class HUDManager {
                         character = "Tank: +7 ATK (40%), +90 HP, +40 AMR, +20% EVA";
                         break;
                 }
-                drawCenteredText(character, canvas, width / 2, (int) (height * 0.83), paint, 75, Color.rgb(0,191,255));
+                drawCenteredText(character, canvas, width / 2, (int) (height * 0.83), paint, 25, Color.rgb(0,191,255));
                 break;
 
             // Stage Transition Screen
             case STAGE_TRANSITION:
-                drawCenteredText("Stage " + GameManager.getStage(), canvas, width / 2, (int) (height / 3.5), paint, 150, Color.YELLOW);
+                drawCenteredText("Stage " + GameManager.getStage(), canvas, width / 2, (int) (height / 3.5), paint, 50, Color.YELLOW);
                 String role = "";
                 Bitmap picture = null;
                 switch(Player.getRole()){
@@ -150,10 +158,10 @@ public class HUDManager {
                         picture = Assets.getBitmapFromMemory("sprites_tank");
                         break;
                 }
-                drawCenteredText(role, canvas, (int) (width * 0.3), (int) (height / 2.5), paint, 120, Color.WHITE);
+                drawCenteredText(role, canvas, (int) (width * 0.3), (int) (height / 2.5), paint, 40, Color.WHITE);
                 drawCenteredBitmap(picture, canvas, paint, (int) (width * 0.3), (int) (height * 0.6));
 
-                drawCenteredText(Player.getGold() + " G", canvas, (int) (width * 0.3), (int) (height * 0.91), paint, 100, Color.YELLOW);
+                drawCenteredText(Player.getGold() + " G", canvas, (int) (width * 0.3), (int) (height * 0.91), paint, 40, Color.YELLOW);
 
                 String[] info = {
                         "HP: " + Player.getHP() + "/" + Player.getMaxHP(),
@@ -163,17 +171,13 @@ public class HUDManager {
                 };
                 int[] colors = {Color.RED, Color.rgb(255, 80, 0), Color.CYAN, Color.GREEN};
                 double factor = 0.47;
+                paint.setTextSize(40 * CoreView.resources.getDisplayMetrics().density);
                 for (int i = 0; i < 4; i++){
                     paint.setColor(colors[i]);
                     canvas.drawText(info[i], (int) (width * 0.5), (int) (height * factor), paint);
                     paint.setColor(Color.WHITE);
                     factor += 0.1;
                 }
-                break;
-
-            // Incoming Enemy Screen
-            case INCOMING_ENEMY:
-
                 break;
 
             // Battle Screen
@@ -197,7 +201,7 @@ public class HUDManager {
                 drawCenteredBitmap(swordsIcon, canvas, paint, (int) (width * 0.05), (int) (height * 0.28));
                 drawCenteredBitmap(evadeIcon, canvas, paint, (int) (width * 0.05), (int) (height * 0.38));
                 for (int i = 0; i < 4; i++){
-                    drawTextWithBorder(iconInfo[i], canvas, (int) (width * 0.1), (int) (height * iconFactor), paint, 75, iconColors[i]);
+                    drawTextWithBorder(iconInfo[i], canvas, (int) (width * 0.1), (int) (height * iconFactor), paint, 25, iconColors[i]);
                     iconFactor += 0.1;
                 }
 
@@ -205,22 +209,27 @@ public class HUDManager {
                 Entity currEnemy = BattleManager.getCurrentEnemy();
                 if (currEnemy != null){
                     drawCenteredTextWithBorder(currEnemy.getName() + ": " + currEnemy.getHP() + "/" + currEnemy.getMaxHP(), canvas, width / 2,
-                            (int) (height * 0.12), paint, 75, Color.rgb(0,191,255));
+                            (int) (height * 0.12), paint, 25, Color.rgb(0,191,255));
                 }else{
-                    drawCenteredTextWithBorder("Waiting enemy...", canvas, width / 2, (int) (height * 0.12), paint, 75, Color.rgb(0,191,255));
+                    drawCenteredTextWithBorder("Waiting for enemy...", canvas, width / 2, (int) (height * 0.12), paint, 25, Color.rgb(0,191,255));
                 }
                 break;
+
+            case SHOP:
+
+
         }
     }
     public void drawCenteredText(String text, Canvas canvas, int x, int y, Paint paint, int textSize, int color){
+        float old = paint.getTextSize();
+        double scaledTextSize = textSize * CoreView.resources.getDisplayMetrics().density;
         paint.setColor(color);
-        paint.setTextSize(textSize);
+        paint.setTextSize((int) scaledTextSize);
         Rect bounds = new Rect();
         // Get bounds of the text, then center
         paint.getTextBounds(text, 0, text.length(), bounds);
         x -= bounds.width() / 2;
         y -= bounds.height() / 2;
-        float old = paint.getTextSize();
         canvas.drawText(text, x, y, paint);
         paint.setTextSize(old);
         paint.setColor(Color.WHITE);
@@ -233,7 +242,8 @@ public class HUDManager {
     public void drawTextWithBorder(String text, Canvas canvas, int x, int y, Paint paint, int textSize, int color){
         paint.setColor(color);
         float old = paint.getTextSize();
-        paint.setTextSize(textSize);
+        double scaledTextSize = textSize * CoreView.resources.getDisplayMetrics().density;
+        paint.setTextSize((int) scaledTextSize);
         paint.setStyle(Paint.Style.FILL);
         paint.setShadowLayer(3, 0, 0, Color.BLACK);
         // Draw normal text
@@ -245,7 +255,8 @@ public class HUDManager {
     public void drawCenteredTextWithBorder(String text, Canvas canvas, int x, int y, Paint paint, int textSize, int color){
         paint.setColor(color);
         float old = paint.getTextSize();
-        paint.setTextSize(textSize);
+        double scaledTextSize = textSize * CoreView.resources.getDisplayMetrics().density;
+        paint.setTextSize((int) scaledTextSize);
         paint.setStyle(Paint.Style.FILL);
 
         Rect bounds = new Rect();
