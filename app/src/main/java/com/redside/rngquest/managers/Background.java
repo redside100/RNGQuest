@@ -61,13 +61,16 @@ public class Background {
             case BATTLE:
                 background.add(Assets.getBitmapFromMemory("background_forest"));
                 break;
+            case SHOP:
+                background.add(Assets.getBitmapFromMemory("background_mountains"));
+                break;
             default:
-                background.add(Assets.getBitmapFromMemory("background_black"));
+                background.add(Assets.getBitmapFromMemory("background_mountains"));
         }
         animate.replace(background);
     }
     public void render(Canvas canvas, Paint paint){
-        if (background != null){
+        if (background.size() > 0){
             canvas.drawBitmap(animate.sprite, 0, 0, paint);
             animate.update(System.currentTimeMillis());
         }

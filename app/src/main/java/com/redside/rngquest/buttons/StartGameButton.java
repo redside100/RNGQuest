@@ -15,8 +15,8 @@ public class StartGameButton extends Button {
     @Override
     public void trigger(){
         if (HUDManager.selection != 0){
-            // Set screen state to STAGE_TRANSITION after when that is set up
-            SEManager.playEffect(SEManager.Effect.FADE_TRANSITION, ScreenState.STAGE_TRANSITION);
+            // Temporarily set to shop when testing
+            SEManager.playEffect(SEManager.Effect.FADE_TRANSITION, ScreenState.SHOP);
         }
     }
 }

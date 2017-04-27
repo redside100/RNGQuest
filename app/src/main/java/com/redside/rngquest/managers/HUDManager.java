@@ -20,6 +20,7 @@ import com.redside.rngquest.entities.Player;
 import com.redside.rngquest.gameobjects.CoreView;
 import com.redside.rngquest.hudobjects.FadedText;
 import com.redside.rngquest.hudobjects.ParabolicText;
+import com.redside.rngquest.items.SmallPotionItem;
 import com.redside.rngquest.utils.Assets;
 
 public class HUDManager {
@@ -98,15 +99,11 @@ public class HUDManager {
 
             case SHOP:
                 // temp
-                StateChangeButton nextB = new StateChangeButton(play, width / 2, height / 2, ScreenState.STAGE_TRANSITION);
+                StateChangeButton nextB = new StateChangeButton(start, (int) (width * 0.9), (int) (height * 0.9), ScreenState.STAGE_TRANSITION);
                 break;
         }
     }
     public void render(Canvas canvas, Paint paint){
-        // Render all buttons + faded text
-        buttonManager.render(canvas, paint);
-        entityManager.render(canvas, paint);
-        animatedTextManager.render(canvas, paint);
         // Render all text, HUD items, etc. depending on state
         switch(CoreManager.state){
 
@@ -126,6 +123,9 @@ public class HUDManager {
                 drawCenteredText("Character Select", canvas, width / 2, (int) (height / 3.5), paint, 50, Color.WHITE);
                 String character = "";
                 switch(selection){
+                    case 0:
+                        character = "Choose a character...";
+                        break;
                     case 1: // Mage
                         character = "Mage: +15 ATK (70%), +20 HP, +70% EVA";
                         break;
@@ -161,7 +161,7 @@ public class HUDManager {
                 drawCenteredText(role, canvas, (int) (width * 0.3), (int) (height / 2.5), paint, 40, Color.WHITE);
                 drawCenteredBitmap(picture, canvas, paint, (int) (width * 0.3), (int) (height * 0.6));
 
-                drawCenteredText(Player.getGold() + " G", canvas, (int) (width * 0.3), (int) (height * 0.91), paint, 40, Color.YELLOW);
+                drawCenteredText(Player.getGold() + " G", canvas, (int) (width * 0.3), (int) (height * 0.91), paint, 35, Color.YELLOW);
 
                 String[] info = {
                         "HP: " + Player.getHP() + "/" + Player.getMaxHP(),
@@ -171,7 +171,7 @@ public class HUDManager {
                 };
                 int[] colors = {Color.RED, Color.rgb(255, 80, 0), Color.CYAN, Color.GREEN};
                 double factor = 0.47;
-                paint.setTextSize(40 * CoreView.resources.getDisplayMetrics().density);
+                paint.setTextSize(37 * CoreView.resources.getDisplayMetrics().density);
                 for (int i = 0; i < 4; i++){
                     paint.setColor(colors[i]);
                     canvas.drawText(info[i], (int) (width * 0.5), (int) (height * factor), paint);
@@ -215,10 +215,21 @@ public class HUDManager {
                 }
                 break;
 
+
             case SHOP:
+
+                Bitmap itemMenu = Assets.getBitmapFromMemory("menu_shop_items");
+                canvas.drawBitmap(itemMenu, 0, 0, paint);
+                SmallPotionItem testItem = new SmallPotionItem();
+                drawCenteredBitmap(testItem.getBitmap(), canvas, paint, (int) (width * 0.613), height / 6);
+                drawCenteredText(testItem.getCost() + "G", canvas, (int) (width * 0.613), height / 3, paint, 25, Color.YELLOW);
 
 
         }
+        // Render all buttons + faded text
+        buttonManager.render(canvas, paint);
+        entityManager.render(canvas, paint);
+        animatedTextManager.render(canvas, paint);
     }
     public void drawCenteredText(String text, Canvas canvas, int x, int y, Paint paint, int textSize, int color){
         float old = paint.getTextSize();

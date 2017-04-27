@@ -34,6 +34,7 @@ public class Assets {
         bitmapDb.put("background_title2", getBitmap(context, "backgrounds/title2.png"));
         bitmapDb.put("background_title_clouds", getBitmap(context, "backgrounds/title_clouds.png"));
         bitmapDb.put("background_forest", getBitmap(context, "backgrounds/forest.png"));
+        bitmapDb.put("background_mountains", getBitmap(context, "backgrounds/mountains.png"));
 
         // Char portraits
         bitmapDb.put("sprites_block", getBitmap(context, "sprites/block.png"));
@@ -42,7 +43,7 @@ public class Assets {
         bitmapDb.put("sprites_tank", getBitmap(context, "sprites/tank.png"));
 
         // Menus
-        bitmapDb.put("menus_shop_items", getBitmap(context, "menus/shop_item_menu.png"));
+        bitmapDb.put("menu_shop_items", getBitmap(context, "menus/shop_item_menu.png"));
 
         // Slash
         for (int i = 0; i < 8; i++){
@@ -91,6 +92,11 @@ public class Assets {
         bitmapDb.put("icons_armor", getBitmap(context, "icons/armor.png"));
         bitmapDb.put("icons_evade", getBitmap(context, "icons/evade.png"));
         bitmapDb.put("icons_swords", getBitmap(context, "icons/swords.png"));
+
+        // Items
+        bitmapDb.put("items_small_potion", getBitmap(context, "items/small_potion.png"));
+        bitmapDb.put("items_large_potion", getBitmap(context, "items/large_potion.png"));
+        bitmapDb.put("items_mana_potion", getBitmap(context, "items/mana_potion.png"));
 
         // Sounds
         soundDb.put("title_theme", getSoundDesc(context, "sounds/title.ogg"));
