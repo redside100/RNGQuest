@@ -25,9 +25,9 @@ public class SEManager {
                         // Set states, and prepare to fade out
                         fade = false;
                         CoreManager.state = nextState;
-                        HUDManager.onStateChange(nextState);
                         Background.onStateChange(nextState);
                         GameManager.onStateChange(nextState);
+                        HUDManager.onStateChange(nextState);
                         HUDManager.selection = 0;
                     }
                     // Check if fading out

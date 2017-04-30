@@ -44,6 +44,7 @@ public class Assets {
 
         // Menus
         bitmapDb.put("menu_shop_items", getBitmap(context, "menus/shop_item_menu.png"));
+        bitmapDb.put("menu_selected_item", getBitmap(context, "menus/selectedItem.png"));
 
         // Slash
         for (int i = 0; i < 8; i++){

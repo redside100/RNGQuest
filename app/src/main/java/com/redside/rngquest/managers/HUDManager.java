@@ -7,9 +7,9 @@ import android.graphics.Paint;
 import android.graphics.Rect;
 import android.view.MotionEvent;
 
-import com.redside.rngquest.R;
 import com.redside.rngquest.buttons.AttackButton;
 import com.redside.rngquest.buttons.DefendButton;
+import com.redside.rngquest.buttons.ShopItemButton;
 import com.redside.rngquest.buttons.StartGameButton;
 import com.redside.rngquest.buttons.StateChangeButton;
 import com.redside.rngquest.buttons.TankSelectButton;
@@ -18,10 +18,12 @@ import com.redside.rngquest.buttons.WizardSelectButton;
 import com.redside.rngquest.entities.Entity;
 import com.redside.rngquest.entities.Player;
 import com.redside.rngquest.gameobjects.CoreView;
+import com.redside.rngquest.gameobjects.Item;
 import com.redside.rngquest.hudobjects.FadedText;
 import com.redside.rngquest.hudobjects.ParabolicText;
-import com.redside.rngquest.items.SmallPotionItem;
 import com.redside.rngquest.utils.Assets;
+
+import java.util.ArrayList;
 
 public class HUDManager {
     public static int width = 0;
@@ -92,13 +94,21 @@ public class HUDManager {
                 Bitmap defend = Assets.getBitmapFromMemory("button_defend");
                 //temp
                 StateChangeButton bBackB = new StateChangeButton(back, width / 2, (int) (height * 0.92), ScreenState.TITLE);
-
                 AttackButton bAttack = new AttackButton(attack, (int) (width * 0.08), (int) (height * 0.87));
                 DefendButton bDefend = new DefendButton(defend, (int) (width * 0.92), (int) (height * 0.87));
                 break;
 
             case SHOP:
                 // temp
+                ArrayList<Item> spellItems = new ArrayList<>(GameManager.getShopSpellInventory().getItems());
+                ArrayList<Item> consumableItems = new ArrayList<>(GameManager.getShopConsumableInventory().getItems());
+                double sFactor = 0.613;
+                for (int i = 0; i < spellItems.size(); i++){
+                    System.out.println(i + " " + (i+3));
+                    ShopItemButton itemB = new ShopItemButton(spellItems.get(i).getBitmap(), (int) (width * sFactor), height / 6, i + 1);
+                    ShopItemButton itemS = new ShopItemButton(consumableItems.get(i).getBitmap(), (int) (width * sFactor), (int) (height * 0.49), i + 4);
+                    sFactor += 0.144;
+                }
                 StateChangeButton nextB = new StateChangeButton(start, (int) (width * 0.9), (int) (height * 0.9), ScreenState.STAGE_TRANSITION);
                 break;
         }
@@ -188,6 +198,7 @@ public class HUDManager {
                 Bitmap armorIcon = Assets.getBitmapFromMemory("icons_armor");
                 Bitmap evadeIcon = Assets.getBitmapFromMemory("icons_evade");
                 Bitmap swordsIcon = Assets.getBitmapFromMemory("icons_swords");
+                Bitmap emptyButton = Assets.getBitmapFromMemory("button_empty");
                 String iconInfo[] = {
                         Player.getHP() + "/" + Player.getMaxHP(),
                         Player.getArmor() + "/" + Player.getMaxArmor(),
@@ -219,10 +230,32 @@ public class HUDManager {
             case SHOP:
 
                 Bitmap itemMenu = Assets.getBitmapFromMemory("menu_shop_items");
+                Bitmap selected = Assets.getBitmapFromMemory("menu_selected_item");
                 canvas.drawBitmap(itemMenu, 0, 0, paint);
-                SmallPotionItem testItem = new SmallPotionItem();
-                drawCenteredBitmap(testItem.getBitmap(), canvas, paint, (int) (width * 0.613), height / 6);
-                drawCenteredText(testItem.getCost() + "G", canvas, (int) (width * 0.613), height / 3, paint, 25, Color.YELLOW);
+                ArrayList<Item> spellItems = new ArrayList<>(GameManager.getShopSpellInventory().getItems());
+                ArrayList<Item> consumableItems = new ArrayList<>(GameManager.getShopConsumableInventory().getItems());
+                double sFactor = 0.613;
+                for (Item item : spellItems){
+                    drawCenteredText(item.getCost() + "G", canvas, (int) (width * sFactor), (int) (height * 0.34), paint, 25, Color.YELLOW);
+                    sFactor += 0.144;
+                }
+                sFactor = 0.613;
+                for (Item item : consumableItems){
+                    drawCenteredText(item.getCost() + "G", canvas, (int) (width * sFactor), (int) (height * 0.66), paint, 25, Color.YELLOW);
+                    sFactor += 0.144;
+                }
+
+                int sel = GameManager.shopSelection;
+                if (sel == 0){
+                    drawCenteredText("Welcome to the shop!", canvas, width / 2, (int) (height * 0.87), paint, 25, Color.WHITE);
+                }
+                else if (sel > 0 && sel < 4){
+                    drawCenteredBitmap(selected, canvas, paint, (int) (width * (0.469 + (0.144 * sel))), height / 6);
+                    drawCenteredText(spellItems.get(sel - 1).getDescription(), canvas, width / 2, (int) (height * 0.87), paint, 25, Color.WHITE);
+                }else if (sel > 3 && sel < 7){
+                    drawCenteredBitmap(selected, canvas, paint, (int) (width * (0.469 + (0.144 * (sel - 3)))), (int) (height * 0.49));
+                    drawCenteredText(consumableItems.get(sel - 4).getDescription(), canvas, width / 2, (int) (height * 0.87), paint, 25, Color.WHITE);
+                }
 
 
         }

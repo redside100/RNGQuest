@@ -22,4 +22,16 @@ public class Inventory {
     public boolean hasItem(Item item){
         return items.contains(item);
     }
+    public void useItem(Item item){
+        if (items.contains(item)){
+            item.use();
+            removeItem(item);
+        }
+    }
+    public ArrayList<Item> getItems(){
+        return items;
+    }
+    public void clear(){
+        items.clear();
+    }
 }

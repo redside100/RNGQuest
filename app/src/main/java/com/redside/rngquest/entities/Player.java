@@ -1,11 +1,16 @@
 package com.redside.rngquest.entities;
 
+import com.redside.rngquest.gameobjects.Inventory;
+import com.redside.rngquest.gameobjects.Item;
+
 public class Player {
-    private static int hp, maxHp, atk, atkChance, evade, armor, maxArmor, gold, atkChanceBonus = 0;
+    private static int hp, maxHp, mana, maxMana, atk, atkChance, evade, armor, maxArmor, gold, atkChanceBonus = 0;
+    private static Inventory inventory = new Inventory();
     private static Role role;
     public static void spawn(int choice){
         atkChanceBonus = 0;
         gold = 0;
+        inventory.clear();
         // reset stats and stuff
         // 1 is Mage, 2 is Warrior, 3 is Tank
         switch(choice){
@@ -18,6 +23,8 @@ public class Player {
                 evade = 70;
                 armor = 0;
                 maxArmor = 0;
+                mana = 50;
+                maxMana = 50;
                 break;
             case 2:
                 role = Role.WARRIOR;
@@ -28,6 +35,8 @@ public class Player {
                 evade = 35;
                 armor = 10;
                 maxArmor = 10;
+                mana = 0;
+                maxMana = 0;
                 break;
             case 3:
                 role = Role.TANK;
@@ -38,15 +47,58 @@ public class Player {
                 evade = 20;
                 armor = 40;
                 maxArmor = 40;
+                mana = 0;
+                maxMana = 0;
                 break;
         }
 
+    }
+    public Inventory getInventory(){
+        return inventory;
+    }
+    public static boolean hasSpell(){
+        for (Item item : inventory.getItems()){
+            Item.ItemType itemType = item.getItemType();
+            if (itemType.equals(Item.ItemType.AGILITY_SPELL) ||
+                    itemType.equals(Item.ItemType.ARMOR_SPELL) ||
+                    itemType.equals(Item.ItemType.FIREBALL_SPELL) ||
+                    itemType.equals(Item.ItemType.TRIPLE_ATTACK_SPELL)){
+                return true;
+            }
+        }
+        return false;
     }
     public static void addAtkChanceBonus(int bonus){
         atkChanceBonus += bonus;
     }
     public static void resetAtkChanceBonus(){
         atkChanceBonus = 0;
+    }
+    public static int getMana(){
+        return mana;
+    }
+    public static int getMaxMana(){
+        return maxMana;
+    }
+    public static void addMana(int amount){
+        if (mana + amount <= maxMana){
+            mana += amount;
+        }else{
+            mana = maxMana;
+        }
+    }
+    public static void increaseMaxMana(int amount){
+        maxMana += amount;
+    }
+    public static void removeMana(int amount){
+        if (mana - amount >= 0){
+            mana -= amount;
+        }else{
+            mana = 0;
+        }
+    }
+    public static boolean hasEnoughMana(int amount){
+        return mana >= amount;
     }
     public static void addGold(int amount){
         if (gold + amount < 9999){
@@ -134,10 +186,10 @@ public class Player {
         return evade;
     }
     public static void addEvade(int amount){
-        if (evade + amount < 100){
+        if (evade + amount < 80){
             evade += amount;
         }else{
-            evade = 100;
+            evade = 80;
         }
     }
     public static int getArmor(){
