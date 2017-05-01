@@ -104,12 +104,12 @@ public class HUDManager {
                 ArrayList<Item> consumableItems = new ArrayList<>(GameManager.getShopConsumableInventory().getItems());
                 double sFactor = 0.613;
                 for (int i = 0; i < spellItems.size(); i++){
-                    System.out.println(i + " " + (i+3));
                     ShopItemButton itemB = new ShopItemButton(spellItems.get(i).getBitmap(), (int) (width * sFactor), height / 6, i + 1);
                     ShopItemButton itemS = new ShopItemButton(consumableItems.get(i).getBitmap(), (int) (width * sFactor), (int) (height * 0.49), i + 4);
                     sFactor += 0.144;
                 }
-                StateChangeButton nextB = new StateChangeButton(start, (int) (width * 0.9), (int) (height * 0.9), ScreenState.STAGE_TRANSITION);
+                Bitmap next = Assets.getBitmapFromMemory("button_next");
+                StateChangeButton nextB = new StateChangeButton(next, (int) (width * 0.07), (int) (height * 0.075), ScreenState.STAGE_TRANSITION);
                 break;
         }
     }
@@ -198,7 +198,7 @@ public class HUDManager {
                 Bitmap armorIcon = Assets.getBitmapFromMemory("icons_armor");
                 Bitmap evadeIcon = Assets.getBitmapFromMemory("icons_evade");
                 Bitmap swordsIcon = Assets.getBitmapFromMemory("icons_swords");
-                Bitmap emptyButton = Assets.getBitmapFromMemory("button_empty");
+
                 String iconInfo[] = {
                         Player.getHP() + "/" + Player.getMaxHP(),
                         Player.getArmor() + "/" + Player.getMaxArmor(),
@@ -232,29 +232,51 @@ public class HUDManager {
                 Bitmap itemMenu = Assets.getBitmapFromMemory("menu_shop_items");
                 Bitmap selected = Assets.getBitmapFromMemory("menu_selected_item");
                 canvas.drawBitmap(itemMenu, 0, 0, paint);
+                float old = paint.getTextSize();
+                paint.setColor(Color.YELLOW);
+                paint.setTextSize(25 * CoreView.resources.getDisplayMetrics().density);
+                canvas.drawText(Player.getGold() + " G", (int) (width * 0.14), (int) (height * 0.09), paint);
+                paint.setColor(Color.WHITE);
+                paint.setTextSize(old);
+
                 ArrayList<Item> spellItems = new ArrayList<>(GameManager.getShopSpellInventory().getItems());
                 ArrayList<Item> consumableItems = new ArrayList<>(GameManager.getShopConsumableInventory().getItems());
                 double sFactor = 0.613;
                 for (Item item : spellItems){
-                    drawCenteredText(item.getCost() + "G", canvas, (int) (width * sFactor), (int) (height * 0.34), paint, 25, Color.YELLOW);
+                    drawCenteredText(item.getCost() + " G", canvas, (int) (width * sFactor), (int) (height * 0.34), paint, 25, Color.YELLOW);
                     sFactor += 0.144;
                 }
                 sFactor = 0.613;
                 for (Item item : consumableItems){
-                    drawCenteredText(item.getCost() + "G", canvas, (int) (width * sFactor), (int) (height * 0.66), paint, 25, Color.YELLOW);
+                    drawCenteredText(item.getCost() + " G", canvas, (int) (width * sFactor), (int) (height * 0.66), paint, 25, Color.YELLOW);
                     sFactor += 0.144;
                 }
 
                 int sel = GameManager.shopSelection;
                 if (sel == 0){
-                    drawCenteredText("Welcome to the shop!", canvas, width / 2, (int) (height * 0.87), paint, 25, Color.WHITE);
+                    drawCenteredText("Welcome to the shop!", canvas, width / 2, (int) (height * 0.88), paint, 25, Color.WHITE);
                 }
                 else if (sel > 0 && sel < 4){
+                    Item item = spellItems.get(sel - 1);
                     drawCenteredBitmap(selected, canvas, paint, (int) (width * (0.469 + (0.144 * sel))), height / 6);
-                    drawCenteredText(spellItems.get(sel - 1).getDescription(), canvas, width / 2, (int) (height * 0.87), paint, 25, Color.WHITE);
+                    drawCenteredText(item.getDescription(), canvas, width / 2, (int) (height * 0.85), paint, 25, Color.WHITE);
+                    if (Player.hasEnoughGold(item.getCost())){
+                        drawCenteredText("Tap again to purchase.", canvas, width / 2, (int) (height * 0.92), paint, 25, Color.GREEN);
+                    }else{
+                        drawCenteredText("Not enough gold.", canvas, width / 2, (int) (height * 0.92), paint, 25, Color.RED);
+                    }
                 }else if (sel > 3 && sel < 7){
+                    Item item = consumableItems.get(sel - 4);
                     drawCenteredBitmap(selected, canvas, paint, (int) (width * (0.469 + (0.144 * (sel - 3)))), (int) (height * 0.49));
-                    drawCenteredText(consumableItems.get(sel - 4).getDescription(), canvas, width / 2, (int) (height * 0.87), paint, 25, Color.WHITE);
+                    drawCenteredText(item.getDescription(), canvas, width / 2, (int) (height * 0.85), paint, 25, Color.WHITE);
+                    if (Player.hasEnoughGold(item.getCost())){
+                        drawCenteredText("Tap again to purchase.", canvas, width / 2, (int) (height * 0.92), paint, 25, Color.GREEN);
+                    }else{
+                        drawCenteredText("Not enough gold.", canvas, width / 2, (int) (height * 0.92), paint, 25, Color.RED);
+                    }
+                }
+                if (sel == 7){
+                    drawCenteredText("Item bought!", canvas, width / 2, (int) (height * 0.88), paint, 25, Color.WHITE);
                 }
 
 

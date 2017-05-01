@@ -9,7 +9,7 @@ public class Player {
     private static Role role;
     public static void spawn(int choice){
         atkChanceBonus = 0;
-        gold = 0;
+        gold = 100;
         inventory.clear();
         // reset stats and stuff
         // 1 is Mage, 2 is Warrior, 3 is Tank

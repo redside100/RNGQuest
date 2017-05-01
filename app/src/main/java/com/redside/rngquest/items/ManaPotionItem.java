@@ -7,7 +7,7 @@ import com.redside.rngquest.utils.Assets;
 
 public class ManaPotionItem extends Item {
     public ManaPotionItem(){
-        super(ItemType.MANA_POTION, ClassItem.ALL, "A potion that recovers 50% of your maximum MP." , 75, Assets.getBitmapFromMemory("items_mana_potion"));
+        super(ItemType.MANA_POTION, ClassItem.ALL, "Mana Potion: Restores 50% MP" , 75, Assets.getBitmapFromMemory("items_mana_potion"));
     }
 
     @Override

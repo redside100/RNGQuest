@@ -1,9 +1,14 @@
 package com.redside.rngquest.managers;
 
 
+import android.graphics.Bitmap;
 import android.os.Handler;
 
+import com.redside.rngquest.buttons.ShopItemButton;
+import com.redside.rngquest.buttons.StateChangeButton;
 import com.redside.rngquest.entities.Ghost;
+import com.redside.rngquest.entities.Player;
+import com.redside.rngquest.gameobjects.Button;
 import com.redside.rngquest.gameobjects.Inventory;
 import com.redside.rngquest.gameobjects.Item;
 import com.redside.rngquest.items.LargePotionItem;
@@ -11,6 +16,8 @@ import com.redside.rngquest.items.ManaPotionItem;
 import com.redside.rngquest.items.SmallPotionItem;
 import com.redside.rngquest.utils.Assets;
 import com.redside.rngquest.utils.RNG;
+
+import java.util.ArrayList;
 
 public class GameManager {
     public static int stage = 1;
@@ -92,6 +99,49 @@ public class GameManager {
     }
     public static Inventory getShopConsumableInventory(){
         return shopConsumableInventory;
+    }
+    public static void buyShopItem(int selection){
+        if (selection > 0 && selection < 4){
+            int index = selection - 1;
+            Item item = getShopSpellInventory().getItems().get(index);
+            if (Player.hasEnoughGold(item.getCost())){
+                // Player.getInventory().addItem(item)
+                Player.removeGold(item.getCost());
+                getShopSpellInventory().removeItem(item);
+                shopSelection = 7;
+                recreateShopButtons();
+            }
+        }else if (selection > 3 && selection < 7){
+            int index = selection - 4;
+            Item item = getShopConsumableInventory().getItems().get(index);
+            if (Player.hasEnoughGold(item.getCost())){
+                // Player.getInventory().addItem(item)
+                Player.removeGold(item.getCost());
+                getShopConsumableInventory().removeItem(item);
+                shopSelection = 7;
+                recreateShopButtons();
+            }
+        }
+    }
+    private static void recreateShopButtons(){
+        ArrayList<Button> temp = new ArrayList<>(ButtonManager.getButtons());
+        for (Button button : temp){
+            if (button instanceof ShopItemButton){
+                button.destroy();
+            }
+        }
+        ArrayList<Item> spellItems = new ArrayList<>(getShopSpellInventory().getItems());
+        ArrayList<Item> consumableItems = new ArrayList<>(getShopConsumableInventory().getItems());
+        double sFactor = 0.613;
+        for (int i = 0; i < spellItems.size(); i++){
+            ShopItemButton itemB = new ShopItemButton(spellItems.get(i).getBitmap(), (int) (width * sFactor), height / 6, i + 1);
+            sFactor += 0.144;
+        }
+        sFactor = 0.613;
+        for (int i = 0; i < consumableItems.size(); i++){
+            ShopItemButton itemS = new ShopItemButton(consumableItems.get(i).getBitmap(), (int) (width * sFactor), (int) (height * 0.49), i + 4);
+            sFactor += 0.144;
+        }
     }
     public static void reset(){
         stage = 1;

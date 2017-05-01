@@ -13,6 +13,9 @@ public class ButtonManager {
     public ButtonManager(){
         this.buttons = new ArrayList<>();
     }
+    public static ArrayList<Button> getButtons(){
+        return buttons;
+    }
     public static void addButton(Button button){
         if (!buttons.contains(button)){
             buttons.add(button);
@@ -39,7 +42,8 @@ public class ButtonManager {
         }
     }
     public void checkButtons(MotionEvent event){
-        for (Button button : buttons){
+        ArrayList<Button> temp = new ArrayList<>(buttons);
+        for (Button button : temp){
             button.setAlpha(255);
             if (buttonTouched(button, event)){
                 button.trigger();
@@ -47,7 +51,8 @@ public class ButtonManager {
         }
     }
     public void checkButtonPretouch(MotionEvent event){
-        for (Button button : buttons){
+        ArrayList<Button> temp = new ArrayList<>(buttons);
+        for (Button button : temp){
             if (buttonTouched(button, event)){
                 button.setAlpha(153);
             }
