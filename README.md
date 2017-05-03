@@ -24,3 +24,4 @@ Still need to add:
 * Bosses...?
 * Sound effects
 * Complete info screen (haha)
+* MORE COMMENTS :(
