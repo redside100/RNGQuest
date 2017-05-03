@@ -29,6 +29,7 @@ public class BattleManager {
                 break;
             case BATTLE_START:
                 switch(tick){
+                    // Initiate new battle
                     case 10:
                         int spawn = RNG.number(1, 3);
                         int stage = GameManager.getStage();
@@ -45,6 +46,7 @@ public class BattleManager {
                         }
                         currentEnemy.fadeIn(60);
                         break;
+                    // Set state to player's turn 130 ticks after initiating
                     case 140:
                         battleState = BattleState.PLAYER_TURN;
                         tick = 0;
@@ -54,6 +56,7 @@ public class BattleManager {
                 break;
             case REWARD:
                 switch(tick){
+                    // Give out rewards
                     case 10:
                         int stage = GameManager.getStage();
                         int goldReward = (stage * 3) + RNG.number(0, stage * 2);
@@ -89,6 +92,7 @@ public class BattleManager {
                                 break;
                         }
                         break;
+                    // Next battle, or announce stage clear
                     case 110:
                         if (GameManager.getPart() < 8){
                             GameManager.nextPart();
@@ -98,6 +102,7 @@ public class BattleManager {
                             HUDManager.displayFadeMessage("Stage " + GameManager.getStage() + " cleared!", width / 2, height / 2, 90, 35, Color.YELLOW);
                         }
                         break;
+                    // If stage cleared, then proceed to shop
                     case 230:
                         SEManager.playEffect(SEManager.Effect.FADE_TRANSITION, ScreenState.SHOP);
                         close();
@@ -107,22 +112,25 @@ public class BattleManager {
                 break;
             case PLAYER_ATTACK:
                 switch(tick){
+                    // Check for hit
                     case 10:
                         if (RNG.pass(Player.getATKChance())){
+                            double speed = HUDManager.getSpeed(CoreManager.width, 274);
                             if (RNG.yesNo()){
-                                HUDManager.displayParabolicText("-" + Player.getATK(), currentEnemy.x, (int) (currentEnemy.y - height * 0.1), 90, 32, Color.RED, -7);
+                                HUDManager.displayParabolicText("-" + Player.getATK(), (int) currentEnemy.x, (int) (currentEnemy.y - height * 0.1), 90, 32, Color.RED, -speed);
                             }else{
-                                HUDManager.displayParabolicText("-" + Player.getATK(), currentEnemy.x, (int) (currentEnemy.y - height * 0.1), 90, 32, Color.RED, 7);
+                                HUDManager.displayParabolicText("-" + Player.getATK(), (int) currentEnemy.x, (int) (currentEnemy.y - height * 0.1), 90, 32, Color.RED, speed);
                             }
                             SEManager.playEffect(SEManager.Effect.YELLOW_FLASH);
                             currentEnemy.shake(70);
                             currentEnemy.damage(Player.getATK());
                             currentEnemy.setState(EAState.DAMAGE);
                         }else{
-                            HUDManager.displayFadeMessage("MISS", currentEnemy.x, (int) (currentEnemy.y - height * 0.15), 30, 35, Color.RED);
+                            HUDManager.displayFadeMessage("MISS", (int) currentEnemy.x, (int) (currentEnemy.y - height * 0.15), 30, 35, Color.RED);
                         }
                         Player.resetAtkChanceBonus();
                         break;
+                    // Check if the enemy is dead, if it's not, proceed to enemy's turn
                     case 90:
                         if (currentEnemy.isDead()){
                             currentEnemy.fadeOut(60);
@@ -132,6 +140,7 @@ public class BattleManager {
                             tick = 0;
                         }
                         break;
+                    // If the enemy is dead, continue to reward state
                     case 160:
                         currentEnemy.destroy();
                         battleState = BattleState.REWARD;
@@ -142,15 +151,17 @@ public class BattleManager {
                 break;
             case PLAYER_DEFEND:
                 switch(tick){
+                    // Add armor and atk bonus
                     case 10:
                         SEManager.playEffect(SEManager.Effect.BLUE_FLASH);
                         int armorAmount = RNG.number(Player.getMaxArmor() / 4, Player.getMaxArmor() / 3);
                         int atkChanceAmount = RNG.number(Player.getRealATKChance() / 15, Player.getRealATKChance() / 10);
-                        HUDManager.displayFadeMessage("+ " + armorAmount + " AMR", width / 2, (int) (height * 0.72), 30, 30, Color.CYAN);
-                        HUDManager.displayFadeMessage("+ " + atkChanceAmount + "% ATK chance until next attack", width / 2, (int) (height * 0.8), 30, 30, Color.rgb(255, 80, 0));
+                        HUDManager.displayFadeMessage("+ " + armorAmount + " AMR", width / 2, (int) (height * 0.72), 30, 28, Color.CYAN);
+                        HUDManager.displayFadeMessage("+ " + atkChanceAmount + "% ATK chance until next attack", width / 2, (int) (height * 0.8), 30, 28, Color.rgb(255, 80, 0));
                         Player.addAtkChanceBonus(atkChanceAmount);
                         Player.addArmor(armorAmount);
                         break;
+                    // Proceed to enemy's turn
                     case 90:
                         battleState = BattleState.ENEMY_ATTACK;
                         tick = 0;
@@ -160,10 +171,12 @@ public class BattleManager {
                 break;
             case ENEMY_ATTACK:
                 switch(tick){
+                    // Attack animation
                     case 10:
                         currentEnemy.setState(EAState.ATTACK);
                         currentEnemy.shake(25);
                         break;
+                    // Check if hit
                     case 20:
                         if (RNG.pass(100 - Player.getEvade())){
                             SEManager.playEffect(SEManager.Effect.RED_FLASH);
@@ -173,12 +186,14 @@ public class BattleManager {
                             SEManager.playEffect(SEManager.Effect.GREEN_FLASH);
                         }
                         break;
+                    // Stop attack state
                     case 90:
                         currentEnemy.setState(EAState.IDLE);
                         break;
+                    // Check if player is dead, if not, go to player's turn
                     case 110:
                         if (Player.isDead()){
-                            // end game
+                            SEManager.playEffect(SEManager.Effect.FADE_TRANSITION, ScreenState.TITLE);
                         }else{
                             battleState = BattleState.PLAYER_TURN;
                             tick = 0;
@@ -198,7 +213,7 @@ public class BattleManager {
     }
     public static void playerAttack(){
         if (battleState.equals(BattleState.PLAYER_TURN)){
-            new SlashAnimation(currentEnemy.x, currentEnemy.y);
+            new SlashAnimation((int) currentEnemy.x, (int) currentEnemy.y);
             battleState = BattleState.PLAYER_ATTACK;
         }
     }

@@ -68,6 +68,7 @@ public class Wizard extends Entity{
     }
     @Override
     public void tick(){
+        super.tick();
         // Hover up and down
         if (tick >= 0 && tick <= 30){
             super.y--;
@@ -87,7 +88,7 @@ public class Wizard extends Entity{
         int oldAlpha = paint.getAlpha();
         paint.setAlpha(super.currAlpha);
 
-        drawCenteredBitmap(animator.sprite, canvas, paint, super.x, super.y);
+        drawCenteredBitmap(animator.sprite, canvas, paint, (int) super.x, (int) super.y);
         animator.update(System.currentTimeMillis());
 
         paint.setAlpha(oldAlpha);

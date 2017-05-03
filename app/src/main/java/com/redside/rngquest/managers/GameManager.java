@@ -104,8 +104,12 @@ public class GameManager {
         if (selection > 0 && selection < 4){
             int index = selection - 1;
             Item item = getShopSpellInventory().getItems().get(index);
-            if (Player.hasEnoughGold(item.getCost())){
-                // Player.getInventory().addItem(item)
+            if (Player.hasEnoughGold(item.getCost()) && !Player.inventoryIsFull()){
+                if (Player.hasSpell()){
+                    Player.getInventory().removeItem(Player.getCurrentSpell());
+                }
+                Player.getInventory().addItem(item);
+                Player.setCurrentSpell(item);
                 Player.removeGold(item.getCost());
                 getShopSpellInventory().removeItem(item);
                 shopSelection = 7;
@@ -114,8 +118,8 @@ public class GameManager {
         }else if (selection > 3 && selection < 7){
             int index = selection - 4;
             Item item = getShopConsumableInventory().getItems().get(index);
-            if (Player.hasEnoughGold(item.getCost())){
-                // Player.getInventory().addItem(item)
+            if (Player.hasEnoughGold(item.getCost()) && !Player.inventoryIsFull()){
+                Player.getInventory().addItem(item);
                 Player.removeGold(item.getCost());
                 getShopConsumableInventory().removeItem(item);
                 shopSelection = 7;

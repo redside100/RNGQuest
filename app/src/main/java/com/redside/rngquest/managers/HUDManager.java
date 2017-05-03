@@ -8,13 +8,12 @@ import android.graphics.Rect;
 import android.view.MotionEvent;
 
 import com.redside.rngquest.buttons.AttackButton;
+import com.redside.rngquest.buttons.CharSelectButton;
 import com.redside.rngquest.buttons.DefendButton;
+import com.redside.rngquest.buttons.InventoryButton;
 import com.redside.rngquest.buttons.ShopItemButton;
 import com.redside.rngquest.buttons.StartGameButton;
 import com.redside.rngquest.buttons.StateChangeButton;
-import com.redside.rngquest.buttons.TankSelectButton;
-import com.redside.rngquest.buttons.WarriorSelectButton;
-import com.redside.rngquest.buttons.WizardSelectButton;
 import com.redside.rngquest.entities.Entity;
 import com.redside.rngquest.entities.Player;
 import com.redside.rngquest.gameobjects.CoreView;
@@ -84,18 +83,20 @@ public class HUDManager {
                 Bitmap wizardCS = Assets.getBitmapFromMemory("sprites_wizard");
                 Bitmap warriorCS = Assets.getBitmapFromMemory("sprites_warrior");
                 Bitmap tankCS = Assets.getBitmapFromMemory("sprites_tank");
-                WizardSelectButton bWizardCS = new WizardSelectButton(wizardCS, (width / 4), (height / 2));
-                WarriorSelectButton bWarriorCS = new WarriorSelectButton(warriorCS, (width / 2), (height / 2));
-                TankSelectButton bTankCS = new TankSelectButton(tankCS, (width / 4) * 3, (height / 2));
+                CharSelectButton bWizardCS = new CharSelectButton(wizardCS, (width / 4), (height / 2), 1);
+                CharSelectButton bWarriorCS = new CharSelectButton(warriorCS, (width / 2), (height / 2), 2);
+                CharSelectButton bTankCS = new CharSelectButton(tankCS, (width / 4) * 3, (height / 2), 3);
                 break;
 
             case BATTLE:
                 Bitmap attack = Assets.getBitmapFromMemory("button_attack");
                 Bitmap defend = Assets.getBitmapFromMemory("button_defend");
+                Bitmap inventory = Assets.getBitmapFromMemory("button_inventory");
                 //temp
                 StateChangeButton bBackB = new StateChangeButton(back, width / 2, (int) (height * 0.92), ScreenState.TITLE);
                 AttackButton bAttack = new AttackButton(attack, (int) (width * 0.08), (int) (height * 0.87));
                 DefendButton bDefend = new DefendButton(defend, (int) (width * 0.92), (int) (height * 0.87));
+                InventoryButton inventoryButton = new InventoryButton(inventory, (int) (width * 0.92), (int) (height * 0.64));
                 break;
 
             case SHOP:
@@ -224,6 +225,11 @@ public class HUDManager {
                 }else{
                     drawCenteredTextWithBorder("Waiting for enemy...", canvas, width / 2, (int) (height * 0.12), paint, 25, Color.rgb(0,191,255));
                 }
+
+                Bitmap emptyButton = Assets.getBitmapFromMemory("button_empty");
+                if (Player.getCurrentSpell() == null){
+                    drawCenteredBitmap(emptyButton, canvas, paint, (int) (width * 0.08), (int) (height * 0.64));
+                }
                 break;
 
 
@@ -347,5 +353,8 @@ public class HUDManager {
     public static void displayParabolicText(String message, int x, int y, int ticks, int textSize, int color, double directionVec){
         ParabolicText parabola = new ParabolicText(message, ticks, x, y, textSize, color, directionVec);
         parabola.play();
+    }
+    public static double getSpeed(double distance, int ticksToReach){
+        return distance / (double) ticksToReach;
     }
 }

@@ -4,6 +4,8 @@ import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 
+import com.redside.rngquest.managers.CoreManager;
+import com.redside.rngquest.managers.HUDManager;
 import com.redside.rngquest.utils.Assets;
 
 import java.util.ArrayList;
@@ -44,12 +46,13 @@ public class Ghost extends Entity{
     }
     @Override
     public void tick(){
+        super.tick();
         // Hover
         if (tick >= 0 && tick <= 30){
-            super.y--;
+            super.y -= HUDManager.getSpeed(CoreManager.height, 1080);
         }
         else if (tick >= 31 && tick <= 60){
-            super.y++;
+            super.y += HUDManager.getSpeed(CoreManager.height, 1080);
         }
         else if (tick == 61){
             tick = 0;
@@ -61,7 +64,7 @@ public class Ghost extends Entity{
     public void render(Canvas canvas, Paint paint){
         int oldAlpha = paint.getAlpha();
         paint.setAlpha(super.currAlpha);
-        drawCenteredBitmap(currentSprite, canvas, paint, super.x, super.y);
+        drawCenteredBitmap(currentSprite, canvas, paint, (int) super.x, (int) super.y);
         paint.setAlpha(oldAlpha);
     }
 

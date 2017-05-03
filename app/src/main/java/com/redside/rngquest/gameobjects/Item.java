@@ -2,12 +2,13 @@ package com.redside.rngquest.gameobjects;
 
 import android.graphics.Bitmap;
 
-public abstract class Item {
+public class Item {
     private ItemType itemType;
     private String description;
     private ClassItem classItem;
     private int cost;
     private Bitmap bitmap;
+    private Bitmap buttonBitmap;
 
     public Item(ItemType itemType, ClassItem classItem, String description, int cost, Bitmap bitmap){
         this.itemType = itemType;
@@ -15,9 +16,18 @@ public abstract class Item {
         this.cost = cost;
         this.bitmap = bitmap;
         this.description = description;
+        buttonBitmap = null;
+    }
+    public Item(ItemType itemType, ClassItem classItem, String description, int cost, Bitmap bitmap, Bitmap buttonBitmap){
+        this.itemType = itemType;
+        this.classItem = classItem;
+        this.cost = cost;
+        this.bitmap = bitmap;
+        this.description = description;
+        this.buttonBitmap = buttonBitmap;
     }
 
-    public abstract void use();
+    public void use(){}
     public int getCost(){
         return cost;
     }
@@ -26,6 +36,9 @@ public abstract class Item {
     }
     public Bitmap getBitmap(){
         return bitmap;
+    }
+    public Bitmap getButtonBitmap() {
+        return buttonBitmap;
     }
     public ItemType getItemType(){
         return itemType;
@@ -40,6 +53,17 @@ public abstract class Item {
                     && item.cost == cost){
                 return true;
             }
+        }
+        return false;
+    }
+    public static boolean isSpell(Item item){
+        ItemType type = item.getItemType();
+        switch(type){
+            case FIREBALL_SPELL:
+            case ARMOR_SPELL:
+            case TRIPLE_ATTACK_SPELL:
+            case AGILITY_SPELL:
+                return true;
         }
         return false;
     }

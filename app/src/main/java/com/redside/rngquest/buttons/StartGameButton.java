@@ -16,7 +16,7 @@ public class StartGameButton extends Button {
     public void trigger(){
         if (HUDManager.selection != 0){
             // Temporarily set to shop when testing
-            SEManager.playEffect(SEManager.Effect.FADE_TRANSITION, ScreenState.SHOP);
+            SEManager.playEffect(SEManager.Effect.FADE_TRANSITION, ScreenState.STAGE_TRANSITION);
         }
     }
 }

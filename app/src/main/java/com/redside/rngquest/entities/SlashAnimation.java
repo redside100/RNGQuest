@@ -32,7 +32,7 @@ public class SlashAnimation extends Entity{
 
     @Override
     public void render(Canvas canvas, Paint paint){
-        drawCenteredBitmap(animator.sprite, canvas, paint, x, y);
+        drawCenteredBitmap(animator.sprite, canvas, paint, (int) x, (int) y);
         // Destroy this entity if the animation is done
         if (animator.isDoneAnimation()){
             super.destroy();

@@ -9,8 +9,7 @@ import com.redside.rngquest.gameobjects.CoreView;
 import com.redside.rngquest.managers.AnimatedTextManager;
 
 public class AnimatedText {
-    public int x;
-    public int y;
+    public double x, y;
     public String text;
     public int textSize;
     public int color;
@@ -32,7 +31,7 @@ public class AnimatedText {
     }
 
     public void render(Canvas canvas, Paint paint){
-        drawCenteredText(text, canvas, x, y, paint, textSize, color);
+        drawCenteredText(text, canvas, (int) x, (int) y, paint, textSize, color);
     }
 
     public void play(){

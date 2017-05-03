@@ -44,6 +44,7 @@ public class Assets {
 
         // Menus
         bitmapDb.put("menu_shop_items", getBitmap(context, "menus/shop_item_menu.png"));
+        bitmapDb.put("menu_inventory_items", getBitmap(context, "menus/inventory_item_menu.png"));
         bitmapDb.put("menu_selected_item", getBitmap(context, "menus/selectedItem.png"));
 
         // Slash
@@ -88,6 +89,8 @@ public class Assets {
         bitmapDb.put("button_attack", getBitmap(context, "buttons/attack.png"));
         bitmapDb.put("button_defend", getBitmap(context, "buttons/defend.png"));
         bitmapDb.put("button_next", getBitmap(context, "buttons/next.png"));
+        bitmapDb.put("button_inventory", getBitmap(context, "buttons/inventory.png"));
+        bitmapDb.put("button_empty", getBitmap(context, "buttons/empty.png"));
 
         // Icons
         bitmapDb.put("icons_hp", getBitmap(context, "icons/hp.png"));

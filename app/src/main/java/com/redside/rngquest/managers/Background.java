@@ -14,7 +14,7 @@ public class Background {
     private static ArrayList<Bitmap> background;
     private Bitmap clouds, block;
     private static Animator animate;
-    private static int xOff = 0;
+    private static double xOff = 0;
     public Background(){
         // Load all required assets from memory
         clouds = Assets.getBitmapFromMemory("background_title_clouds");
@@ -37,7 +37,7 @@ public class Background {
             case TITLE:
             case INFO:
                 if (xOff < CoreManager.width + clouds.getWidth()){
-                    xOff++;
+                    xOff += HUDManager.getSpeed(CoreManager.width, 1500);
                 }else{
                     xOff = 0;
                 }
@@ -79,7 +79,7 @@ public class Background {
             case TITLE:
             case INFO:
             case CHAR_SELECT:
-                canvas.drawBitmap(clouds, CoreManager.width - xOff, CoreManager.height / 10, paint);
+                canvas.drawBitmap(clouds, CoreManager.width - (int) xOff, CoreManager.height / 10, paint);
                 break;
 
         }

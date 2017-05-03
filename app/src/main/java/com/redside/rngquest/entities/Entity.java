@@ -3,12 +3,15 @@ package com.redside.rngquest.entities;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 
+import com.redside.rngquest.managers.CoreManager;
 import com.redside.rngquest.managers.EntityManager;
+import com.redside.rngquest.managers.HUDManager;
 
 public class Entity {
 
     public Object i;
-    public int hp, maxHp, atk, x, y, oldX;
+    public int hp, maxHp, atk;
+    public double x, y, oldX;
     public String name;
     public EAState state = EAState.IDLE;
     public int currAlpha = 0;
@@ -77,11 +80,6 @@ public class Entity {
 
     // To be overridden
     public void tick(){
-
-    }
-
-    // Not to be overridden. Handles shaking and fading for all entities
-    public void shadowTick(){
         if (shaking){
 
             // Start by shaking left
@@ -96,7 +94,7 @@ public class Entity {
 
 
                 if (shakeLeft){
-                    x -= 3;
+                    x -= HUDManager.getSpeed(CoreManager.width, 600);
                     leftTick += 1;
                     // Allow seven ticks left
                     if (leftTick == 7){
@@ -107,7 +105,7 @@ public class Entity {
                     }
                 }
                 if (shakeRight){
-                    x += 3;
+                    x += HUDManager.getSpeed(CoreManager.width, 600);
                     rightTick += 1;
                     // Allow seven ticks right
                     if (rightTick == 7){

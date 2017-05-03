@@ -7,6 +7,7 @@ public class Player {
     private static int hp, maxHp, mana, maxMana, atk, atkChance, evade, armor, maxArmor, gold, atkChanceBonus = 0;
     private static Inventory inventory = new Inventory();
     private static Role role;
+    private static Item currentSpell = null;
     public static void spawn(int choice){
         atkChanceBonus = 0;
         gold = 100;
@@ -53,20 +54,17 @@ public class Player {
         }
 
     }
-    public Inventory getInventory(){
+    public static Inventory getInventory(){
         return inventory;
     }
-    public static boolean hasSpell(){
-        for (Item item : inventory.getItems()){
-            Item.ItemType itemType = item.getItemType();
-            if (itemType.equals(Item.ItemType.AGILITY_SPELL) ||
-                    itemType.equals(Item.ItemType.ARMOR_SPELL) ||
-                    itemType.equals(Item.ItemType.FIREBALL_SPELL) ||
-                    itemType.equals(Item.ItemType.TRIPLE_ATTACK_SPELL)){
-                return true;
-            }
-        }
-        return false;
+    public static void setCurrentSpell(Item item){
+        currentSpell = item;
+    }
+    public static Item getCurrentSpell(){
+        return currentSpell;
+    }
+    public static boolean inventoryIsFull(){
+        return (inventory.getItems().size() >= 4);
     }
     public static void addAtkChanceBonus(int bonus){
         atkChanceBonus += bonus;
@@ -174,6 +172,14 @@ public class Player {
         }else{
             atk = 9999;
         }
+    }
+    public static boolean hasSpell(){
+        for (Item item : inventory.getItems()){
+            if (Item.isSpell(item)){
+                return true;
+            }
+        }
+        return false;
     }
     public static void addATKChance(int amount){
         if (atkChance + amount < 100){

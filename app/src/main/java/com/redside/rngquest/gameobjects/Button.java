@@ -7,7 +7,7 @@ import android.graphics.Rect;
 
 import com.redside.rngquest.managers.ButtonManager;
 
-public abstract class Button{
+public class Button{
     private Bitmap image;
     private int x;
     private int y;
@@ -38,7 +38,7 @@ public abstract class Button{
     public int getY(){
         return y;
     }
-    public abstract void trigger();
+    public void trigger() {}
     public Bitmap getBitmap(){
         return image;
     }
