@@ -7,6 +7,7 @@ public class Item {
     private String description;
     private ClassItem classItem;
     private int cost;
+    private int manaCost;
     private Bitmap bitmap;
     private Bitmap buttonBitmap;
 
@@ -14,14 +15,16 @@ public class Item {
         this.itemType = itemType;
         this.classItem = classItem;
         this.cost = cost;
+        this.manaCost = 0;
         this.bitmap = bitmap;
         this.description = description;
         buttonBitmap = null;
     }
-    public Item(ItemType itemType, ClassItem classItem, String description, int cost, Bitmap bitmap, Bitmap buttonBitmap){
+    public Item(ItemType itemType, ClassItem classItem, String description, int cost, int manaCost, Bitmap bitmap, Bitmap buttonBitmap){
         this.itemType = itemType;
         this.classItem = classItem;
         this.cost = cost;
+        this.manaCost = manaCost;
         this.bitmap = bitmap;
         this.description = description;
         this.buttonBitmap = buttonBitmap;
@@ -31,6 +34,7 @@ public class Item {
     public int getCost(){
         return cost;
     }
+    public int getManaCost() {return manaCost;}
     public String getDescription(){
         return description;
     }

@@ -11,5 +11,6 @@ public class InventoryButton extends Button {
     }
     @Override
     public void trigger(){
+        BattleManager.playerInventory();
     }
 }

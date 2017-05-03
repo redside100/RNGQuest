@@ -2,6 +2,9 @@ package com.redside.rngquest.entities;
 
 import com.redside.rngquest.gameobjects.Inventory;
 import com.redside.rngquest.gameobjects.Item;
+import com.redside.rngquest.items.LargePotionItem;
+import com.redside.rngquest.items.ManaPotionItem;
+import com.redside.rngquest.items.SmallPotionItem;
 
 public class Player {
     private static int hp, maxHp, mana, maxMana, atk, atkChance, evade, armor, maxArmor, gold, atkChanceBonus = 0;
@@ -12,6 +15,7 @@ public class Player {
         atkChanceBonus = 0;
         gold = 100;
         inventory.clear();
+        currentSpell = null;
         // reset stats and stuff
         // 1 is Mage, 2 is Warrior, 3 is Tank
         switch(choice){
@@ -26,6 +30,7 @@ public class Player {
                 maxArmor = 0;
                 mana = 50;
                 maxMana = 50;
+                inventory.addItem(new ManaPotionItem());
                 break;
             case 2:
                 role = Role.WARRIOR;
@@ -38,6 +43,7 @@ public class Player {
                 maxArmor = 10;
                 mana = 0;
                 maxMana = 0;
+                inventory.addItem(new SmallPotionItem());
                 break;
             case 3:
                 role = Role.TANK;
@@ -50,6 +56,7 @@ public class Player {
                 maxArmor = 40;
                 mana = 0;
                 maxMana = 0;
+                inventory.addItem(new LargePotionItem());
                 break;
         }
 

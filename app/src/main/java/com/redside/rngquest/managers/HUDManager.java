@@ -11,6 +11,7 @@ import com.redside.rngquest.buttons.AttackButton;
 import com.redside.rngquest.buttons.CharSelectButton;
 import com.redside.rngquest.buttons.DefendButton;
 import com.redside.rngquest.buttons.InventoryButton;
+import com.redside.rngquest.buttons.InventoryItemButton;
 import com.redside.rngquest.buttons.ShopItemButton;
 import com.redside.rngquest.buttons.StartGameButton;
 import com.redside.rngquest.buttons.StateChangeButton;
@@ -20,9 +21,15 @@ import com.redside.rngquest.gameobjects.CoreView;
 import com.redside.rngquest.gameobjects.Item;
 import com.redside.rngquest.hudobjects.FadedText;
 import com.redside.rngquest.hudobjects.ParabolicText;
+import com.redside.rngquest.items.LargePotionItem;
+import com.redside.rngquest.items.ManaPotionItem;
+import com.redside.rngquest.items.SmallPotionItem;
 import com.redside.rngquest.utils.Assets;
+import com.redside.rngquest.utils.RNG;
 
 import java.util.ArrayList;
+
+import static com.redside.rngquest.managers.ScreenState.SHOP;
 
 public class HUDManager {
     public static int width = 0;
@@ -44,7 +51,7 @@ public class HUDManager {
         back = Assets.getBitmapFromMemory("button_back");
         info = Assets.getBitmapFromMemory("button_info");
         start = Assets.getBitmapFromMemory("button_start");
-        onStateChange(ScreenState.TITLE);
+        onStateChange(ScreenState.TITLE, ScreenState.TITLE);
     }
     public void tick(){
         // Tick button manager + faded text
@@ -58,7 +65,7 @@ public class HUDManager {
     public void preTouchEvent(MotionEvent e){
         buttonManager.checkButtonPretouch(e);
     }
-    public static void onStateChange(ScreenState newState){
+    public static void onStateChange(ScreenState oldState, ScreenState newState){
         // Clear buttons no matter what
         buttonManager.clearButtons();
         entityManager.clear();
@@ -99,8 +106,17 @@ public class HUDManager {
                 InventoryButton inventoryButton = new InventoryButton(inventory, (int) (width * 0.92), (int) (height * 0.64));
                 break;
 
+            case INVENTORY:
+                ArrayList<Item> playerItems = new ArrayList<>(Player.getInventory().getItems());
+                double invFactor = 0.285;
+                for (int i = 0; i < playerItems.size(); i++){
+                    InventoryItemButton itemButton = new InventoryItemButton(playerItems.get(i).getBitmap(), (int) (width * invFactor), height / 2, i + 1);
+                    invFactor += 0.1435;
+                }
+                StateChangeButton invBack = new StateChangeButton(back, (int) (width * 0.09), (int) (height * 0.075), oldState);
+                break;
             case SHOP:
-                // temp
+                GameManager.generateShop();
                 ArrayList<Item> spellItems = new ArrayList<>(GameManager.getShopSpellInventory().getItems());
                 ArrayList<Item> consumableItems = new ArrayList<>(GameManager.getShopConsumableInventory().getItems());
                 double sFactor = 0.613;
@@ -232,11 +248,32 @@ public class HUDManager {
                 }
                 break;
 
-
+            case INVENTORY:
+                Bitmap invMenu = Assets.getBitmapFromMemory("menu_inventory_items");
+                Bitmap invSelected = Assets.getBitmapFromMemory("menu_selected_item");
+                canvas.drawBitmap(invMenu, 0, 0, paint);
+                drawCenteredText("Inventory", canvas, width / 2, (int) (height * 0.2), paint, 40, Color.WHITE);
+                if (GameManager.invSelection == 0){
+                    drawCenteredText("Tap on an item for more info.", canvas, width / 2, (int) (height * 0.84), paint, 25, Color.WHITE);
+                }
+                if (GameManager.invSelection > 0 && GameManager.invSelection < 5){
+                    int invSel = GameManager.invSelection - 1;
+                    Item item = Player.getInventory().getItems().get(invSel);
+                    drawCenteredBitmap(invSelected, canvas, paint, (int) (width * (0.285 + (0.1435 * invSel))), (int) (height * 0.498));
+                    drawCenteredText(item.getDescription(), canvas, width / 2, (int) (height * 0.825), paint, 25, Color.WHITE);
+                    if (Item.isSpell(item)){
+                        drawCenteredText("Costs " + item.getManaCost() + " per use.", canvas, width / 2, (int) (height * 0.885), paint, 25, Color.rgb(0,191,255));
+                    }else{
+                        drawCenteredText("Tap again to use.", canvas, width / 2, (int) (height * 0.885), paint, 25, Color.GREEN);
+                    }
+                } else if (GameManager.invSelection == 5){
+                    drawCenteredText("Item used.", canvas, width / 2, (int) (height * 0.84), paint, 25, Color.WHITE);
+                }
+                break;
             case SHOP:
 
                 Bitmap itemMenu = Assets.getBitmapFromMemory("menu_shop_items");
-                Bitmap selected = Assets.getBitmapFromMemory("menu_selected_item");
+                Bitmap shopSelected = Assets.getBitmapFromMemory("menu_selected_item");
                 canvas.drawBitmap(itemMenu, 0, 0, paint);
                 float old = paint.getTextSize();
                 paint.setColor(Color.YELLOW);
@@ -258,31 +295,39 @@ public class HUDManager {
                     sFactor += 0.144;
                 }
 
-                int sel = GameManager.shopSelection;
-                if (sel == 0){
+                int shopSel = GameManager.shopSelection;
+                if (shopSel == 0){
                     drawCenteredText("Welcome to the shop!", canvas, width / 2, (int) (height * 0.88), paint, 25, Color.WHITE);
                 }
-                else if (sel > 0 && sel < 4){
-                    Item item = spellItems.get(sel - 1);
-                    drawCenteredBitmap(selected, canvas, paint, (int) (width * (0.469 + (0.144 * sel))), height / 6);
+                else if (shopSel > 0 && shopSel < 4){
+                    Item item = spellItems.get(shopSel - 1);
+                    drawCenteredBitmap(shopSelected, canvas, paint, (int) (width * (0.469 + (0.1438 * shopSel))), height / 6);
                     drawCenteredText(item.getDescription(), canvas, width / 2, (int) (height * 0.85), paint, 25, Color.WHITE);
-                    if (Player.hasEnoughGold(item.getCost())){
-                        drawCenteredText("Tap again to purchase.", canvas, width / 2, (int) (height * 0.92), paint, 25, Color.GREEN);
-                    }else{
+                    if (Player.hasEnoughGold(item.getCost()) && !Player.inventoryIsFull()){
+                        if (Player.hasSpell()){
+                            drawCenteredText("Tap again to purchase. This will replace your old spell.", canvas, width / 2, (int) (height * 0.92), paint, 25, Color.YELLOW);
+                        }else{
+                            drawCenteredText("Tap again to purchase.", canvas, width / 2, (int) (height * 0.92), paint, 25, Color.GREEN);
+                        }
+                    }else if (Player.inventoryIsFull()){
+                        drawCenteredText("Your inventory is full.", canvas, width / 2, (int) (height * 0.92), paint, 25, Color.RED);
+                    }else if (!Player.hasEnoughGold(item.getCost())){
                         drawCenteredText("Not enough gold.", canvas, width / 2, (int) (height * 0.92), paint, 25, Color.RED);
                     }
-                }else if (sel > 3 && sel < 7){
-                    Item item = consumableItems.get(sel - 4);
-                    drawCenteredBitmap(selected, canvas, paint, (int) (width * (0.469 + (0.144 * (sel - 3)))), (int) (height * 0.49));
+                }else if (shopSel > 3 && shopSel < 7){
+                    Item item = consumableItems.get(shopSel - 4);
+                    drawCenteredBitmap(shopSelected, canvas, paint, (int) (width * (0.469 + (0.1438 * (shopSel - 3)))), (int) (height * 0.488));
                     drawCenteredText(item.getDescription(), canvas, width / 2, (int) (height * 0.85), paint, 25, Color.WHITE);
-                    if (Player.hasEnoughGold(item.getCost())){
+                    if (Player.hasEnoughGold(item.getCost()) && !Player.inventoryIsFull()){
                         drawCenteredText("Tap again to purchase.", canvas, width / 2, (int) (height * 0.92), paint, 25, Color.GREEN);
-                    }else{
+                    }else if (Player.inventoryIsFull()){
+                        drawCenteredText("Your inventory is full.", canvas, width / 2, (int) (height * 0.92), paint, 25, Color.RED);
+                    }else if (!Player.hasEnoughGold(item.getCost())){
                         drawCenteredText("Not enough gold.", canvas, width / 2, (int) (height * 0.92), paint, 25, Color.RED);
                     }
                 }
-                if (sel == 7){
-                    drawCenteredText("Item bought!", canvas, width / 2, (int) (height * 0.88), paint, 25, Color.WHITE);
+                else if (shopSel == 7){
+                    drawCenteredText("Item purchased!", canvas, width / 2, (int) (height * 0.88), paint, 25, Color.WHITE);
                 }
 
 

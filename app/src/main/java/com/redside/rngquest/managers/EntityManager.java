@@ -33,4 +33,7 @@ public class EntityManager {
             e.render(canvas, paint);
         }
     }
+    public static int size(){
+        return entities.size();
+    }
 }

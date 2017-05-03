@@ -28,7 +28,7 @@ public class Background {
         animate.setSpeed(450);
         animate.play();
         animate.update(System.currentTimeMillis());
-        onStateChange(ScreenState.TITLE);
+        onStateChange(ScreenState.TITLE, ScreenState.TITLE);
     }
     public void tick(){
         switch(CoreManager.state){
@@ -44,7 +44,7 @@ public class Background {
                 break;
         }
     }
-    public static void onStateChange(ScreenState newState){
+    public static void onStateChange(ScreenState oldState, ScreenState newState){
         // No matter what, clear all frames in the background, and reload.
         background.clear();
         switch (newState){
@@ -63,6 +63,9 @@ public class Background {
                 break;
             case SHOP:
                 background.add(Assets.getBitmapFromMemory("background_mountains"));
+                break;
+            case INVENTORY:
+                background.add(Assets.getBitmapFromMemory("background_inventory"));
                 break;
             default:
                 background.add(Assets.getBitmapFromMemory("background_mountains"));

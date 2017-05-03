@@ -12,6 +12,7 @@ import com.redside.rngquest.utils.RNG;
 
 public class BattleManager {
     public static Entity currentEnemy = null;
+    public static Entity savedEnemy = null;
     private static int tick = 0;
     private static int width;
     private static int height;
@@ -44,7 +45,6 @@ public class BattleManager {
                                 startBattle(new Blob(7 * stage, 2 * stage, width / 2, height / 2, 0));
                                 break;
                         }
-                        currentEnemy.fadeIn(60);
                         break;
                     // Set state to player's turn 130 ticks after initiating
                     case 140:
@@ -206,8 +206,15 @@ public class BattleManager {
         }
 
     }
-    public void startBattle(Entity enemy){
-        this.currentEnemy = enemy;
+    public static void startBattle(Entity enemy){
+        currentEnemy = enemy;
+        battleState = BattleState.PLAYER_TURN;
+        tick = 0;
+        currentEnemy.fadeIn(60);
+    }
+    public static void resumeBattle(Entity enemy){
+        currentEnemy = enemy;
+        currentEnemy.spawn();
         battleState = BattleState.PLAYER_TURN;
         tick = 0;
     }
@@ -222,11 +229,20 @@ public class BattleManager {
             battleState = BattleState.PLAYER_DEFEND;
         }
     }
+    public static void playerInventory(){
+        if (battleState.equals(BattleState.PLAYER_TURN)){
+            savedEnemy = currentEnemy;
+            SEManager.playEffect(SEManager.Effect.FADE_TRANSITION, ScreenState.INVENTORY);
+        }
+    }
     public static void setBattleState(BattleState newState){
         battleState = newState;
     }
     public static void close(){
-        currentEnemy = null;
+        if (currentEnemy != null){
+            currentEnemy.destroy();
+            currentEnemy = null;
+        }
         tick = 0;
         battleState = BattleState.NONE;
     }

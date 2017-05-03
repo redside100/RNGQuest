@@ -24,11 +24,13 @@ public class SEManager {
                     if (tick == 26){
                         // Set states, and prepare to fade out
                         fade = false;
+                        ScreenState old = CoreManager.state;
                         CoreManager.state = nextState;
-                        Background.onStateChange(nextState);
-                        GameManager.onStateChange(nextState);
-                        HUDManager.onStateChange(nextState);
+                        Background.onStateChange(old, nextState);
+                        HUDManager.onStateChange(old, nextState);
+                        GameManager.onStateChange(old, nextState);
                         HUDManager.selection = 0;
+                        GameManager.invSelection = 0;
                     }
                     // Check if fading out
                 }else if (tick < 27 && !fade){
@@ -150,7 +152,7 @@ public class SEManager {
             }
         }
     }
-    public static void onStateChange(ScreenState newState){
+    public static void onStateChange(ScreenState oldState, ScreenState newState){
 
     }
     public enum Effect {

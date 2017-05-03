@@ -35,13 +35,13 @@ public class CoreManager{
         se = new SEManager();
         gm = new GameManager();
         // Call first time onStateChange for HUD and Background
-        hud.onStateChange(state);
-        background.onStateChange(state);
-        gm.onStateChange(state);
+        hud.onStateChange(state, state);
+        background.onStateChange(state ,state);
+        gm.onStateChange(state, state);
     }
-    public static void stateChange(ScreenState newState){
+    public static void stateChange(ScreenState oldState, ScreenState newState){
         // Usually state changes are handled in SE
-        se.onStateChange(newState);
+        se.onStateChange(oldState, newState);
     }
     public void touchEvent(MotionEvent e){
         if (allowTouch){

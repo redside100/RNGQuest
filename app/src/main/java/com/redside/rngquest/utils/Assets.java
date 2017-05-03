@@ -35,6 +35,7 @@ public class Assets {
         bitmapDb.put("background_title_clouds", getBitmap(context, "backgrounds/title_clouds.png"));
         bitmapDb.put("background_forest", getBitmap(context, "backgrounds/forest.png"));
         bitmapDb.put("background_mountains", getBitmap(context, "backgrounds/mountains.png"));
+        bitmapDb.put("background_inventory", getBitmap(context, "backgrounds/inventory.png"));
 
         // Char portraits
         bitmapDb.put("sprites_block", getBitmap(context, "sprites/block.png"));

@@ -38,8 +38,7 @@ public class Entity {
         // Used for comparing this object in lists
         i = this;
 
-        EntityManager.addEntity(this);
-        alive = true;
+        spawn();
     }
 
     public void setState(EAState newState){
@@ -50,6 +49,9 @@ public class Entity {
     }
     public EAState getState(){
         return state;
+    }
+    public void setMaxHP(int maxHp){
+        this.maxHp = maxHp;
     }
     public int getHP(){
         return hp;
@@ -167,6 +169,10 @@ public class Entity {
         shaking = true;
         maxShakeTicks = ticks;
         oldX = x;
+    }
+    public void spawn(){
+        alive = true;
+        EntityManager.addEntity(this);
     }
     public void destroy(){
         alive = false;
