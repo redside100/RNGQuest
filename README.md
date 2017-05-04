@@ -4,16 +4,7 @@ An endless Android game about fighting enemies, and letting randomness decide ho
 
 Still in early development.
 
-# Screenshots
-
-![Title Screen](http://i.imgur.com/YeZ0Me0.jpg) 
-![Wizard](http://i.imgur.com/ddgGc6t.jpg)
-![Blob](http://i.imgur.com/bHMnlXI.jpg)
-![Inventory](http://i.imgur.com/bRzvOOA.jpg)
-![Shop](http://i.imgur.com/bHMnlXI.jpg)
-
-
-# Other Stuff
+# Plans
 
 Features so far:
 * Game loop and rendering system
@@ -36,3 +27,12 @@ Still need to add:
 * Sound effects
 * Complete info screen (haha)
 * MORE COMMENTS :(
+
+# Screenshots
+
+![Title Screen](http://i.imgur.com/YeZ0Me0.jpg) 
+![Wizard](http://i.imgur.com/ddgGc6t.jpg)
+![Blob](http://i.imgur.com/bHMnlXI.jpg)
+![Inventory](http://i.imgur.com/bRzvOOA.jpg)
+![Shop](http://i.imgur.com/My99Nbq.jpg)
+
