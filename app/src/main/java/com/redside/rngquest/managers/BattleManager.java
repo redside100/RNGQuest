@@ -282,7 +282,7 @@ public class BattleManager {
         }
         SEManager.playEffect(SEManager.Effect.YELLOW_FLASH);
         currentEnemy.shake(50);
-        currentEnemy.damage(Player.getATK());
+        currentEnemy.damage(amount);
         currentEnemy.setState(EAState.DAMAGE);
     }
     public static Entity getCurrentEnemy(){
