@@ -23,20 +23,25 @@ public class FadedText extends AnimatedText{
     @Override
     public void tick(){
         if (super.active){
+            // Fading in for 30 ticks
             if (tick >= 0 && tick <= 30){
+                // Increase alpha by 8 until 255
                 if (super.currAlpha + 8 > 255){
                     super.currAlpha = 255;
                 }else{
                     super.currAlpha += 8;
                 }
             }
+            // Fading out for 30 ticks
             if (tick >= (maxTick - 30) && tick <= maxTick){
+                // Decrease alpha by 8 until 0
                 if (super.currAlpha - 8 < 0){
                     super.currAlpha = 0;
                 }else{
                     super.currAlpha -= 8;
                 }
             }
+            // End
             if (tick == maxTick){
                 super.destroy();
             }

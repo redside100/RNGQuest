@@ -17,6 +17,7 @@ public class LargePotionItem extends Item {
 
     @Override
     public void use(){
+        // Display text, and heal
         int hp = Player.getMaxHP() / 2;
         AnimatedTextManager.clear();
         HUDManager.displayFadeMessage("Recovered " + hp + " HP", CoreManager.width / 2, CoreManager.height / 3, 30, 35, Color.GREEN);

@@ -34,6 +34,7 @@ public class AnimatedText {
         drawCenteredText(text, canvas, (int) x, (int) y, paint, textSize, color);
     }
 
+    // Must be called to start the animation
     public void play(){
         active = true;
         AnimatedTextManager.addText(this);

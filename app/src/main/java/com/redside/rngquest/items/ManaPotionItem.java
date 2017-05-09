@@ -17,6 +17,7 @@ public class ManaPotionItem extends Item {
 
     @Override
     public void use(){
+        // Display text, and add mana
         int mp = Player.getMaxMana() / 2;
         AnimatedTextManager.clear();
         HUDManager.displayFadeMessage("Recovered " + mp + "MP", CoreManager.width / 2, CoreManager.height / 3, 30, 35, Color.BLUE);

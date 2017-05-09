@@ -15,14 +15,19 @@ public class Button{
     private int textSize;
     private int currAlpha = 255;
     public Button(Bitmap image, int x, int y){
+        // Center the image
         this.image = image;
         this.x = x - (getBitmap().getWidth() / 2);
         this.y = y - (getBitmap().getHeight() / 2);
+
+        // Add to manager
         ButtonManager.addButton(this);
     }
     public void tick(){}
     public void render(Canvas canvas, Paint paint) {
+        // Render if not null
         if (image != null){
+            // Set alpha before rendering
             int oldAlpha = paint.getAlpha();
             paint.setAlpha(currAlpha);
             canvas.drawBitmap(image, x, y, paint);

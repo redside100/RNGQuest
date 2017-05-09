@@ -78,6 +78,7 @@ public class Background {
         animate.replace(background);
     }
     public void render(Canvas canvas, Paint paint){
+        // Draw current frame and update animator with time
         if (background.size() > 0){
             canvas.drawBitmap(animate.sprite, 0, 0, paint);
             animate.update(System.currentTimeMillis());
@@ -87,6 +88,7 @@ public class Background {
             case TITLE:
             case INFO:
             case CHAR_SELECT:
+                // Clouds
                 canvas.drawBitmap(clouds, CoreManager.width - (int) xOff, CoreManager.height / 10, paint);
                 break;
 

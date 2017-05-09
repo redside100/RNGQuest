@@ -25,12 +25,12 @@ public class Player {
                 hp = 20;
                 maxHp = 20;
                 atk = 12;
-                atkChance = 25;
+                atkChance = 30;
                 evade = 65;
                 armor = 0;
                 maxArmor = 0;
-                mana = 50;
-                maxMana = 50;
+                mana = 60;
+                maxMana = 60;
                 FireballSpellItem fireball = new FireballSpellItem();
                 inventory.addItem(fireball);
                 currentSpell = fireball;

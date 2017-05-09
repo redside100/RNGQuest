@@ -33,6 +33,7 @@ public class BattleManager {
                 switch(tick){
                     // Initiate new battle
                     case 10:
+                        // Spawn new enemy, scale stats with stage level
                         int spawn = RNG.number(1, 3);
                         int stage = GameManager.getStage();
                         switch(spawn){
@@ -60,33 +61,43 @@ public class BattleManager {
                     // Give out rewards
                     case 10:
                         int stage = GameManager.getStage();
-                        int goldReward = 4 + (int) (stage * 1.5) + RNG.number(0, stage);
+
+                        // Give gold reward, scale with stage level
+                        int goldReward = 5 + (int) (stage * 1.5) + RNG.number(0, stage);
                         Player.addGold(goldReward);
+
                         HUDManager.displayFadeMessage("Received " + goldReward + " gold!", width / 2, height / 2, 45, 35, Color.YELLOW);
+
+                        // Give random stat reward
                         int reward = RNG.number(1, 5);
                         switch(reward){
                             case 1:
+                                // Give out 1-2 atk chance
                                 int atkChanceAmount = RNG.number(1, 2);
                                 HUDManager.displayFadeMessage("Gained " + atkChanceAmount + "% ATK chance!", width / 2, (int) (height * 0.6), 45, 35, Color.GREEN);
                                 Player.addATKChance(atkChanceAmount);
                                 break;
                             case 2:
+                                // Give out 1-3 atk
                                 int atkAmount = RNG.number(1, 3);
                                 HUDManager.displayFadeMessage("Gained " + atkAmount + " ATK!", width / 2, (int) (height * 0.6), 45, 35, Color.GREEN);
                                 Player.addATK(atkAmount);
                                 break;
                             case 3:
+                                // Give out 10-25% HP
                                 int healAmount = RNG.number(Player.getMaxHP() / 10, Player.getMaxHP() / 4);
                                 HUDManager.displayFadeMessage("Recovered " + healAmount + " HP!", width / 2, (int) (height * 0.6), 45, 35, Color.GREEN);
                                 Player.heal(healAmount);
                                 break;
                             case 4:
+                                // Give out 5-10% max HP
                                 int maxHpAmount = (int) (Player.getMaxHP() * ((double) RNG.number(5, 10) / (double) 100));
                                 HUDManager.displayFadeMessage("Max HP increased by " + maxHpAmount + "!", width / 2, (int) (height * 0.6), 45, 35, Color.GREEN);
                                 Player.increaseMaxHealth(maxHpAmount);
                                 Player.heal(maxHpAmount);
                                 break;
                             case 5:
+                                // Give out 20-33% armor
                                 int armorAmount = RNG.number(Player.getMaxArmor() / 5, Player.getMaxArmor() / 3);
                                 HUDManager.displayFadeMessage("Gained " + armorAmount + " AMR!", width / 2, (int) (height * 0.6), 45, 35, Color.GREEN);
                                 Player.addArmor(armorAmount);
@@ -95,6 +106,7 @@ public class BattleManager {
                         break;
                     // Next battle, or announce stage clear
                     case 100:
+                        // Check if it's the end of the stage (7 enemies)
                         if (GameManager.getPart() < 8){
                             GameManager.nextPart();
                             battleState = BattleState.BATTLE_START;
@@ -115,6 +127,7 @@ public class BattleManager {
                 switch(tick){
                     // Check for hit
                     case 10:
+                        // Roll the dice
                         if (RNG.pass(Player.getATKChance())){
                             damageEnemy(Player.getATK());
                         }else{
@@ -143,16 +156,20 @@ public class BattleManager {
                 break;
             case PLAYER_FIREBALL:
                 switch(tick){
+                    // Create explosion at enemy
                     case 10:
                         ExplosionAnimation explode = new ExplosionAnimation((int) currentEnemy.x, (int) currentEnemy.y);
                         break;
+                    // Check for hit
                     case 15:
+                        // Roll the dice
                         if (RNG.pass(75)){
                             damageEnemy((int) (Player.getATK() * 1.5));
                         }else{
                             HUDManager.displayFadeMessage("MISS", (int) currentEnemy.x, (int) (currentEnemy.y - height * 0.15), 30, 35, Color.RED);
                         }
                         break;
+                    // Check if the enemy is dead
                     case 85:
                         if (currentEnemy.isDead()){
                             currentEnemy.fadeOut(60);
@@ -162,6 +179,7 @@ public class BattleManager {
                             tick = 0;
                         }
                         break;
+                    // If the enemy is dead, proceed to reward state
                     case 145:
                         currentEnemy.destroy();
                         battleState = BattleState.REWARD;
@@ -175,6 +193,7 @@ public class BattleManager {
                     // Add armor and atk bonus
                     case 10:
                         SEManager.playEffect(SEManager.Effect.BLUE_FLASH);
+                        // Armor amount (25-33%), attack chance amount (7-10% of real atk)
                         int armorAmount = RNG.number(Player.getMaxArmor() / 4, Player.getMaxArmor() / 3);
                         int atkChanceAmount = RNG.number(Player.getRealATKChance() / 15, Player.getRealATKChance() / 10);
                         AnimatedTextManager.clear();
@@ -200,6 +219,7 @@ public class BattleManager {
                         break;
                     // Check if hit
                     case 20:
+                        // Roll the dice
                         if (RNG.pass(100 - Player.getEvade())){
                             SEManager.playEffect(SEManager.Effect.RED_FLASH);
                             Player.damage(currentEnemy.getAtk());
@@ -229,34 +249,40 @@ public class BattleManager {
 
     }
     public static void startBattle(Entity enemy){
+        // Start new battle with given enemy
         currentEnemy = enemy;
         battleState = BattleState.PLAYER_TURN;
         tick = 0;
         currentEnemy.fadeIn(60);
     }
     public static void resumeBattle(Entity enemy){
+        // Resume battle with given enemy (no fade in)
         currentEnemy = enemy;
         currentEnemy.spawn();
         battleState = BattleState.PLAYER_TURN;
         tick = 0;
     }
     public static void playerSpell(){
+        // Use spell if it's player turn
         if (battleState.equals(BattleState.PLAYER_TURN)){
             Player.getCurrentSpell().use();
         }
     }
     public static void playerAttack(){
+        // Spawn slash animation and go to attack state if it's player turn
         if (battleState.equals(BattleState.PLAYER_TURN)){
             new SlashAnimation((int) currentEnemy.x, (int) currentEnemy.y);
             battleState = BattleState.PLAYER_ATTACK;
         }
     }
     public static void playerDefend(){
+        // Go to defend state if it's player turn
         if (battleState.equals(BattleState.PLAYER_TURN)){
             battleState = BattleState.PLAYER_DEFEND;
         }
     }
     public static void playerInventory(){
+        // Save the current enemy and go to inventory screen if it's player turn
         if (battleState.equals(BattleState.PLAYER_TURN)){
             savedEnemy = currentEnemy;
             SEManager.playEffect(SEManager.Effect.FADE_TRANSITION, ScreenState.INVENTORY);
@@ -266,20 +292,25 @@ public class BattleManager {
         battleState = newState;
     }
     public static void close(){
+        // Discard currentEnemy entity
         if (currentEnemy != null){
             currentEnemy.destroy();
             currentEnemy = null;
         }
+        // Reset tick counter and battle state
         tick = 0;
         battleState = BattleState.NONE;
     }
     private static void damageEnemy(int amount){
+        // Speed for the flying text
         double speed = HUDManager.getSpeed(CoreManager.width, 274);
+        // Determine if it should fly left or right
         if (RNG.yesNo()){
             HUDManager.displayParabolicText("-" + amount, (int) currentEnemy.x, (int) (currentEnemy.y - height * 0.1), 90, 32, Color.RED, -speed);
         }else{
             HUDManager.displayParabolicText("-" + amount, (int) currentEnemy.x, (int) (currentEnemy.y - height * 0.1), 90, 32, Color.RED, speed);
         }
+        // Flash, shake, damage, and set state to damaged
         SEManager.playEffect(SEManager.Effect.YELLOW_FLASH);
         currentEnemy.shake(50);
         currentEnemy.damage(amount);

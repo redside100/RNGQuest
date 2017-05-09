@@ -13,6 +13,7 @@ public class Item {
     private Bitmap bitmap;
     private Bitmap buttonBitmap;
 
+    // Constructor for consumable items
     public Item(ItemType itemType, Player.Role role, String description, int cost, Bitmap bitmap){
         this.itemType = itemType;
         this.role = role;
@@ -22,6 +23,7 @@ public class Item {
         this.description = description;
         buttonBitmap = null;
     }
+    // Constructor for spell items
     public Item(ItemType itemType, Player.Role role, String description, int cost, int manaCost, Bitmap bitmap, Bitmap buttonBitmap){
         this.itemType = itemType;
         this.role = role;
@@ -63,6 +65,7 @@ public class Item {
         return false;
     }
     public static boolean isSpell(Item item){
+        // Check item types
         ItemType type = item.getItemType();
         switch(type){
             case FIREBALL_SPELL:

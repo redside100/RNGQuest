@@ -44,6 +44,7 @@ public class ButtonManager {
     public void checkButtons(MotionEvent event){
         ArrayList<Button> temp = new ArrayList<>(buttons);
         for (Button button : temp){
+            // Reset alpha to 255 for all buttons
             button.setAlpha(255);
             if (buttonTouched(button, event)){
                 button.trigger();
@@ -54,12 +55,13 @@ public class ButtonManager {
         ArrayList<Button> temp = new ArrayList<>(buttons);
         for (Button button : temp){
             if (buttonTouched(button, event)){
+                // Set current button alpha to 153 (slightly transparent) for buttons that are being pressed
                 button.setAlpha(153);
             }
         }
     }
     public boolean buttonTouched(Button button, MotionEvent event) {
-        // Super spaghetti, but works
+        // Check if the bounds of the button contain the x and y of the touched spot
         if (event.getX() >= button.getX() && event.getX() < (button.getX() + button.getBitmap().getWidth())
                 && event.getY() >= button.getY() && event.getY() < (button.getY() + button.getBitmap().getHeight())) {
             return true;
