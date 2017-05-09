@@ -13,6 +13,7 @@ import com.redside.rngquest.entities.Player;
 import com.redside.rngquest.gameobjects.Button;
 import com.redside.rngquest.gameobjects.Inventory;
 import com.redside.rngquest.gameobjects.Item;
+import com.redside.rngquest.items.FireballSpellItem;
 import com.redside.rngquest.items.LargePotionItem;
 import com.redside.rngquest.items.ManaPotionItem;
 import com.redside.rngquest.items.SmallPotionItem;
@@ -29,6 +30,7 @@ public class GameManager {
     private static BattleManager battleManager;
     private static int tick = 0;
     private static boolean sTransition = false;
+    public static boolean revisit = true;
     private static Inventory shopSpellInventory = new Inventory();
     private static Inventory shopConsumableInventory = new Inventory();
     public static int shopSelection = 0;
@@ -61,6 +63,7 @@ public class GameManager {
                 }
                 break;
             case STAGE_TRANSITION:
+                revisit = true;
                 Soundtrack.playSong(Song.WAVE);
                 // Switch to next screen in 3 seconds
                 sTransition = true;
@@ -77,8 +80,10 @@ public class GameManager {
                 }
                 break;
             case SHOP:
-                Soundtrack.playSong(Song.SHOP);
-                nextStage();
+                if (!oldState.equals(ScreenState.INVENTORY)){
+                    Soundtrack.playSong(Song.SHOP);
+                    nextStage();
+                }
                 break;
         }
     }
@@ -93,15 +98,17 @@ public class GameManager {
             int index = selection - 1;
             Item item = getShopSpellInventory().getItems().get(index);
             if (Player.hasEnoughGold(item.getCost()) && !Player.inventoryIsFull()){
-                if (Player.hasSpell()){
-                    Player.getInventory().removeItem(Player.getCurrentSpell());
+                if (item.getRole().equals(Player.Role.ALL) || item.getRole().equals(Player.getRole())){
+                    if (Player.hasSpell()){
+                        Player.getInventory().removeItem(Player.getCurrentSpell());
+                    }
+                    Player.getInventory().addItem(item);
+                    Player.setCurrentSpell(item);
+                    Player.removeGold(item.getCost());
+                    getShopSpellInventory().removeItem(item);
+                    shopSelection = 7;
+                    recreateShopButtons();
                 }
-                Player.getInventory().addItem(item);
-                //Player.setCurrentSpell(item);
-                Player.removeGold(item.getCost());
-                getShopSpellInventory().removeItem(item);
-                shopSelection = 7;
-                recreateShopButtons();
             }
         }else if (selection > 3 && selection < 7){
             int index = selection - 4;
@@ -128,23 +135,24 @@ public class GameManager {
         }
     }
     public static void generateShop(){
-        GameManager.shopSelection = 0;
-        shopSpellInventory.clear();
-        shopConsumableInventory.clear();
-        for (int i = 0; i < 3; i++){
-            switch (RNG.number(1, 3)){
-                case 1:
-                    shopConsumableInventory.addItem(new SmallPotionItem());
-                    shopSpellInventory.addItem(new LargePotionItem());
-                    break;
-                case 2:
-                    shopConsumableInventory.addItem(new LargePotionItem());
-                    shopSpellInventory.addItem(new ManaPotionItem());
-                    break;
-                case 3:
-                    shopConsumableInventory.addItem(new ManaPotionItem());
-                    shopSpellInventory.addItem(new SmallPotionItem());
-                    break;
+        if (revisit){
+            revisit = false;
+            GameManager.shopSelection = 0;
+            shopSpellInventory.clear();
+            shopConsumableInventory.clear();
+            for (int i = 0; i < 3; i++){
+                switch (RNG.number(1, 3)){
+                    case 1:
+                        shopConsumableInventory.addItem(new SmallPotionItem());
+                        break;
+                    case 2:
+                        shopConsumableInventory.addItem(new LargePotionItem());
+                        break;
+                    case 3:
+                        shopConsumableInventory.addItem(new ManaPotionItem());
+                        break;
+                }
+                shopSpellInventory.addItem(new FireballSpellItem());
             }
         }
     }

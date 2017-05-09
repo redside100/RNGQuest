@@ -2,6 +2,7 @@ package com.redside.rngquest.entities;
 
 import com.redside.rngquest.gameobjects.Inventory;
 import com.redside.rngquest.gameobjects.Item;
+import com.redside.rngquest.items.FireballSpellItem;
 import com.redside.rngquest.items.LargePotionItem;
 import com.redside.rngquest.items.ManaPotionItem;
 import com.redside.rngquest.items.SmallPotionItem;
@@ -23,13 +24,16 @@ public class Player {
                 role = Role.MAGE;
                 hp = 20;
                 maxHp = 20;
-                atk = 15;
-                atkChance = 70;
-                evade = 70;
+                atk = 12;
+                atkChance = 25;
+                evade = 65;
                 armor = 0;
                 maxArmor = 0;
                 mana = 50;
                 maxMana = 50;
+                FireballSpellItem fireball = new FireballSpellItem();
+                inventory.addItem(fireball);
+                currentSpell = fireball;
                 inventory.addItem(new ManaPotionItem());
                 break;
             case 2:
@@ -221,7 +225,7 @@ public class Player {
         return role;
     }
     public enum Role{
-        MAGE, WARRIOR, TANK;
+        MAGE, WARRIOR, TANK, ALL
     }
 
 

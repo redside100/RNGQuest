@@ -4,6 +4,7 @@ import android.graphics.Color;
 import com.redside.rngquest.entities.Blob;
 import com.redside.rngquest.entities.EAState;
 import com.redside.rngquest.entities.Entity;
+import com.redside.rngquest.entities.ExplosionAnimation;
 import com.redside.rngquest.entities.Ghost;
 import com.redside.rngquest.entities.Player;
 import com.redside.rngquest.entities.SlashAnimation;
@@ -46,8 +47,8 @@ public class BattleManager {
                                 break;
                         }
                         break;
-                    // Set state to player's turn 130 ticks after initiating
-                    case 140:
+                    // Set state to player's turn 120 ticks after initiating
+                    case 130:
                         battleState = BattleState.PLAYER_TURN;
                         tick = 0;
                         break;
@@ -59,7 +60,7 @@ public class BattleManager {
                     // Give out rewards
                     case 10:
                         int stage = GameManager.getStage();
-                        int goldReward = (stage * 3) + RNG.number(0, stage * 2);
+                        int goldReward = 4 + (int) (stage * 1.5) + RNG.number(0, stage);
                         Player.addGold(goldReward);
                         HUDManager.displayFadeMessage("Received " + goldReward + " gold!", width / 2, height / 2, 45, 35, Color.YELLOW);
                         int reward = RNG.number(1, 5);
@@ -93,7 +94,7 @@ public class BattleManager {
                         }
                         break;
                     // Next battle, or announce stage clear
-                    case 110:
+                    case 100:
                         if (GameManager.getPart() < 8){
                             GameManager.nextPart();
                             battleState = BattleState.BATTLE_START;
@@ -103,7 +104,7 @@ public class BattleManager {
                         }
                         break;
                     // If stage cleared, then proceed to shop
-                    case 230:
+                    case 220:
                         SEManager.playEffect(SEManager.Effect.FADE_TRANSITION, ScreenState.SHOP);
                         close();
                         break;
@@ -115,23 +116,14 @@ public class BattleManager {
                     // Check for hit
                     case 10:
                         if (RNG.pass(Player.getATKChance())){
-                            double speed = HUDManager.getSpeed(CoreManager.width, 274);
-                            if (RNG.yesNo()){
-                                HUDManager.displayParabolicText("-" + Player.getATK(), (int) currentEnemy.x, (int) (currentEnemy.y - height * 0.1), 90, 32, Color.RED, -speed);
-                            }else{
-                                HUDManager.displayParabolicText("-" + Player.getATK(), (int) currentEnemy.x, (int) (currentEnemy.y - height * 0.1), 90, 32, Color.RED, speed);
-                            }
-                            SEManager.playEffect(SEManager.Effect.YELLOW_FLASH);
-                            currentEnemy.shake(70);
-                            currentEnemy.damage(Player.getATK());
-                            currentEnemy.setState(EAState.DAMAGE);
+                            damageEnemy(Player.getATK());
                         }else{
                             HUDManager.displayFadeMessage("MISS", (int) currentEnemy.x, (int) (currentEnemy.y - height * 0.15), 30, 35, Color.RED);
                         }
                         Player.resetAtkChanceBonus();
                         break;
                     // Check if the enemy is dead, if it's not, proceed to enemy's turn
-                    case 90:
+                    case 80:
                         if (currentEnemy.isDead()){
                             currentEnemy.fadeOut(60);
                         }else{
@@ -141,7 +133,36 @@ public class BattleManager {
                         }
                         break;
                     // If the enemy is dead, continue to reward state
-                    case 160:
+                    case 140:
+                        currentEnemy.destroy();
+                        battleState = BattleState.REWARD;
+                        tick = 0;
+                        break;
+                }
+                tick++;
+                break;
+            case PLAYER_FIREBALL:
+                switch(tick){
+                    case 10:
+                        ExplosionAnimation explode = new ExplosionAnimation((int) currentEnemy.x, (int) currentEnemy.y);
+                        break;
+                    case 15:
+                        if (RNG.pass(75)){
+                            damageEnemy((int) (Player.getATK() * 1.5));
+                        }else{
+                            HUDManager.displayFadeMessage("MISS", (int) currentEnemy.x, (int) (currentEnemy.y - height * 0.15), 30, 35, Color.RED);
+                        }
+                        break;
+                    case 85:
+                        if (currentEnemy.isDead()){
+                            currentEnemy.fadeOut(60);
+                        }else{
+                            currentEnemy.setState(EAState.IDLE);
+                            battleState = BattleState.ENEMY_ATTACK;
+                            tick = 0;
+                        }
+                        break;
+                    case 145:
                         currentEnemy.destroy();
                         battleState = BattleState.REWARD;
                         tick = 0;
@@ -156,6 +177,7 @@ public class BattleManager {
                         SEManager.playEffect(SEManager.Effect.BLUE_FLASH);
                         int armorAmount = RNG.number(Player.getMaxArmor() / 4, Player.getMaxArmor() / 3);
                         int atkChanceAmount = RNG.number(Player.getRealATKChance() / 15, Player.getRealATKChance() / 10);
+                        AnimatedTextManager.clear();
                         HUDManager.displayFadeMessage("+ " + armorAmount + " AMR", width / 2, (int) (height * 0.72), 30, 28, Color.CYAN);
                         HUDManager.displayFadeMessage("+ " + atkChanceAmount + "% ATK chance until next attack", width / 2, (int) (height * 0.8), 30, 28, Color.rgb(255, 80, 0));
                         Player.addAtkChanceBonus(atkChanceAmount);
@@ -191,7 +213,7 @@ public class BattleManager {
                         currentEnemy.setState(EAState.IDLE);
                         break;
                     // Check if player is dead, if not, go to player's turn
-                    case 110:
+                    case 100:
                         if (Player.isDead()){
                             SEManager.playEffect(SEManager.Effect.FADE_TRANSITION, ScreenState.TITLE);
                         }else{
@@ -217,6 +239,11 @@ public class BattleManager {
         currentEnemy.spawn();
         battleState = BattleState.PLAYER_TURN;
         tick = 0;
+    }
+    public static void playerSpell(){
+        if (battleState.equals(BattleState.PLAYER_TURN)){
+            Player.getCurrentSpell().use();
+        }
     }
     public static void playerAttack(){
         if (battleState.equals(BattleState.PLAYER_TURN)){
@@ -246,10 +273,22 @@ public class BattleManager {
         tick = 0;
         battleState = BattleState.NONE;
     }
+    private static void damageEnemy(int amount){
+        double speed = HUDManager.getSpeed(CoreManager.width, 274);
+        if (RNG.yesNo()){
+            HUDManager.displayParabolicText("-" + amount, (int) currentEnemy.x, (int) (currentEnemy.y - height * 0.1), 90, 32, Color.RED, -speed);
+        }else{
+            HUDManager.displayParabolicText("-" + amount, (int) currentEnemy.x, (int) (currentEnemy.y - height * 0.1), 90, 32, Color.RED, speed);
+        }
+        SEManager.playEffect(SEManager.Effect.YELLOW_FLASH);
+        currentEnemy.shake(50);
+        currentEnemy.damage(Player.getATK());
+        currentEnemy.setState(EAState.DAMAGE);
+    }
     public static Entity getCurrentEnemy(){
         return currentEnemy;
     }
     public enum BattleState{
-        BATTLE_START, PLAYER_TURN, PLAYER_ATTACK, PLAYER_DEFEND, ENEMY_ATTACK, REWARD, NONE
+        BATTLE_START, PLAYER_TURN, PLAYER_ATTACK, PLAYER_FIREBALL, PLAYER_DEFEND, ENEMY_ATTACK, REWARD, NONE
     }
 }

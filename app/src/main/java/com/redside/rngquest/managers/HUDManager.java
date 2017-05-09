@@ -13,6 +13,7 @@ import com.redside.rngquest.buttons.DefendButton;
 import com.redside.rngquest.buttons.InventoryButton;
 import com.redside.rngquest.buttons.InventoryItemButton;
 import com.redside.rngquest.buttons.ShopItemButton;
+import com.redside.rngquest.buttons.SpellButton;
 import com.redside.rngquest.buttons.StartGameButton;
 import com.redside.rngquest.buttons.StateChangeButton;
 import com.redside.rngquest.entities.Entity;
@@ -104,6 +105,9 @@ public class HUDManager {
                 AttackButton bAttack = new AttackButton(attack, (int) (width * 0.08), (int) (height * 0.87));
                 DefendButton bDefend = new DefendButton(defend, (int) (width * 0.92), (int) (height * 0.87));
                 InventoryButton inventoryButton = new InventoryButton(inventory, (int) (width * 0.92), (int) (height * 0.64));
+                if (Player.hasSpell()){
+                    SpellButton spellButton = new SpellButton(Player.getCurrentSpell().getButtonBitmap(), (int) (width * 0.08), (int) (height * 0.64));
+                }
                 break;
 
             case INVENTORY:
@@ -122,11 +126,17 @@ public class HUDManager {
                 double sFactor = 0.613;
                 for (int i = 0; i < spellItems.size(); i++){
                     ShopItemButton itemB = new ShopItemButton(spellItems.get(i).getBitmap(), (int) (width * sFactor), height / 6, i + 1);
+                    sFactor += 0.144;
+                }
+                sFactor = 0.613;
+                for (int i = 0; i < consumableItems.size(); i++){
                     ShopItemButton itemS = new ShopItemButton(consumableItems.get(i).getBitmap(), (int) (width * sFactor), (int) (height * 0.49), i + 4);
                     sFactor += 0.144;
                 }
                 Bitmap next = Assets.getBitmapFromMemory("button_next");
+                Bitmap inv = Assets.getBitmapFromMemory("button_inv");
                 StateChangeButton nextB = new StateChangeButton(next, (int) (width * 0.07), (int) (height * 0.075), ScreenState.STAGE_TRANSITION);
+                StateChangeButton invB = new StateChangeButton(inv, (int) (width * 0.07), (int) (height * 0.195), ScreenState.INVENTORY);
                 break;
         }
     }
@@ -154,7 +164,7 @@ public class HUDManager {
                         character = "Choose a character...";
                         break;
                     case 1: // Mage
-                        character = "Mage: +15 ATK (70%), +20 HP, +70% EVA";
+                        character = "Mage: +12 ATK (25%), +20 HP, +50 MP, +65% EVA, +Fireball";
                         break;
                     case 2: // Warrior
                         character = "Warrior: +12 ATK (55%), +50 HP, +10 AMR, +35% EVA";
@@ -192,18 +202,20 @@ public class HUDManager {
 
                 String[] info = {
                         "HP: " + Player.getHP() + "/" + Player.getMaxHP(),
-                        "ATK: " + Player.getATK() + " (" + Player.getATKChance() + "%)",
+                        "MP: " + Player.getMana() + "/" + Player.getMaxMana(),
                         "AMR: " + Player.getArmor() + "/" + Player.getMaxArmor(),
+                        "ATK: " + Player.getATK() + " (" + Player.getATKChance() + "%)",
                         "EVA: " + Player.getEvade() + "%"
                 };
-                int[] colors = {Color.RED, Color.rgb(255, 80, 0), Color.CYAN, Color.GREEN};
-                double factor = 0.47;
-                paint.setTextSize(37 * CoreView.resources.getDisplayMetrics().density);
-                for (int i = 0; i < 4; i++){
+
+                int[] colors = {Color.RED, Color.BLUE, Color.CYAN, Color.rgb(255, 80, 0), Color.GREEN};
+                double factor = 0.44;
+                paint.setTextSize(35 * CoreView.resources.getDisplayMetrics().density);
+                for (int i = 0; i < 5; i++){
                     paint.setColor(colors[i]);
                     canvas.drawText(info[i], (int) (width * 0.5), (int) (height * factor), paint);
                     paint.setColor(Color.WHITE);
-                    factor += 0.1;
+                    factor += 0.09;
                 }
                 break;
 
@@ -212,25 +224,28 @@ public class HUDManager {
 
                 // Draw all icons and player stats
                 Bitmap hpIcon = Assets.getBitmapFromMemory("icons_hp");
+                Bitmap mpIcon = Assets.getBitmapFromMemory("icons_mana");
                 Bitmap armorIcon = Assets.getBitmapFromMemory("icons_armor");
                 Bitmap evadeIcon = Assets.getBitmapFromMemory("icons_evade");
                 Bitmap swordsIcon = Assets.getBitmapFromMemory("icons_swords");
 
                 String iconInfo[] = {
                         Player.getHP() + "/" + Player.getMaxHP(),
+                        Player.getMana() + "/" + Player.getMaxMana(),
                         Player.getArmor() + "/" + Player.getMaxArmor(),
                         Player.getATK() + " (" + Player.getATKChance() + "%)",
                         Player.getEvade() + "%"
                 };
-                int[] iconColors = {Color.RED, Color.CYAN, Color.rgb(255, 80, 0), Color.GREEN};
-                double iconFactor = 0.1;
+                int[] iconColors = {Color.RED, Color.BLUE, Color.CYAN, Color.rgb(255, 80, 0), Color.GREEN};
+                double iconFactor = 0.098;
                 drawCenteredBitmap(hpIcon, canvas, paint, (int) (width * 0.05), (int) (height * 0.08));
-                drawCenteredBitmap(armorIcon, canvas, paint, (int) (width * 0.05), (int) (height * 0.18));
-                drawCenteredBitmap(swordsIcon, canvas, paint, (int) (width * 0.05), (int) (height * 0.28));
-                drawCenteredBitmap(evadeIcon, canvas, paint, (int) (width * 0.05), (int) (height * 0.38));
-                for (int i = 0; i < 4; i++){
-                    drawTextWithBorder(iconInfo[i], canvas, (int) (width * 0.1), (int) (height * iconFactor), paint, 25, iconColors[i]);
-                    iconFactor += 0.1;
+                drawCenteredBitmap(mpIcon, canvas, paint, (int) (width * 0.05), (int) (height * 0.17));
+                drawCenteredBitmap(armorIcon, canvas, paint, (int) (width * 0.05), (int) (height * 0.27));
+                drawCenteredBitmap(swordsIcon, canvas, paint, (int) (width * 0.05), (int) (height * 0.36));
+                drawCenteredBitmap(evadeIcon, canvas, paint, (int) (width * 0.05), (int) (height * 0.45));
+                for (int i = 0; i < 5; i++){
+                    drawTextWithBorder(iconInfo[i], canvas, (int) (width * 0.1), (int) (height * iconFactor), paint, 23, iconColors[i]);
+                    iconFactor += 0.093;
                 }
 
                 // Draw current enemy HP
@@ -262,9 +277,9 @@ public class HUDManager {
                     drawCenteredBitmap(invSelected, canvas, paint, (int) (width * (0.285 + (0.1435 * invSel))), (int) (height * 0.498));
                     drawCenteredText(item.getDescription(), canvas, width / 2, (int) (height * 0.825), paint, 25, Color.WHITE);
                     if (Item.isSpell(item)){
-                        drawCenteredText("Costs " + item.getManaCost() + " per use.", canvas, width / 2, (int) (height * 0.885), paint, 25, Color.rgb(0,191,255));
+                        drawCenteredText("Costs " + item.getManaCost() + " MP per use.", canvas, width / 2, (int) (height * 0.89), paint, 25, Color.rgb(0,191,255));
                     }else{
-                        drawCenteredText("Tap again to use.", canvas, width / 2, (int) (height * 0.885), paint, 25, Color.GREEN);
+                        drawCenteredText("Tap again to use.", canvas, width / 2, (int) (height * 0.89), paint, 25, Color.GREEN);
                     }
                 } else if (GameManager.invSelection == 5){
                     drawCenteredText("Item used.", canvas, width / 2, (int) (height * 0.84), paint, 25, Color.WHITE);
@@ -275,12 +290,8 @@ public class HUDManager {
                 Bitmap itemMenu = Assets.getBitmapFromMemory("menu_shop_items");
                 Bitmap shopSelected = Assets.getBitmapFromMemory("menu_selected_item");
                 canvas.drawBitmap(itemMenu, 0, 0, paint);
-                float old = paint.getTextSize();
-                paint.setColor(Color.YELLOW);
-                paint.setTextSize(25 * CoreView.resources.getDisplayMetrics().density);
-                canvas.drawText(Player.getGold() + " G", (int) (width * 0.14), (int) (height * 0.09), paint);
-                paint.setColor(Color.WHITE);
-                paint.setTextSize(old);
+
+                drawCenteredText(Player.getGold() + " G", canvas, (int) (width * 0.07), height / 3, paint, 25, Color.YELLOW);
 
                 ArrayList<Item> spellItems = new ArrayList<>(GameManager.getShopSpellInventory().getItems());
                 ArrayList<Item> consumableItems = new ArrayList<>(GameManager.getShopConsumableInventory().getItems());
@@ -304,7 +315,9 @@ public class HUDManager {
                     drawCenteredBitmap(shopSelected, canvas, paint, (int) (width * (0.469 + (0.1438 * shopSel))), height / 6);
                     drawCenteredText(item.getDescription(), canvas, width / 2, (int) (height * 0.85), paint, 25, Color.WHITE);
                     if (Player.hasEnoughGold(item.getCost()) && !Player.inventoryIsFull()){
-                        if (Player.hasSpell()){
+                        if (!Player.getRole().equals(item.getRole()) && !item.getRole().equals(Player.Role.ALL)){
+                            drawCenteredText("Your class can't use this spell.", canvas, width / 2, (int) (height * 0.92), paint, 25, Color.RED);
+                        } else if (Player.hasSpell()){
                             drawCenteredText("Tap again to purchase. This will replace your old spell.", canvas, width / 2, (int) (height * 0.92), paint, 25, Color.YELLOW);
                         }else{
                             drawCenteredText("Tap again to purchase.", canvas, width / 2, (int) (height * 0.92), paint, 25, Color.GREEN);

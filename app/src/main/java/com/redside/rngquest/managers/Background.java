@@ -20,8 +20,8 @@ public class Background {
         clouds = Assets.getBitmapFromMemory("background_title_clouds");
         block = Assets.getBitmapFromMemory("sprites_block");
         background = new ArrayList<>();
-        background.add(Assets.getBitmapFromMemory("background_title1"));
-        background.add(Assets.getBitmapFromMemory("background_title2"));
+        background.add(Assets.getBitmapFromMemory("background_title_0"));
+        background.add(Assets.getBitmapFromMemory("background_title_1"));
         animate = new Animator(background);
         // This is just defaulted for the first time initializing, assuming it starts on the title screen.
         // This speed will be changed in onStateChange()
@@ -51,15 +51,20 @@ public class Background {
             case TITLE:
             case INFO:
             case CHAR_SELECT:
-                for (int i = 1; i < 3; i++){
-                    background.add(Assets.getBitmapFromMemory("background_title" + i));
+                animate.setSpeed(450);
+                for (int i = 0; i < 2; i++){
+                    background.add(Assets.getBitmapFromMemory("background_title_" + i));
                 }
                 break;
             case STAGE_TRANSITION:
                 background.add(Assets.getBitmapFromMemory("background_black"));
                 break;
             case BATTLE:
-                background.add(Assets.getBitmapFromMemory("background_forest"));
+                animate.setSpeed(750);
+                for (int i = 0; i < 3; i++){
+                    background.add(Assets.getBitmapFromMemory("background_forest_" + i));
+                }
+                background.add(Assets.getBitmapFromMemory("background_forest_1"));
                 break;
             case SHOP:
                 background.add(Assets.getBitmapFromMemory("background_mountains"));

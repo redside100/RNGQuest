@@ -6,8 +6,6 @@ import android.content.res.AssetManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 
-import com.redside.rngquest.managers.CoreManager;
-
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.HashMap;
@@ -30,10 +28,12 @@ public class Assets {
 
         // Backgrounds
         bitmapDb.put("background_black", getBitmap(context, "backgrounds/black.png"));
-        bitmapDb.put("background_title1", getBitmap(context, "backgrounds/title1.png"));
-        bitmapDb.put("background_title2", getBitmap(context, "backgrounds/title2.png"));
-        bitmapDb.put("background_title_clouds", getBitmap(context, "backgrounds/title_clouds.png"));
-        bitmapDb.put("background_forest", getBitmap(context, "backgrounds/forest.png"));
+        bitmapDb.put("background_title_0", getBitmap(context, "backgrounds/title/title0.png"));
+        bitmapDb.put("background_title_1", getBitmap(context, "backgrounds/title/title1.png"));
+        bitmapDb.put("background_title_clouds", getBitmap(context, "backgrounds/title/title_clouds.png"));
+        for (int i = 0; i < 3; i++){
+            bitmapDb.put("background_forest_" + i, getBitmap(context, "backgrounds/forest/forest" + i + ".png"));
+        }
         bitmapDb.put("background_mountains", getBitmap(context, "backgrounds/mountains.png"));
         bitmapDb.put("background_inventory", getBitmap(context, "backgrounds/inventory.png"));
 
@@ -51,6 +51,11 @@ public class Assets {
         // Slash
         for (int i = 0; i < 8; i++){
             bitmapDb.put("sprites_slash_" + i, getBitmap(context, "sprites/slash/slash" + i + ".png"));
+        }
+
+        // Explosion
+        for (int i = 0; i < 7; i++){
+            bitmapDb.put("sprites_explosion_" + i, getBitmap(context, "sprites/explosion/explosion" + i + ".png"));
         }
 
         // Ghost all
@@ -90,11 +95,14 @@ public class Assets {
         bitmapDb.put("button_attack", getBitmap(context, "buttons/attack.png"));
         bitmapDb.put("button_defend", getBitmap(context, "buttons/defend.png"));
         bitmapDb.put("button_next", getBitmap(context, "buttons/next.png"));
+        bitmapDb.put("button_inv", getBitmap(context, "buttons/inv.png"));
         bitmapDb.put("button_inventory", getBitmap(context, "buttons/inventory.png"));
         bitmapDb.put("button_empty", getBitmap(context, "buttons/empty.png"));
+        bitmapDb.put("button_fireball", getBitmap(context, "buttons/fireball.png"));
 
         // Icons
         bitmapDb.put("icons_hp", getBitmap(context, "icons/hp.png"));
+        bitmapDb.put("icons_mana", getBitmap(context, "icons/mana.png"));
         bitmapDb.put("icons_armor", getBitmap(context, "icons/armor.png"));
         bitmapDb.put("icons_evade", getBitmap(context, "icons/evade.png"));
         bitmapDb.put("icons_swords", getBitmap(context, "icons/swords.png"));
@@ -103,6 +111,7 @@ public class Assets {
         bitmapDb.put("items_small_potion", getBitmap(context, "items/small_potion.png"));
         bitmapDb.put("items_large_potion", getBitmap(context, "items/large_potion.png"));
         bitmapDb.put("items_mana_potion", getBitmap(context, "items/mana_potion.png"));
+        bitmapDb.put("items_fireball_spell", getBitmap(context, "items/fireball_spell.png"));
 
         // Sounds
         soundDb.put("title_theme", getSoundDesc(context, "sounds/title.ogg"));
@@ -119,7 +128,6 @@ public class Assets {
             istr = assetManager.open(filePath);
             bitmap = BitmapFactory.decodeStream(istr);
         } catch (IOException e) {}
-
         return bitmap;
     }
     public static AssetFileDescriptor getSoundDesc(Context context, String filePath){
