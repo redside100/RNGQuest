@@ -12,15 +12,14 @@ import com.redside.rngquest.utils.Assets;
 
 public class ManaPotionItem extends Item {
     public ManaPotionItem(){
-        super(ItemType.MANA_POTION, Player.Role.ALL, "Mana Potion: Restores 50% MP" , 75, Assets.getBitmapFromMemory("items_mana_potion"));
+        super(ItemType.MANA_POTION, Player.Role.ALL, "Mana Potion: Restores 40 MP" , 80, Assets.getBitmapFromMemory("items_mana_potion"));
     }
 
     @Override
     public void use(){
         // Display text, and add mana
-        int mp = Player.getMaxMana() / 2;
         AnimatedTextManager.clear();
-        HUDManager.displayFadeMessage("Recovered " + mp + "MP", CoreManager.width / 2, CoreManager.height / 3, 30, 35, Color.BLUE);
-        Player.addMana(mp);
+        HUDManager.displayFadeMessage("Recovered 40 MP", CoreManager.width / 2, CoreManager.height / 3, 30, 35, Color.BLUE);
+        Player.addMana(40);
     }
 }

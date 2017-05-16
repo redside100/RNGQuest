@@ -5,6 +5,8 @@ import android.graphics.Bitmap;
 import com.redside.rngquest.entities.Player;
 import com.redside.rngquest.gameobjects.Button;
 import com.redside.rngquest.managers.HUDManager;
+import com.redside.rngquest.managers.Sound;
+import com.redside.rngquest.managers.SoundEffect;
 
 public class CharSelectButton extends Button {
     private int selection;
@@ -14,6 +16,7 @@ public class CharSelectButton extends Button {
     }
     @Override
     public void trigger(){
+        Sound.playSound(SoundEffect.SELECT);
         HUDManager.selection = selection;
         Player.spawn(selection);
     }

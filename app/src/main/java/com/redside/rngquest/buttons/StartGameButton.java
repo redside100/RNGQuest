@@ -7,6 +7,8 @@ import com.redside.rngquest.gameobjects.Button;
 import com.redside.rngquest.managers.HUDManager;
 import com.redside.rngquest.managers.SEManager;
 import com.redside.rngquest.managers.ScreenState;
+import com.redside.rngquest.managers.Sound;
+import com.redside.rngquest.managers.SoundEffect;
 
 public class StartGameButton extends Button {
     public StartGameButton(Bitmap image, int x, int y){
@@ -16,7 +18,8 @@ public class StartGameButton extends Button {
     public void trigger(){
         if (HUDManager.selection != 0){
             // Temporarily set to shop when testing
-            SEManager.playEffect(SEManager.Effect.FADE_TRANSITION, ScreenState.STAGE_TRANSITION);
+            Sound.playSound(SoundEffect.SELECT);
+            SEManager.playEffect(SEManager.Effect.FADE_TRANSITION, ScreenState.SHOP);
         }
     }
 }

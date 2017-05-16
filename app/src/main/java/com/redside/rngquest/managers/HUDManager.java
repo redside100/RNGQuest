@@ -192,13 +192,13 @@ public class HUDManager {
                         character = "Mage: +12 ATK (30%), +20 HP, +60 MP, +65% EVA, +Fireball";
                         break;
                     case 2: // Warrior
-                        character = "Warrior: +12 ATK (55%), +50 HP, +10 AMR, +35% EVA";
+                        character = "Warrior: +12 ATK (60%), +50 HP, +10 MP, +15 AMR, +35% EVA";
                         break;
                     case 3: // Tank
                         character = "Tank: +7 ATK (40%), +90 HP, +40 AMR, +20% EVA";
                         break;
                 }
-                drawCenteredText(character, canvas, width / 2, (int) (height * 0.83), paint, 25, Color.rgb(0,191,255));
+                drawCenteredText(character, canvas, width / 2, (int) (height * 0.83), paint, 22, Color.rgb(0,191,255));
                 break;
 
             // Stage Transition Screen

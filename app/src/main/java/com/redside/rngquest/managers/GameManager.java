@@ -1,23 +1,19 @@
 package com.redside.rngquest.managers;
 
 
-import android.graphics.Bitmap;
-import android.os.Handler;
-
 import com.redside.rngquest.buttons.InventoryItemButton;
 import com.redside.rngquest.buttons.ShopItemButton;
-import com.redside.rngquest.buttons.StateChangeButton;
-import com.redside.rngquest.entities.Entity;
-import com.redside.rngquest.entities.Ghost;
 import com.redside.rngquest.entities.Player;
 import com.redside.rngquest.gameobjects.Button;
 import com.redside.rngquest.gameobjects.Inventory;
 import com.redside.rngquest.gameobjects.Item;
+import com.redside.rngquest.items.AgilitySpellItem;
+import com.redside.rngquest.items.EvadeUpPotionItem;
 import com.redside.rngquest.items.FireballSpellItem;
 import com.redside.rngquest.items.LargePotionItem;
 import com.redside.rngquest.items.ManaPotionItem;
+import com.redside.rngquest.items.ManaUpPotionItem;
 import com.redside.rngquest.items.SmallPotionItem;
-import com.redside.rngquest.utils.Assets;
 import com.redside.rngquest.utils.RNG;
 
 import java.util.ArrayList;
@@ -120,6 +116,7 @@ public class GameManager {
 
                     // Change to "purchased" state, and redraw the item buttons
                     shopSelection = 7;
+                    Sound.playSound(SoundEffect.PURCHASE);
                     recreateShopButtons();
                 }
             }
@@ -137,6 +134,7 @@ public class GameManager {
 
                 // Change the purchased state, and redraw shop items
                 shopSelection = 7;
+                Sound.playSound(SoundEffect.PURCHASE);
                 recreateShopButtons();
             }
         }
@@ -172,7 +170,7 @@ public class GameManager {
 
             // Restock with three random spells and consumables
             for (int i = 0; i < 3; i++){
-                switch (RNG.number(1, 3)){
+                switch (RNG.number(1, 5)){
                     case 1:
                         shopConsumableInventory.addItem(new SmallPotionItem());
                         break;
@@ -182,9 +180,15 @@ public class GameManager {
                     case 3:
                         shopConsumableInventory.addItem(new ManaPotionItem());
                         break;
+                    case 4:
+                        shopConsumableInventory.addItem(new ManaUpPotionItem());
+                        break;
+                    case 5:
+                        shopConsumableInventory.addItem(new EvadeUpPotionItem());
+                        break;
                 }
-                // For now just add three fireballs
-                shopSpellInventory.addItem(new FireballSpellItem());
+                // For now just add three agility spells
+                shopSpellInventory.addItem(new AgilitySpellItem());
             }
         }
     }

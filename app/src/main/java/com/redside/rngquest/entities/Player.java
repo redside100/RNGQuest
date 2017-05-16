@@ -12,9 +12,10 @@ public class Player {
     private static Inventory inventory = new Inventory();
     private static Role role;
     private static Item currentSpell = null;
+    private static boolean agility = false;
     public static void spawn(int choice){
         atkChanceBonus = 0;
-        gold = 100;
+        gold = 1000;
         inventory.clear();
         currentSpell = null;
         // reset stats and stuff
@@ -41,12 +42,12 @@ public class Player {
                 hp = 50;
                 maxHp = 50;
                 atk = 12;
-                atkChance = 55;
+                atkChance = 60;
                 evade = 35;
-                armor = 10;
-                maxArmor = 10;
-                mana = 0;
-                maxMana = 0;
+                armor = 15;
+                maxArmor = 15;
+                mana = 10;
+                maxMana = 10;
                 inventory.addItem(new SmallPotionItem());
                 break;
             case 3:
@@ -64,6 +65,12 @@ public class Player {
                 break;
         }
 
+    }
+    public static void toggleAgility(){
+        agility = !agility;
+    }
+    public static boolean hasAgility(){
+        return agility;
     }
     public static Inventory getInventory(){
         return inventory;

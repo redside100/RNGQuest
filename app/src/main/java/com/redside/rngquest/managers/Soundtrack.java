@@ -13,6 +13,9 @@ public class Soundtrack {
         return song;
     }
     public static void playSong(Song newSong){
+        int max = 100;
+        final float volume = (float) (1 - (Math.log(max - 90) / Math.log(max)));
+        mediaPlayer.setVolume(volume, volume);
         AssetFileDescriptor afd = null;
         switch(newSong){
             case TITLE:

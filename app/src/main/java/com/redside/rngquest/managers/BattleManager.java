@@ -69,7 +69,7 @@ public class BattleManager {
                         HUDManager.displayFadeMessage("Received " + goldReward + " gold!", width / 2, height / 2, 45, 35, Color.YELLOW);
 
                         // Give random stat reward
-                        int reward = RNG.number(1, 5);
+                        int reward = RNG.number(1, 6);
                         switch(reward){
                             case 1:
                                 // Give out 1-2 atk chance
@@ -102,6 +102,12 @@ public class BattleManager {
                                 HUDManager.displayFadeMessage("Gained " + armorAmount + " AMR!", width / 2, (int) (height * 0.6), 45, 35, Color.GREEN);
                                 Player.addArmor(armorAmount);
                                 break;
+                            case 6:
+                                // Give out 10-20% MP
+                                int manaAmount = RNG.number(Player.getMaxMana() / 20, Player.getMaxMana() / 5);
+                                HUDManager.displayFadeMessage("Gained " + manaAmount + " MP!", width / 2, (int) (height * 0.6), 45, 35, Color.GREEN);
+                                Player.addMana(manaAmount);
+                                break;
                         }
                         break;
                     // Next battle, or announce stage clear
@@ -129,8 +135,10 @@ public class BattleManager {
                     case 10:
                         // Roll the dice
                         if (RNG.pass(Player.getATKChance())){
+                            Sound.playSound(SoundEffect.ENEMY_HIT);
                             damageEnemy(Player.getATK());
                         }else{
+                            Sound.playSound(SoundEffect.MISS);
                             HUDManager.displayFadeMessage("MISS", (int) currentEnemy.x, (int) (currentEnemy.y - height * 0.15), 30, 35, Color.RED);
                         }
                         Player.resetAtkChanceBonus();
@@ -138,11 +146,20 @@ public class BattleManager {
                     // Check if the enemy is dead, if it's not, proceed to enemy's turn
                     case 80:
                         if (currentEnemy.isDead()){
+                            if (Player.hasAgility()){
+                                Player.toggleAgility();
+                            }
                             currentEnemy.fadeOut(60);
                         }else{
                             currentEnemy.setState(EAState.IDLE);
-                            battleState = BattleState.ENEMY_ATTACK;
-                            tick = 0;
+                            if (Player.hasAgility()){
+                                Player.toggleAgility();
+                                battleState = BattleState.PLAYER_DEFEND;
+                                tick = 0;
+                            }else{
+                                battleState = BattleState.ENEMY_ATTACK;
+                                tick = 0;
+                            }
                         }
                         break;
                     // If the enemy is dead, continue to reward state
@@ -158,6 +175,7 @@ public class BattleManager {
                 switch(tick){
                     // Create explosion at enemy
                     case 10:
+                        Sound.playSound(SoundEffect.EXPLODE);
                         ExplosionAnimation explode = new ExplosionAnimation((int) currentEnemy.x, (int) currentEnemy.y);
                         break;
                     // Check for hit
@@ -166,6 +184,7 @@ public class BattleManager {
                         if (RNG.pass(75)){
                             damageEnemy((int) (Player.getATK() * 1.5));
                         }else{
+                            Sound.playSound(SoundEffect.MISS);
                             HUDManager.displayFadeMessage("MISS", (int) currentEnemy.x, (int) (currentEnemy.y - height * 0.15), 30, 35, Color.RED);
                         }
                         break;
@@ -221,9 +240,11 @@ public class BattleManager {
                     case 20:
                         // Roll the dice
                         if (RNG.pass(100 - Player.getEvade())){
+                            Sound.playSound(SoundEffect.PLAYER_HIT);
                             SEManager.playEffect(SEManager.Effect.RED_FLASH);
                             Player.damage(currentEnemy.getAtk());
                         }else{
+                            Sound.playSound(SoundEffect.MISS);
                             HUDManager.displayFadeMessage("Dodged!", width / 2, (int) (height * 0.75), 30, 30, Color.GREEN);
                             SEManager.playEffect(SEManager.Effect.GREEN_FLASH);
                         }
@@ -264,6 +285,7 @@ public class BattleManager {
     }
     public static void playerSpell(){
         // Use spell if it's player turn
+        // Play spell sound
         if (battleState.equals(BattleState.PLAYER_TURN)){
             Player.getCurrentSpell().use();
         }
@@ -271,6 +293,7 @@ public class BattleManager {
     public static void playerAttack(){
         // Spawn slash animation and go to attack state if it's player turn
         if (battleState.equals(BattleState.PLAYER_TURN)){
+            // Play attack sound in the future
             new SlashAnimation((int) currentEnemy.x, (int) currentEnemy.y);
             battleState = BattleState.PLAYER_ATTACK;
         }
@@ -278,12 +301,14 @@ public class BattleManager {
     public static void playerDefend(){
         // Go to defend state if it's player turn
         if (battleState.equals(BattleState.PLAYER_TURN)){
+            // Play defend sound in the future
             battleState = BattleState.PLAYER_DEFEND;
         }
     }
     public static void playerInventory(){
         // Save the current enemy and go to inventory screen if it's player turn
         if (battleState.equals(BattleState.PLAYER_TURN)){
+            Sound.playSound(SoundEffect.SELECT);
             savedEnemy = currentEnemy;
             SEManager.playEffect(SEManager.Effect.FADE_TRANSITION, ScreenState.INVENTORY);
         }
@@ -320,6 +345,6 @@ public class BattleManager {
         return currentEnemy;
     }
     public enum BattleState{
-        BATTLE_START, PLAYER_TURN, PLAYER_ATTACK, PLAYER_FIREBALL, PLAYER_DEFEND, ENEMY_ATTACK, REWARD, NONE
+        BATTLE_START, PLAYER_TURN, PLAYER_ATTACK, PLAYER_FIREBALL, PLAYER_AGILITY, PLAYER_DEFEND, ENEMY_ATTACK, REWARD, NONE
     }
 }

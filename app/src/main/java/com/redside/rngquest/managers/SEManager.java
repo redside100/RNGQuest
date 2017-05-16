@@ -52,6 +52,7 @@ public class SEManager {
                 break;
             case GREEN_FLASH:
             case YELLOW_FLASH:
+            case PURPLE_FLASH:
             case RED_FLASH:
             case BLUE_FLASH:
                 if (tick < 12 && fade){
@@ -108,6 +109,13 @@ public class SEManager {
                     paint.setAlpha(opacity);
                     canvas.drawRect(flashB, paint);
                     break;
+                case PURPLE_FLASH:
+                    // For blue flash, create a blue rectangle that covers the whole screen
+                    Rect flashP = new Rect(0, 0, CoreManager.width, CoreManager.height);
+                    paint.setColor(Color.rgb(180, 50, 255));
+                    paint.setAlpha(opacity);
+                    canvas.drawRect(flashP, paint);
+                    break;
             }
         }
     }
@@ -127,6 +135,7 @@ public class SEManager {
                 case GREEN_FLASH:
                 case BLUE_FLASH:
                 case YELLOW_FLASH:
+                case PURPLE_FLASH:
                     fade = true;
                     break;
             }
@@ -146,6 +155,7 @@ public class SEManager {
                 case RED_FLASH:
                 case GREEN_FLASH:
                 case BLUE_FLASH:
+                case PURPLE_FLASH:
                 case YELLOW_FLASH:
                     fade = true;
                     break;
@@ -156,6 +166,6 @@ public class SEManager {
 
     }
     public enum Effect {
-        NOTHING, FADE_TRANSITION, SHAKE, RED_FLASH, YELLOW_FLASH, GREEN_FLASH, BLUE_FLASH
+        NOTHING, FADE_TRANSITION, SHAKE, RED_FLASH, YELLOW_FLASH, GREEN_FLASH, BLUE_FLASH, PURPLE_FLASH
     }
 }

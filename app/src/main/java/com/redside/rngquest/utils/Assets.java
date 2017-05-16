@@ -99,6 +99,7 @@ public class Assets {
         bitmapDb.put("button_inventory", getBitmap(context, "buttons/inventory.png"));
         bitmapDb.put("button_empty", getBitmap(context, "buttons/empty.png"));
         bitmapDb.put("button_fireball", getBitmap(context, "buttons/fireball.png"));
+        bitmapDb.put("button_agility", getBitmap(context, "buttons/agility.png"));
 
         // Icons
         bitmapDb.put("icons_hp", getBitmap(context, "icons/hp.png"));
@@ -111,13 +112,22 @@ public class Assets {
         bitmapDb.put("items_small_potion", getBitmap(context, "items/small_potion.png"));
         bitmapDb.put("items_large_potion", getBitmap(context, "items/large_potion.png"));
         bitmapDb.put("items_mana_potion", getBitmap(context, "items/mana_potion.png"));
+        bitmapDb.put("items_manaup_potion", getBitmap(context, "items/manaup_potion.png"));
+        bitmapDb.put("items_evadeup_potion", getBitmap(context, "items/evadeup_potion.png"));
         bitmapDb.put("items_fireball_spell", getBitmap(context, "items/fireball_spell.png"));
+        bitmapDb.put("items_agility_spell", getBitmap(context, "items/agility_spell.png"));
 
         // Sounds
         soundDb.put("title_theme", getSoundDesc(context, "sounds/title.ogg"));
         soundDb.put("shop_theme", getSoundDesc(context, "sounds/shop.ogg"));
         soundDb.put("wave_theme", getSoundDesc(context, "sounds/wave.ogg"));
         soundDb.put("battle_theme", getSoundDesc(context, "sounds/battle.ogg"));
+        soundDb.put("sound_select", getSoundDesc(context, "sounds/select.wav"));
+        soundDb.put("sound_enemy_hit", getSoundDesc(context, "sounds/enemyHit.wav"));
+        soundDb.put("sound_explode", getSoundDesc(context, "sounds/explode.wav"));
+        soundDb.put("sound_player_hit", getSoundDesc(context, "sounds/playerHit.wav"));
+        soundDb.put("sound_miss", getSoundDesc(context, "sounds/miss.wav"));
+        soundDb.put("sound_purchase", getSoundDesc(context, "sounds/purchaseFinal.wav"));
 
     }
     public static Bitmap getBitmap(Context context, String filePath) {

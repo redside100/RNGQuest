@@ -29,11 +29,13 @@ public class CoreManager{
     }
     public void init(){
         // Initialize HUD manager, background manager, and SE manager
+        // Load sound effects
         state = ScreenState.TITLE;
         hud = new HUDManager();
         background = new Background();
         se = new SEManager();
         gm = new GameManager();
+        Sound.loadSounds();
         // Call first time onStateChange for HUD and Background
         hud.onStateChange(state, state);
         background.onStateChange(state ,state);

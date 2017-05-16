@@ -12,15 +12,14 @@ import com.redside.rngquest.utils.Assets;
 
 public class SmallPotionItem extends Item {
     public SmallPotionItem(){
-        super(ItemType.SMALL_POTION, Player.Role.ALL, "Tonic: Restores 20% HP" , 50, Assets.getBitmapFromMemory("items_small_potion"));
+        super(ItemType.SMALL_POTION, Player.Role.ALL, "Tonic: Restores 30 HP" , 50, Assets.getBitmapFromMemory("items_small_potion"));
     }
 
     @Override
     public void use(){
         // Display text, and heal
-        int hp = Player.getMaxHP() / 5;
         AnimatedTextManager.clear();
-        HUDManager.displayFadeMessage("Recovered " + hp + " HP", CoreManager.width / 2, CoreManager.height / 3, 30, 35, Color.GREEN);
-        Player.heal(hp);
+        HUDManager.displayFadeMessage("Recovered 30 HP", CoreManager.width / 2, CoreManager.height / 3, 30, 35, Color.GREEN);
+        Player.heal(30);
     }
 }

@@ -43,7 +43,9 @@ public class Button{
     public int getY(){
         return y;
     }
-    public void trigger() {}
+    public void trigger() {
+
+    }
     public Bitmap getBitmap(){
         return image;
     }
