@@ -104,7 +104,7 @@ public class BattleManager {
                                 break;
                             case 6:
                                 // Give out 10-20% MP
-                                int manaAmount = RNG.number(Player.getMaxMana() / 20, Player.getMaxMana() / 5);
+                                int manaAmount = RNG.number(Player.getMaxMana() / 10, Player.getMaxMana() / 5);
                                 HUDManager.displayFadeMessage("Gained " + manaAmount + " MP!", width / 2, (int) (height * 0.6), 45, 35, Color.GREEN);
                                 Player.addMana(manaAmount);
                                 break;
@@ -242,6 +242,7 @@ public class BattleManager {
                         if (RNG.pass(100 - Player.getEvade())){
                             Sound.playSound(SoundEffect.PLAYER_HIT);
                             SEManager.playEffect(SEManager.Effect.RED_FLASH);
+                            HUDManager.displayFadeMessage("Took " + currentEnemy.getAtk() + " DMG", width / 2, (int) (height * 0.75), 30, 30, Color.RED);
                             Player.damage(currentEnemy.getAtk());
                         }else{
                             Sound.playSound(SoundEffect.MISS);

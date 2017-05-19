@@ -156,8 +156,8 @@ public class HUDManager {
                 Bitmap inv = Assets.getBitmapFromMemory("button_inv");
 
                 // Create back and inv buttons
-                StateChangeButton nextB = new StateChangeButton(next, (int) (width * 0.07), (int) (height * 0.075), ScreenState.STAGE_TRANSITION);
-                StateChangeButton invB = new StateChangeButton(inv, (int) (width * 0.07), (int) (height * 0.195), ScreenState.INVENTORY);
+                StateChangeButton nextB = new StateChangeButton(next, (int) (width * 0.92), (int) (height * 0.91), ScreenState.STAGE_TRANSITION);
+                StateChangeButton invB = new StateChangeButton(inv, (int) (width * 0.08), (int) (height * 0.91), ScreenState.INVENTORY);
                 break;
         }
     }
@@ -339,9 +339,23 @@ public class HUDManager {
 
                 // Draw shop menu
                 canvas.drawBitmap(itemMenu, 0, 0, paint);
-
+                drawCenteredText("Stats", canvas, (int) (width * 0.27), (int) (height * 0.17), paint, 35, Color.WHITE);
+                int[] statColors = {Color.RED, Color.rgb(50, 50, 255), Color.CYAN, Color.rgb(255, 80, 0), Color.GREEN, Color.YELLOW};
                 // Draw gold count
-                drawCenteredText(Player.getGold() + " G", canvas, (int) (width * 0.07), height / 3, paint, 25, Color.YELLOW);
+                String playerInfo[] = {
+                        Player.getHP() + "/" + Player.getMaxHP() + " HP",
+                        Player.getMana() + "/" + Player.getMaxMana() + " MP",
+                        Player.getArmor() + "/" + Player.getMaxArmor() + " AMR",
+                        Player.getATK() + " (" + Player.getATKChance() + "%) ATK",
+                        Player.getEvade() + "% EVA",
+                        Player.getGold() + " G"
+                };
+                // Draw stats
+                double shopFactor = 0.26;
+                for (int i = 0; i < 6; i++){
+                    drawCenteredTextWithBorder(playerInfo[i], canvas, (int) (width * 0.27), (int) (height * shopFactor), paint, 23, statColors[i]);
+                    shopFactor += 0.08;
+                }
 
                 // Draw item costs for each shop item
                 ArrayList<Item> spellItems = new ArrayList<>(GameManager.getShopSpellInventory().getItems());
@@ -378,7 +392,7 @@ public class HUDManager {
 
                         } else if (Player.hasSpell()){
                             // Draw warning if player already has a spell
-                            drawCenteredText("Tap again to purchase. This will replace your old spell.", canvas, width / 2, (int) (height * 0.92), paint, 25, Color.YELLOW);
+                            drawCenteredText("Tap again to replace your old spell.", canvas, width / 2, (int) (height * 0.92), paint, 25, Color.YELLOW);
 
                         }else{
                             // Confirmation
