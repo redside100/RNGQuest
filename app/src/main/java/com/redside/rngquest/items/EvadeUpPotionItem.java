@@ -12,7 +12,7 @@ import com.redside.rngquest.utils.Assets;
 
 public class EvadeUpPotionItem extends Item {
     public EvadeUpPotionItem(){
-        super(ItemType.MANA_POTION, Player.Role.ALL, "Evade Up: Increases evade by 3%, up to 80%" , 220, Assets.getBitmapFromMemory("items_evadeup_potion"));
+        super(ItemType.MANA_POTION, Player.Role.ALL, "Evade Up: Increases evade by 3%, up to 80%" , 220, Assets.getBitmapFromMemory("items_evadeup_potion"), 4);
     }
 
     @Override

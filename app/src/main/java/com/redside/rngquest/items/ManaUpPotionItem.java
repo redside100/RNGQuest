@@ -12,7 +12,7 @@ import com.redside.rngquest.utils.Assets;
 
 public class ManaUpPotionItem extends Item {
     public ManaUpPotionItem(){
-        super(ItemType.MANA_POTION, Player.Role.ALL, "Mana Up: Increases max MP by 10" , 100, Assets.getBitmapFromMemory("items_manaup_potion"));
+        super(ItemType.MANA_POTION, Player.Role.ALL, "Mana Up: Increases max MP by 10" , 100, Assets.getBitmapFromMemory("items_manaup_potion"), 3);
     }
 
     @Override

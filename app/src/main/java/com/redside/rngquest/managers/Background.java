@@ -35,6 +35,7 @@ public class Background {
             // All movement for things in the background are handled here.
             case CHAR_SELECT:
             case TITLE:
+            case LOAD:
             case INFO:
                 if (xOff < CoreManager.width + clouds.getWidth()){
                     xOff += HUDManager.getSpeed(CoreManager.width, 1500);
@@ -50,6 +51,7 @@ public class Background {
         switch (newState){
             case TITLE:
             case INFO:
+            case LOAD:
             case CHAR_SELECT:
                 animate.setSpeed(450);
                 for (int i = 0; i < 2; i++){
@@ -87,6 +89,7 @@ public class Background {
             // All moving objects in the background are drawn here.
             case TITLE:
             case INFO:
+            case LOAD:
             case CHAR_SELECT:
                 // Clouds
                 canvas.drawBitmap(clouds, CoreManager.width - (int) xOff, CoreManager.height / 10, paint);

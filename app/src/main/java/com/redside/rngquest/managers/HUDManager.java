@@ -12,6 +12,7 @@ import com.redside.rngquest.buttons.CharSelectButton;
 import com.redside.rngquest.buttons.DefendButton;
 import com.redside.rngquest.buttons.InventoryButton;
 import com.redside.rngquest.buttons.InventoryItemButton;
+import com.redside.rngquest.buttons.LoadButton;
 import com.redside.rngquest.buttons.ShopItemButton;
 import com.redside.rngquest.buttons.SpellButton;
 import com.redside.rngquest.buttons.StartGameButton;
@@ -77,7 +78,10 @@ public class HUDManager {
             case TITLE:
                 // Create play and info buttons
                 StateChangeButton bPlayMenu = new StateChangeButton(play, width / 2, height / 2, ScreenState.CHAR_SELECT);
-                StateChangeButton bInfoMenu = new StateChangeButton(info, width / 2, (int) (height / 1.5), ScreenState.INFO);
+                StateChangeButton bInfoMenu = new StateChangeButton(info, (int) (width * 0.43), (int) (height / 1.5), ScreenState.INFO);
+
+                Bitmap load = Assets.getBitmapFromMemory("button_load");
+                LoadButton bLoadMenu = new LoadButton(load, (int) (width * 0.57), (int) (height / 1.5));
                 break;
 
 
@@ -86,6 +90,11 @@ public class HUDManager {
                 StateChangeButton bBackInfo = new StateChangeButton(back, (int) (width * 0.9), (int) (height * 0.9), ScreenState.TITLE);
                 break;
 
+            case LOAD:
+                // Create back and start buttons
+                StateChangeButton bBackLoad = new StateChangeButton(back, (int) (width * 0.1), (int) (height * 0.9), ScreenState.TITLE);
+                StartGameButton bStartLoad = new StartGameButton(start, (int) (width * 0.9), (int) (height * 0.9));
+                break;
 
             case CHAR_SELECT:
                 // Create back and start buttons
@@ -177,6 +186,27 @@ public class HUDManager {
                 drawCenteredText("Info", canvas, width / 2, (int) (height / 3.5), paint, 50, Color.WHITE);
                 drawCenteredText("There's nothing here lol", canvas, width / 2, height / 2, paint, 30, Color.WHITE);
                 break;
+
+            // Load screen
+            case LOAD:
+                drawCenteredText("Continue?", canvas, width / 2, (int) (height / 3.5), paint, 50, Color.WHITE);
+                drawCenteredText("Stage " + GameManager.getStage(), canvas, width / 2, (int) (height * 0.85), paint, 40, Color.YELLOW);
+                Bitmap portrait = null;
+                // Set role text and portrait depending on role
+                switch(Player.getRole()){
+                    case MAGE:
+                        portrait = Assets.getBitmapFromMemory("sprites_wizard");
+                        break;
+                    case WARRIOR:
+                        portrait = Assets.getBitmapFromMemory("sprites_warrior");
+                        break;
+                    case TANK:
+                        portrait = Assets.getBitmapFromMemory("sprites_tank");
+                        break;
+                }
+                drawCenteredBitmap(portrait, canvas, paint, width / 2, height / 2);
+                break;
+
 
             // Character Selection Screen
             case CHAR_SELECT:
@@ -374,7 +404,8 @@ public class HUDManager {
                 int shopSel = GameManager.shopSelection;
                 // When the player enters the shop (0)
                 if (shopSel == 0){
-                    drawCenteredText("Welcome to the shop!", canvas, width / 2, (int) (height * 0.88), paint, 25, Color.WHITE);
+                    drawCenteredText("Welcome to the shop!", canvas, width / 2, (int) (height * 0.85), paint, 25, Color.WHITE);
+                    drawCenteredText("Game saved.", canvas, width / 2, (int) (height * 0.92), paint, 25, Color.GREEN);
                 }
                 // Show info for the selected item (spell)
                 else if (shopSel > 0 && shopSel < 4){

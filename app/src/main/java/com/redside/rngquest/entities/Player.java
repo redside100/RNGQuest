@@ -1,11 +1,17 @@
 package com.redside.rngquest.entities;
 
+
+import com.redside.rngquest.gameobjects.CoreView;
 import com.redside.rngquest.gameobjects.Inventory;
 import com.redside.rngquest.gameobjects.Item;
 import com.redside.rngquest.items.FireballSpellItem;
 import com.redside.rngquest.items.LargePotionItem;
 import com.redside.rngquest.items.ManaPotionItem;
 import com.redside.rngquest.items.SmallPotionItem;
+import com.redside.rngquest.managers.CoreManager;
+import com.redside.rngquest.managers.GameManager;
+
+import java.util.ArrayList;
 
 public class Player {
     private static int hp, maxHp, mana, maxMana, atk, atkChance, evade, armor, maxArmor, gold, atkChanceBonus = 0;
@@ -13,11 +19,87 @@ public class Player {
     private static Role role;
     private static Item currentSpell = null;
     private static boolean agility = false;
-    public static void spawn(int choice){
+    public static void spawnFromSave(){
         atkChanceBonus = 0;
-        gold = 1000;
         inventory.clear();
         currentSpell = null;
+
+        // Load all info from save file. Integer parse int should always work since there is no way the
+        // user can edit the save file
+        ArrayList<String> saveInfo = CoreView.getSave(CoreManager.context);
+        for (String line : saveInfo){
+            String property = line.split(": ")[0];
+            String value = line.split(": ")[1];
+            switch(property.toLowerCase()){
+                case "stage":
+                    GameManager.stage = Integer.parseInt(value);
+                    break;
+                case "hp":
+                    hp = Integer.parseInt(value);
+                    break;
+                case "maxhp":
+                    maxHp = Integer.parseInt(value);
+                    break;
+                case "mp":
+                    mana = Integer.parseInt(value);
+                    break;
+                case "maxmp":
+                    maxMana = Integer.parseInt(value);
+                    break;
+                case "atk":
+                    atk = Integer.parseInt(value);
+                    break;
+                case "atkchance":
+                    atkChance = Integer.parseInt(value);
+                    break;
+                case "evade":
+                    evade = Integer.parseInt(value);
+                    break;
+                case "armor":
+                    armor = Integer.parseInt(value);
+                    break;
+                case "maxarmor":
+                    maxArmor = Integer.parseInt(value);
+                    break;
+                case "gold":
+                    gold = Integer.parseInt(value);
+                    break;
+                case "role":
+                    switch(value.toLowerCase()){
+                        case "mage":
+                            role = Role.MAGE;
+                            break;
+                        case "warrior":
+                            role = Role.WARRIOR;
+                            break;
+                        case "tank":
+                            role = Role.TANK;
+                            break;
+                    }
+                    break;
+                case "items":
+                    String[] items = value.split(",");
+                    for (String item : items){
+                        if (!item.isEmpty()){
+                            int id = Integer.parseInt(item);
+                            inventory.addItem(Item.getItemById(id));
+                        }
+                    }
+                    break;
+                case "currentspell":
+                    int id = Integer.parseInt(value);
+                    currentSpell = Item.getItemById(id);
+                    break;
+            }
+        }
+        System.out.println("Loaded stats and inventory from save data!");
+    }
+    public static void spawn(int choice){
+        atkChanceBonus = 0;
+        gold = 150;
+        inventory.clear();
+        currentSpell = null;
+        GameManager.reset();
         // reset stats and stuff
         // 1 is Mage, 2 is Warrior, 3 is Tank
         switch(choice){

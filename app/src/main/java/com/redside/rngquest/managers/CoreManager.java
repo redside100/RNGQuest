@@ -7,6 +7,7 @@ import android.graphics.Paint;
 import android.graphics.Rect;
 import android.view.MotionEvent;
 
+import com.redside.rngquest.gameobjects.CoreView;
 import com.redside.rngquest.utils.Assets;
 
 public class CoreManager{
@@ -20,9 +21,11 @@ public class CoreManager{
     private static SEManager se;
     private static GameManager gm;
     private Assets assets;
+    public static Context context;
     public static ScreenState state;
     public static boolean allowTouch = true;
-    public CoreManager(int width, int height){
+    public CoreManager(Context context, int width, int height){
+        this.context = context;
         this.width = width;
         this.height = height;
         init();

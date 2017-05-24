@@ -9,7 +9,10 @@ import com.redside.rngquest.entities.Ghost;
 import com.redside.rngquest.entities.Player;
 import com.redside.rngquest.entities.SlashAnimation;
 import com.redside.rngquest.entities.Wizard;
+import com.redside.rngquest.gameobjects.CoreView;
 import com.redside.rngquest.utils.RNG;
+
+import java.util.ArrayList;
 
 public class BattleManager {
     public static Entity currentEnemy = null;
@@ -182,6 +185,7 @@ public class BattleManager {
                     case 15:
                         // Roll the dice
                         if (RNG.pass(75)){
+                            // Damage the enemy for 1.5x atk (since this is a fireball)
                             damageEnemy((int) (Player.getATK() * 1.5));
                         }else{
                             Sound.playSound(SoundEffect.MISS);
@@ -242,7 +246,7 @@ public class BattleManager {
                         if (RNG.pass(100 - Player.getEvade())){
                             Sound.playSound(SoundEffect.PLAYER_HIT);
                             SEManager.playEffect(SEManager.Effect.RED_FLASH);
-                            HUDManager.displayFadeMessage("Took " + currentEnemy.getAtk() + " DMG", width / 2, (int) (height * 0.75), 30, 30, Color.RED);
+                            HUDManager.displayFadeMessage("Hit for " + currentEnemy.getAtk(), width / 2, (int) (height * 0.75), 30, 30, Color.RED);
                             Player.damage(currentEnemy.getAtk());
                         }else{
                             Sound.playSound(SoundEffect.MISS);
@@ -256,7 +260,11 @@ public class BattleManager {
                         break;
                     // Check if player is dead, if not, go to player's turn
                     case 100:
+                        // For now, if the player is dead, return them back to the title screen and delete their save
                         if (Player.isDead()){
+                            ArrayList<String> erase = new ArrayList<>();
+                            erase.add("available: false");
+                            CoreView.save(CoreManager.context, erase);
                             SEManager.playEffect(SEManager.Effect.FADE_TRANSITION, ScreenState.TITLE);
                         }else{
                             battleState = BattleState.PLAYER_TURN;

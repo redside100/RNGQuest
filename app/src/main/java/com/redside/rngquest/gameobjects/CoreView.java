@@ -17,6 +17,18 @@ import com.redside.rngquest.managers.CoreManager;
 import com.redside.rngquest.managers.Soundtrack;
 import com.redside.rngquest.utils.Assets;
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
+
 public class CoreView extends View {
     public Canvas canvas;
     Typeface font;
@@ -37,9 +49,103 @@ public class CoreView extends View {
     private void init(){
         // Init assets, main manager, game loop, and set font
         assets = new Assets(getContext(), width, height);
-        manager = new CoreManager(width, height);
+        manager = new CoreManager(getContext(), width, height);
         loop = new Loop(this);
         font = Typeface.createFromAsset(getContext().getAssets(), "fonts/font.ttf");
+
+
+        // Save file: Check if it exists, if not create one
+        File save = new File(getContext().getFilesDir(), "save.ini");
+        if (!save.exists()){
+            System.out.println("No save file found. Creating a new one...");
+            try{
+                // Make new file and write default stuff inside
+                save.createNewFile();
+                ArrayList<String> defaultInfo = new ArrayList<>();
+                defaultInfo.add("available: false");
+                save(getContext(), defaultInfo);
+
+            }catch(IOException e){}
+        }
+
+        /* How the save file works: each line, it starts with the property (ex. hp, mp, armor, evade), proceeded by a colon ':'
+         * and the value. For example, "hp: 50", "maxhp: 100"
+         * Accessing the save file info will return an array list of strings, each string being a line of the save file. Then, the line can be
+         * processed and determined what it represents (ex. line.startsWith("hp"), or line.startWith("mp")), and can be split by the colon, the second index
+         * being its corresponding value.
+         */
+    }
+    public static ArrayList<String> getSave(Context context) {
+        try {
+            // Open a new input stream from save.ini using the context
+            FileInputStream inputStream = context.openFileInput("save.ini");
+
+            // Open a new input stream reader
+            InputStreamReader inputStreamReader = new InputStreamReader(inputStream, "UTF-8");
+
+            // Open a new buffered reader
+            BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
+
+            // Create an array list to store all the info
+            ArrayList<String> info = new ArrayList<>();
+
+            // Keep reading until the line is null
+            String line;
+            while ((line = bufferedReader.readLine()) != null) {
+               info.add(line);
+            }
+
+            // Close the readers and input stream
+            bufferedReader.close();
+            inputStreamReader.close();
+            inputStream.close();
+
+            return info;
+        } catch (FileNotFoundException e) {
+            return null;
+        } catch (UnsupportedEncodingException e) {
+            return null;
+        } catch (IOException e) {
+            return null;
+        }
+    }
+    public static void save(Context context, ArrayList<String> info){
+        try{
+            // Create temp file
+            File temp = new File(context.getFilesDir(), "temp.ini");
+            if (!temp.exists()){
+                temp.createNewFile();
+            }else{
+                System.out.println("Error saving! Temp file already exists... weird.");
+                return;
+            }
+
+            // Open output stream, writer, and buffered writer
+            FileOutputStream outputStream = context.openFileOutput("temp.ini", Context.MODE_PRIVATE);
+            OutputStreamWriter outputWriter = new OutputStreamWriter(outputStream, "UTF-8");
+            BufferedWriter bufferedWriter = new BufferedWriter(outputWriter);
+
+            for (String line : info){
+                bufferedWriter.write(line + "\n");
+            }
+
+            // Close writers and streams
+            bufferedWriter.close();
+            outputWriter.close();
+            outputStream.close();
+
+            // Delete old save file, then rename the temp file to the new save file
+            File save = new File(context.getFilesDir(), "save.ini");
+            if (save.exists()){
+                save.delete();
+                temp.renameTo(save);
+                System.out.println("File saved!");
+            }else{
+                System.out.println("Error saving! Save file doesn't exist... weird.");
+                return;
+            }
+
+        }catch(IOException e){}
     }
     @Override
     protected void onDraw(Canvas canvas) {
@@ -51,6 +157,8 @@ public class CoreView extends View {
         paint.setStyle(Paint.Style.FILL);
         paint.setColor(Color.WHITE);
         canvas.drawPaint(paint);
+
+        // Always render the core manager
         manager.render(canvas, paint);
     }
     @Override

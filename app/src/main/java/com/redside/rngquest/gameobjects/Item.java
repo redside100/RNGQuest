@@ -3,18 +3,26 @@ package com.redside.rngquest.gameobjects;
 import android.graphics.Bitmap;
 
 import com.redside.rngquest.entities.Player;
+import com.redside.rngquest.items.AgilitySpellItem;
+import com.redside.rngquest.items.EvadeUpPotionItem;
+import com.redside.rngquest.items.FireballSpellItem;
+import com.redside.rngquest.items.LargePotionItem;
+import com.redside.rngquest.items.ManaPotionItem;
+import com.redside.rngquest.items.ManaUpPotionItem;
+import com.redside.rngquest.items.SmallPotionItem;
 
 public class Item {
     private ItemType itemType;
     private String description;
     private Player.Role role;
+    private int id;
     private int cost;
     private int manaCost;
     private Bitmap bitmap;
     private Bitmap buttonBitmap;
 
     // Constructor for consumable items
-    public Item(ItemType itemType, Player.Role role, String description, int cost, Bitmap bitmap){
+    public Item(ItemType itemType, Player.Role role, String description, int cost, Bitmap bitmap, int id){
         this.itemType = itemType;
         this.role = role;
         this.cost = cost;
@@ -22,9 +30,10 @@ public class Item {
         this.bitmap = bitmap;
         this.description = description;
         buttonBitmap = null;
+        this.id = id;
     }
     // Constructor for spell items
-    public Item(ItemType itemType, Player.Role role, String description, int cost, int manaCost, Bitmap bitmap, Bitmap buttonBitmap){
+    public Item(ItemType itemType, Player.Role role, String description, int cost, int manaCost, Bitmap bitmap, Bitmap buttonBitmap, int id){
         this.itemType = itemType;
         this.role = role;
         this.cost = cost;
@@ -32,6 +41,7 @@ public class Item {
         this.bitmap = bitmap;
         this.description = description;
         this.buttonBitmap = buttonBitmap;
+        this.id = id;
     }
 
     public void use(){}
@@ -64,6 +74,9 @@ public class Item {
         }
         return false;
     }
+    public int getId(){
+        return id;
+    }
     public static boolean isSpell(Item item){
         // Check item types
         ItemType type = item.getItemType();
@@ -75,6 +88,25 @@ public class Item {
                 return true;
         }
         return false;
+    }
+    public static Item getItemById(int id){
+        switch(id){
+            case 0:
+                return new SmallPotionItem();
+            case 1:
+                return new LargePotionItem();
+            case 2:
+                return new ManaPotionItem();
+            case 3:
+                return new ManaUpPotionItem();
+            case 4:
+                return new EvadeUpPotionItem();
+            case 5:
+                return new FireballSpellItem();
+            case 6:
+                return new AgilitySpellItem();
+        }
+        return null;
     }
 
     public enum ItemType{

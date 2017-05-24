@@ -5,6 +5,7 @@ import com.redside.rngquest.buttons.InventoryItemButton;
 import com.redside.rngquest.buttons.ShopItemButton;
 import com.redside.rngquest.entities.Player;
 import com.redside.rngquest.gameobjects.Button;
+import com.redside.rngquest.gameobjects.CoreView;
 import com.redside.rngquest.gameobjects.Inventory;
 import com.redside.rngquest.gameobjects.Item;
 import com.redside.rngquest.items.AgilitySpellItem;
@@ -64,6 +65,10 @@ public class GameManager {
             case STAGE_TRANSITION:
                 // Flag the shop to be restocked the next time
                 revisit = true;
+
+                // Save game in case the user bought items from the shop
+                saveGame();
+
                 Soundtrack.playSong(Song.WAVE);
                 // Switch to next screen in 3 seconds
                 sTransition = true;
@@ -83,6 +88,7 @@ public class GameManager {
                 if (!oldState.equals(ScreenState.INVENTORY)){
                     Soundtrack.playSong(Song.SHOP);
                     nextStage();
+                    saveGame();
                 }
                 break;
         }
@@ -138,6 +144,55 @@ public class GameManager {
                 recreateShopButtons();
             }
         }
+    }
+    public static void saveGame(){
+        // Save game data into a file
+        // First add all stats into the list
+        ArrayList<String> data = new ArrayList<>();
+        data.add("available: true");
+        data.add("stage: " + stage);
+        data.add("hp: " + Player.getHP());
+        data.add("maxhp: " + Player.getMaxHP());
+        data.add("mp: " + Player.getMana());
+        data.add("maxmp: " + Player.getMaxMana());
+        data.add("atk: " + Player.getATK());
+        data.add("atkchance: " + Player.getRealATKChance());
+        data.add("evade: " + Player.getEvade());
+        data.add("armor: " + Player.getArmor());
+        data.add("maxarmor: " + Player.getMaxArmor());
+        data.add("gold: " + Player.getGold());
+
+        // Then the role
+        switch(Player.getRole()){
+            case MAGE:
+                data.add("role: mage");
+                break;
+            case WARRIOR:
+                data.add("role: warrior");
+                break;
+            case TANK:
+                data.add("role: tank");
+                break;
+        }
+
+        // Then inventory items
+        String items = "";
+        // Get a temp list of player items
+        ArrayList<Item> playerItems = new ArrayList<>(Player.getInventory().getItems());
+        // Loop through, and attach the item id and a comma
+        for (Item item : playerItems){
+            items += item.getId() + ",";
+        }
+        // Add to list
+        data.add("items: " + items);
+
+        // Add current spell id
+        if (Player.hasSpell() && Player.getCurrentSpell() != null){
+            data.add("currentspell: " + Player.getCurrentSpell().getId());
+        }
+
+        // Save
+        CoreView.save(CoreManager.context, data);
     }
     public static void useInventoryItem(int selection){
         // Check if the selection is in range (1-4)
