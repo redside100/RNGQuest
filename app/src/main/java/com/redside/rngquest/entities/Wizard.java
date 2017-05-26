@@ -4,6 +4,8 @@ import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 
+import com.redside.rngquest.managers.CoreManager;
+import com.redside.rngquest.managers.HUDManager;
 import com.redside.rngquest.utils.Animator;
 import com.redside.rngquest.utils.Assets;
 
@@ -69,12 +71,12 @@ public class Wizard extends Entity{
     @Override
     public void tick(){
         super.tick();
-        // Hover up and down
+        // Hover
         if (tick >= 0 && tick <= 30){
-            super.y--;
+            super.y -= HUDManager.getSpeed(CoreManager.height, 1080);
         }
         else if (tick >= 31 && tick <= 60){
-            super.y++;
+            super.y += HUDManager.getSpeed(CoreManager.height, 1080);
         }
         else if (tick == 61){
             tick = 0;
