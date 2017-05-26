@@ -1,6 +1,7 @@
 package com.redside.rngquest.gameobjects;
 
 import android.app.Activity;
+import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.view.View;
@@ -12,6 +13,8 @@ public class RNGQuest extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        // Set screen orientation
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR_LANDSCAPE);
         // Used to determine what size everything should be scaled at. Only bad thing is that it requires API level 17+ due to getRealMetrics()
         DisplayMetrics displaymetrics = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getRealMetrics(displaymetrics);
