@@ -69,7 +69,7 @@ public class BattleManager {
                         int goldReward = 5 + (int) (stage * 1.5) + RNG.number(0, stage);
                         Player.addGold(goldReward);
 
-                        HUDManager.displayFadeMessage("Received " + goldReward + " gold!", width / 2, height / 2, 45, 18, Color.YELLOW);
+                        HUDManager.displayFadeMessage("Received " + goldReward + " gold!", width / 2, height / 2, 35, 18, Color.YELLOW);
 
                         // Give random stat reward
                         int reward = RNG.number(1, 6);
@@ -77,44 +77,44 @@ public class BattleManager {
                             case 1:
                                 // Give out 1-2 atk chance
                                 int atkChanceAmount = RNG.number(1, 2);
-                                HUDManager.displayFadeMessage("Gained " + atkChanceAmount + "% ATK chance!", width / 2, (int) (height * 0.6), 45, 18, Color.GREEN);
+                                HUDManager.displayFadeMessage("Gained " + atkChanceAmount + "% ATK chance!", width / 2, (int) (height * 0.6), 35, 18, Color.GREEN);
                                 Player.addATKChance(atkChanceAmount);
                                 break;
                             case 2:
                                 // Give out 1-3 atk
                                 int atkAmount = RNG.number(1, 3);
-                                HUDManager.displayFadeMessage("Gained " + atkAmount + " ATK!", width / 2, (int) (height * 0.6), 45, 18, Color.GREEN);
+                                HUDManager.displayFadeMessage("Gained " + atkAmount + " ATK!", width / 2, (int) (height * 0.6), 35, 18, Color.GREEN);
                                 Player.addATK(atkAmount);
                                 break;
                             case 3:
                                 // Give out 10-25% HP
                                 int healAmount = RNG.number(Player.getMaxHP() / 10, Player.getMaxHP() / 4);
-                                HUDManager.displayFadeMessage("Recovered " + healAmount + " HP!", width / 2, (int) (height * 0.6), 45, 18, Color.GREEN);
+                                HUDManager.displayFadeMessage("Recovered " + healAmount + " HP!", width / 2, (int) (height * 0.6), 35, 18, Color.GREEN);
                                 Player.heal(healAmount);
                                 break;
                             case 4:
                                 // Give out 5-10% max HP
                                 int maxHpAmount = (int) (Player.getMaxHP() * ((double) RNG.number(5, 10) / (double) 100));
-                                HUDManager.displayFadeMessage("Max HP increased by " + maxHpAmount + "!", width / 2, (int) (height * 0.6), 45, 18, Color.GREEN);
+                                HUDManager.displayFadeMessage("Max HP increased by " + maxHpAmount + "!", width / 2, (int) (height * 0.6), 35, 18, Color.GREEN);
                                 Player.increaseMaxHealth(maxHpAmount);
                                 Player.heal(maxHpAmount);
                                 break;
                             case 5:
                                 // Give out 20-33% armor
                                 int armorAmount = RNG.number(Player.getMaxArmor() / 5, Player.getMaxArmor() / 3);
-                                HUDManager.displayFadeMessage("Gained " + armorAmount + " AMR!", width / 2, (int) (height * 0.6), 45, 18, Color.GREEN);
+                                HUDManager.displayFadeMessage("Gained " + armorAmount + " AMR!", width / 2, (int) (height * 0.6), 35, 18, Color.GREEN);
                                 Player.addArmor(armorAmount);
                                 break;
                             case 6:
                                 // Give out 10-20% MP
                                 int manaAmount = RNG.number(Player.getMaxMana() / 10, Player.getMaxMana() / 5);
-                                HUDManager.displayFadeMessage("Gained " + manaAmount + " MP!", width / 2, (int) (height * 0.6), 45, 18, Color.GREEN);
+                                HUDManager.displayFadeMessage("Gained " + manaAmount + " MP!", width / 2, (int) (height * 0.6), 35, 18, Color.GREEN);
                                 Player.addMana(manaAmount);
                                 break;
                         }
                         break;
                     // Next battle, or announce stage clear
-                    case 100:
+                    case 90:
                         // Check if it's the end of the stage (7 enemies)
                         if (GameManager.getPart() < 8){
                             GameManager.nextPart();
@@ -125,7 +125,7 @@ public class BattleManager {
                         }
                         break;
                     // If stage cleared, then proceed to shop
-                    case 220:
+                    case 210:
                         SEManager.playEffect(SEManager.Effect.FADE_TRANSITION, ScreenState.SHOP);
                         close();
                         break;
@@ -152,7 +152,7 @@ public class BattleManager {
                             if (Player.hasAgility()){
                                 Player.toggleAgility();
                             }
-                            currentEnemy.fadeOut(60);
+                            currentEnemy.fadeOut(50);
                         }else{
                             currentEnemy.setState(EAState.IDLE);
                             if (Player.hasAgility()){
@@ -166,7 +166,7 @@ public class BattleManager {
                         }
                         break;
                     // If the enemy is dead, continue to reward state
-                    case 140:
+                    case 120:
                         currentEnemy.destroy();
                         battleState = BattleState.REWARD;
                         tick = 0;
@@ -195,7 +195,7 @@ public class BattleManager {
                     // Check if the enemy is dead
                     case 85:
                         if (currentEnemy.isDead()){
-                            currentEnemy.fadeOut(60);
+                            currentEnemy.fadeOut(50);
                         }else{
                             currentEnemy.setState(EAState.IDLE);
                             battleState = BattleState.ENEMY_ATTACK;
@@ -203,7 +203,7 @@ public class BattleManager {
                         }
                         break;
                     // If the enemy is dead, proceed to reward state
-                    case 145:
+                    case 125:
                         currentEnemy.destroy();
                         battleState = BattleState.REWARD;
                         tick = 0;
@@ -283,7 +283,7 @@ public class BattleManager {
         currentEnemy = enemy;
         battleState = BattleState.PLAYER_TURN;
         tick = 0;
-        currentEnemy.fadeIn(60);
+        currentEnemy.fadeIn(50);
     }
     public static void resumeBattle(Entity enemy){
         // Resume battle with given enemy (no fade in)

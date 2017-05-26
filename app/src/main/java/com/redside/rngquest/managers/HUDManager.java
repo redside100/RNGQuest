@@ -319,7 +319,7 @@ public class HUDManager {
                     drawCenteredTextWithBorder(currEnemy.getName() + ": " + currEnemy.getHP() + "/" + currEnemy.getMaxHP(), canvas, width / 2,
                             (int) (height * 0.12), paint, 12, Color.rgb(0,191,255));
                 }else{
-                    drawCenteredTextWithBorder("Waiting for enemy...", canvas, width / 2, (int) (height * 0.12), paint, 18, Color.rgb(0,191,255));
+                    drawCenteredTextWithBorder("Waiting for enemy...", canvas, width / 2, (int) (height * 0.12), paint, 12, Color.rgb(0,191,255));
                 }
 
                 // If the player doesn't have a spell, draw the empty button

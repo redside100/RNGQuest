@@ -18,10 +18,10 @@ public class SEManager {
             // Check for current playing effects
             case FADE_TRANSITION:
                 // Check for black screen fading in
-                if (tick < 27 && fade){
+                if (tick < 21 && fade){
                     tick++;
                     // Check if fully faded (at 31 ticks)
-                    if (tick == 26){
+                    if (tick == 20){
                         // Set states, and prepare to fade out
                         fade = false;
                         ScreenState old = CoreManager.state;
@@ -33,7 +33,7 @@ public class SEManager {
                         GameManager.invSelection = 0;
                     }
                     // Check if fading out
-                }else if (tick < 27 && !fade){
+                }else if (tick < 21 && !fade){
                     tick--;
                     // Check if fully faded out (31 ticks)
                     if (tick == 0){
@@ -44,8 +44,8 @@ public class SEManager {
                     }
                 }
                 // When opacity is 255, it is fully visible, when it is 0 it is fully transparent
-                if (tick * 10 < 255){
-                    opacity = tick * 10;
+                if (tick * 13 < 255){
+                    opacity = tick * 13;
                 }else{
                     opacity = 255;
                 }
