@@ -23,10 +23,10 @@ public class FireballSpellItem extends Item {
         if (Player.hasEnoughMana(7)){
             // Display text, and go to fireball battle state
             Player.removeMana(7);
-            HUDManager.displayFadeMessage("Fireball", CoreManager.width / 2, (int) (CoreManager.height * 0.75), 30, 30, Color.rgb(255, 80, 0));
+            HUDManager.displayFadeMessage("Fireball", CoreManager.width / 2, (int) (CoreManager.height * 0.75), 30, 15, Color.rgb(255, 80, 0));
             BattleManager.setBattleState(BattleManager.BattleState.PLAYER_FIREBALL);
         }else{
-            HUDManager.displayFadeMessage("Not enough mana!", CoreManager.width / 2, (int) (CoreManager.height * 0.75), 30, 30, Color.RED);
+            HUDManager.displayFadeMessage("Not enough mana!", CoreManager.width / 2, (int) (CoreManager.height * 0.75), 30, 15, Color.RED);
         }
     }
 }

@@ -58,8 +58,9 @@ public class AnimatedText {
 
     public void drawCenteredText(String text, Canvas canvas, int x, int y, Paint paint, int textSize, int color){
         float old = paint.getTextSize();
-        double scaledTextSize = textSize * CoreView.resources.getDisplayMetrics().density;
-        paint.setTextSize((int) scaledTextSize);
+        double relation = Math.sqrt(canvas.getWidth() * canvas.getHeight()) / 250;
+        float scaledTextSize = (float) (textSize * relation);
+        paint.setTextSize(scaledTextSize);
         paint.setColor(color);
         paint.setAlpha(currAlpha);
         Rect bounds = new Rect();
@@ -68,29 +69,6 @@ public class AnimatedText {
         x -= bounds.width() / 2;
         y -= bounds.height() / 2;
         canvas.drawText(text, x, y, paint);
-        paint.setTextSize(old);
-        paint.setColor(Color.WHITE);
-    }
-    public void drawCenteredTextWithBorder(String text, Canvas canvas, int x, int y, Paint paint, int textSize, int color){
-        paint.setColor(color);
-        float old = paint.getTextSize();
-        double scaledTextSize = textSize * CoreView.resources.getDisplayMetrics().density;
-        paint.setTextSize((int) scaledTextSize);
-        paint.setAlpha(currAlpha);
-
-        paint.setStyle(Paint.Style.FILL);
-        Rect bounds = new Rect();
-        // Get bounds of the text, then center
-        paint.getTextBounds(text, 0, text.length(), bounds);
-        x -= bounds.width() / 2;
-        y -= bounds.height() / 2;
-
-        // Draw normal text
-        paint.setShadowLayer(3, 0, 0, Color.BLACK);
-        canvas.drawText(text, x, y, paint);
-        paint.setShadowLayer(0, 0, 0, Color.BLACK);
-        // Draw black border
-
         paint.setTextSize(old);
         paint.setColor(Color.WHITE);
     }

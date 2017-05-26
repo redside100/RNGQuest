@@ -24,11 +24,11 @@ public class AgilitySpellItem extends Item {
             // Display text, and go to attack battle state with agility active
             Player.removeMana(4);
             SEManager.playEffect(SEManager.Effect.PURPLE_FLASH);
-            HUDManager.displayFadeMessage("Agility", CoreManager.width / 2, (int) (CoreManager.height * 0.75), 30, 30, Color.rgb(180, 50, 255));
+            HUDManager.displayFadeMessage("Agility", CoreManager.width / 2, (int) (CoreManager.height * 0.75), 30, 15, Color.rgb(180, 50, 255));
             BattleManager.playerAttack();
             Player.toggleAgility();
         }else{
-            HUDManager.displayFadeMessage("Not enough mana!", CoreManager.width / 2, (int) (CoreManager.height * 0.75), 30, 30, Color.RED);
+            HUDManager.displayFadeMessage("Not enough mana!", CoreManager.width / 2, (int) (CoreManager.height * 0.75), 30, 15, Color.RED);
         }
     }
 }

@@ -19,7 +19,7 @@ public class ManaPotionItem extends Item {
     public void use(){
         // Display text, and add mana
         AnimatedTextManager.clear();
-        HUDManager.displayFadeMessage("Recovered 40 MP", CoreManager.width / 2, CoreManager.height / 3, 30, 35, Color.BLUE);
+        HUDManager.displayFadeMessage("Recovered 40 MP", CoreManager.width / 2, CoreManager.height / 3, 30, 18, Color.BLUE);
         Player.addMana(40);
     }
 }

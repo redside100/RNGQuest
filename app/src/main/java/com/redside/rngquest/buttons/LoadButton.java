@@ -32,7 +32,7 @@ public class LoadButton extends Button {
                     Player.spawnFromSave();
                     SEManager.playEffect(SEManager.Effect.FADE_TRANSITION, ScreenState.LOAD);
                 }else{
-                    HUDManager.displayFadeMessage("No save data found", CoreManager.width / 2, (int) (CoreManager.height * 0.85), 30, 30, Color.RED);
+                    HUDManager.displayFadeMessage("No save data found", CoreManager.width / 2, (int) (CoreManager.height * 0.85), 30, 15, Color.RED);
                 }
             }
         }

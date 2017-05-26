@@ -19,7 +19,7 @@ public class EvadeUpPotionItem extends Item {
     public void use(){
         // Display text, and add evade
         AnimatedTextManager.clear();
-        HUDManager.displayFadeMessage("Evade increased by 3%", CoreManager.width / 2, CoreManager.height / 3, 30, 35, Color.GREEN);
+        HUDManager.displayFadeMessage("Evade increased by 3%", CoreManager.width / 2, CoreManager.height / 3, 30, 18, Color.GREEN);
         Player.addEvade(3);
     }
 }

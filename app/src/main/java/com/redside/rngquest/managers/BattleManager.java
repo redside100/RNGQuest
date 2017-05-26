@@ -69,7 +69,7 @@ public class BattleManager {
                         int goldReward = 5 + (int) (stage * 1.5) + RNG.number(0, stage);
                         Player.addGold(goldReward);
 
-                        HUDManager.displayFadeMessage("Received " + goldReward + " gold!", width / 2, height / 2, 45, 35, Color.YELLOW);
+                        HUDManager.displayFadeMessage("Received " + goldReward + " gold!", width / 2, height / 2, 45, 18, Color.YELLOW);
 
                         // Give random stat reward
                         int reward = RNG.number(1, 6);
@@ -77,38 +77,38 @@ public class BattleManager {
                             case 1:
                                 // Give out 1-2 atk chance
                                 int atkChanceAmount = RNG.number(1, 2);
-                                HUDManager.displayFadeMessage("Gained " + atkChanceAmount + "% ATK chance!", width / 2, (int) (height * 0.6), 45, 35, Color.GREEN);
+                                HUDManager.displayFadeMessage("Gained " + atkChanceAmount + "% ATK chance!", width / 2, (int) (height * 0.6), 45, 18, Color.GREEN);
                                 Player.addATKChance(atkChanceAmount);
                                 break;
                             case 2:
                                 // Give out 1-3 atk
                                 int atkAmount = RNG.number(1, 3);
-                                HUDManager.displayFadeMessage("Gained " + atkAmount + " ATK!", width / 2, (int) (height * 0.6), 45, 35, Color.GREEN);
+                                HUDManager.displayFadeMessage("Gained " + atkAmount + " ATK!", width / 2, (int) (height * 0.6), 45, 18, Color.GREEN);
                                 Player.addATK(atkAmount);
                                 break;
                             case 3:
                                 // Give out 10-25% HP
                                 int healAmount = RNG.number(Player.getMaxHP() / 10, Player.getMaxHP() / 4);
-                                HUDManager.displayFadeMessage("Recovered " + healAmount + " HP!", width / 2, (int) (height * 0.6), 45, 35, Color.GREEN);
+                                HUDManager.displayFadeMessage("Recovered " + healAmount + " HP!", width / 2, (int) (height * 0.6), 45, 18, Color.GREEN);
                                 Player.heal(healAmount);
                                 break;
                             case 4:
                                 // Give out 5-10% max HP
                                 int maxHpAmount = (int) (Player.getMaxHP() * ((double) RNG.number(5, 10) / (double) 100));
-                                HUDManager.displayFadeMessage("Max HP increased by " + maxHpAmount + "!", width / 2, (int) (height * 0.6), 45, 35, Color.GREEN);
+                                HUDManager.displayFadeMessage("Max HP increased by " + maxHpAmount + "!", width / 2, (int) (height * 0.6), 45, 18, Color.GREEN);
                                 Player.increaseMaxHealth(maxHpAmount);
                                 Player.heal(maxHpAmount);
                                 break;
                             case 5:
                                 // Give out 20-33% armor
                                 int armorAmount = RNG.number(Player.getMaxArmor() / 5, Player.getMaxArmor() / 3);
-                                HUDManager.displayFadeMessage("Gained " + armorAmount + " AMR!", width / 2, (int) (height * 0.6), 45, 35, Color.GREEN);
+                                HUDManager.displayFadeMessage("Gained " + armorAmount + " AMR!", width / 2, (int) (height * 0.6), 45, 18, Color.GREEN);
                                 Player.addArmor(armorAmount);
                                 break;
                             case 6:
                                 // Give out 10-20% MP
                                 int manaAmount = RNG.number(Player.getMaxMana() / 10, Player.getMaxMana() / 5);
-                                HUDManager.displayFadeMessage("Gained " + manaAmount + " MP!", width / 2, (int) (height * 0.6), 45, 35, Color.GREEN);
+                                HUDManager.displayFadeMessage("Gained " + manaAmount + " MP!", width / 2, (int) (height * 0.6), 45, 18, Color.GREEN);
                                 Player.addMana(manaAmount);
                                 break;
                         }
@@ -121,7 +121,7 @@ public class BattleManager {
                             battleState = BattleState.BATTLE_START;
                             tick = 0;
                         }else{
-                            HUDManager.displayFadeMessage("Stage " + GameManager.getStage() + " cleared!", width / 2, height / 2, 90, 35, Color.YELLOW);
+                            HUDManager.displayFadeMessage("Stage " + GameManager.getStage() + " cleared!", width / 2, height / 2, 90, 18, Color.YELLOW);
                         }
                         break;
                     // If stage cleared, then proceed to shop
@@ -142,7 +142,7 @@ public class BattleManager {
                             damageEnemy(Player.getATK());
                         }else{
                             Sound.playSound(SoundEffect.MISS);
-                            HUDManager.displayFadeMessage("MISS", (int) currentEnemy.x, (int) (currentEnemy.y - height * 0.15), 30, 35, Color.RED);
+                            HUDManager.displayFadeMessage("MISS", (int) currentEnemy.x, (int) (currentEnemy.y - height * 0.15), 30, 18, Color.RED);
                         }
                         Player.resetAtkChanceBonus();
                         break;
@@ -189,7 +189,7 @@ public class BattleManager {
                             damageEnemy((int) (Player.getATK() * 1.5));
                         }else{
                             Sound.playSound(SoundEffect.MISS);
-                            HUDManager.displayFadeMessage("MISS", (int) currentEnemy.x, (int) (currentEnemy.y - height * 0.15), 30, 35, Color.RED);
+                            HUDManager.displayFadeMessage("MISS", (int) currentEnemy.x, (int) (currentEnemy.y - height * 0.15), 30, 18, Color.RED);
                         }
                         break;
                     // Check if the enemy is dead
@@ -220,8 +220,8 @@ public class BattleManager {
                         int armorAmount = RNG.number(Player.getMaxArmor() / 4, Player.getMaxArmor() / 3);
                         int atkChanceAmount = RNG.number(Player.getRealATKChance() / 15, Player.getRealATKChance() / 10);
                         AnimatedTextManager.clear();
-                        HUDManager.displayFadeMessage("+ " + armorAmount + " AMR", width / 2, (int) (height * 0.72), 30, 28, Color.CYAN);
-                        HUDManager.displayFadeMessage("+ " + atkChanceAmount + "% ATK chance until next attack", width / 2, (int) (height * 0.8), 30, 28, Color.rgb(255, 80, 0));
+                        HUDManager.displayFadeMessage("+ " + armorAmount + " AMR", width / 2, (int) (height * 0.72), 30, 14, Color.CYAN);
+                        HUDManager.displayFadeMessage("+ " + atkChanceAmount + "% ATK chance until next attack", width / 2, (int) (height * 0.8), 30, 14, Color.rgb(255, 80, 0));
                         Player.addAtkChanceBonus(atkChanceAmount);
                         Player.addArmor(armorAmount);
                         break;
@@ -246,11 +246,11 @@ public class BattleManager {
                         if (RNG.pass(100 - Player.getEvade())){
                             Sound.playSound(SoundEffect.PLAYER_HIT);
                             SEManager.playEffect(SEManager.Effect.RED_FLASH);
-                            HUDManager.displayFadeMessage("Hit for " + currentEnemy.getAtk(), width / 2, (int) (height * 0.75), 30, 30, Color.RED);
+                            HUDManager.displayFadeMessage("Hit for " + currentEnemy.getAtk(), width / 2, (int) (height * 0.75), 30, 15, Color.RED);
                             Player.damage(currentEnemy.getAtk());
                         }else{
                             Sound.playSound(SoundEffect.MISS);
-                            HUDManager.displayFadeMessage("Dodged!", width / 2, (int) (height * 0.75), 30, 30, Color.GREEN);
+                            HUDManager.displayFadeMessage("Dodged!", width / 2, (int) (height * 0.75), 30, 15, Color.GREEN);
                             SEManager.playEffect(SEManager.Effect.GREEN_FLASH);
                         }
                         break;
@@ -340,9 +340,9 @@ public class BattleManager {
         double speed = HUDManager.getSpeed(CoreManager.width, 274);
         // Determine if it should fly left or right
         if (RNG.yesNo()){
-            HUDManager.displayParabolicText("-" + amount, (int) currentEnemy.x, (int) (currentEnemy.y - height * 0.1), 90, 32, Color.RED, -speed);
+            HUDManager.displayParabolicText("-" + amount, (int) currentEnemy.x, (int) (currentEnemy.y - height * 0.1), 90, 16, Color.RED, -speed);
         }else{
-            HUDManager.displayParabolicText("-" + amount, (int) currentEnemy.x, (int) (currentEnemy.y - height * 0.1), 90, 32, Color.RED, speed);
+            HUDManager.displayParabolicText("-" + amount, (int) currentEnemy.x, (int) (currentEnemy.y - height * 0.1), 90, 16, Color.RED, speed);
         }
         // Flash, shake, damage, and set state to damaged
         SEManager.playEffect(SEManager.Effect.YELLOW_FLASH);

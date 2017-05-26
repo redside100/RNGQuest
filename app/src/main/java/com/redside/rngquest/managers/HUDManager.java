@@ -7,6 +7,7 @@ import android.graphics.Paint;
 import android.graphics.Rect;
 import android.view.MotionEvent;
 
+import com.redside.rngquest.R;
 import com.redside.rngquest.buttons.AttackButton;
 import com.redside.rngquest.buttons.CharSelectButton;
 import com.redside.rngquest.buttons.DefendButton;
@@ -177,20 +178,20 @@ public class HUDManager {
             // Title Screen
             case TITLE:
                 // Title
-                drawCenteredText("RNG Quest", canvas, width / 2, (int) (height / 3.5), paint, 50, Color.WHITE);
+                drawCenteredText("RNG Quest", canvas, width / 2, (int) (height / 3.5), paint, 25, Color.WHITE);
                 break;
 
             // Info Screen
             case INFO:
                 // Info title and info
-                drawCenteredText("Info", canvas, width / 2, (int) (height / 3.5), paint, 50, Color.WHITE);
-                drawCenteredText("There's nothing here lol", canvas, width / 2, height / 2, paint, 30, Color.WHITE);
+                drawCenteredText("Info", canvas, width / 2, (int) (height / 3.5), paint, 25, Color.WHITE);
+                drawCenteredText("There's nothing here lol", canvas, width / 2, height / 2, paint, 15, Color.WHITE);
                 break;
 
             // Load screen
             case LOAD:
-                drawCenteredText("Continue?", canvas, width / 2, (int) (height / 3.5), paint, 50, Color.WHITE);
-                drawCenteredText("Stage " + GameManager.getStage(), canvas, width / 2, (int) (height * 0.85), paint, 40, Color.YELLOW);
+                drawCenteredText("Continue?", canvas, width / 2, (int) (height / 3.5), paint, 25, Color.WHITE);
+                drawCenteredText("Stage " + GameManager.getStage(), canvas, width / 2, (int) (height * 0.85), paint, 20, Color.YELLOW);
                 Bitmap portrait = null;
                 // Set role text and portrait depending on role
                 switch(Player.getRole()){
@@ -211,7 +212,7 @@ public class HUDManager {
             // Character Selection Screen
             case CHAR_SELECT:
                 // Char select title
-                drawCenteredText("Character Select", canvas, width / 2, (int) (height / 3.5), paint, 50, Color.WHITE);
+                drawCenteredText("Character Select", canvas, width / 2, (int) (height / 3.5), paint, 25, Color.WHITE);
                 String character = "";
                 // Draw depending on character selection
                 switch(selection){
@@ -228,13 +229,13 @@ public class HUDManager {
                         character = "Tank: +7 ATK (40%), +90 HP, +40 AMR, +20% EVA";
                         break;
                 }
-                drawCenteredText(character, canvas, width / 2, (int) (height * 0.83), paint, 22, Color.rgb(0,191,255));
+                drawCenteredText(character, canvas, width / 2, (int) (height * 0.83), paint, 11, Color.rgb(0,191,255));
                 break;
 
             // Stage Transition Screen
             case STAGE_TRANSITION:
                 // Stage transition title
-                drawCenteredText("Stage " + GameManager.getStage(), canvas, width / 2, (int) (height / 3.5), paint, 50, Color.YELLOW);
+                drawCenteredText("Stage " + GameManager.getStage(), canvas, width / 2, (int) (height / 3.5), paint, 25, Color.YELLOW);
                 String role = "";
                 Bitmap picture = null;
                 // Set role text and portrait depending on role
@@ -253,11 +254,11 @@ public class HUDManager {
                         break;
                 }
                 // Draw role name and portrait
-                drawCenteredText(role, canvas, (int) (width * 0.3), (int) (height / 2.5), paint, 40, Color.WHITE);
+                drawCenteredText(role, canvas, (int) (width * 0.3), (int) (height / 2.5), paint, 20, Color.WHITE);
                 drawCenteredBitmap(picture, canvas, paint, (int) (width * 0.3), (int) (height * 0.6));
 
                 // Draw gold count underneath
-                drawCenteredText(Player.getGold() + " G", canvas, (int) (width * 0.3), (int) (height * 0.91), paint, 35, Color.YELLOW);
+                drawCenteredText(Player.getGold() + " G", canvas, (int) (width * 0.3), (int) (height * 0.91), paint, 17, Color.YELLOW);
 
                 String[] info = {
                         "HP: " + Player.getHP() + "/" + Player.getMaxHP(),
@@ -269,7 +270,8 @@ public class HUDManager {
 
                 int[] colors = {Color.RED, Color.rgb(50, 50, 255), Color.CYAN, Color.rgb(255, 80, 0), Color.GREEN};
                 double factor = 0.44;
-                paint.setTextSize(35 * CoreView.resources.getDisplayMetrics().density);
+                double relation = Math.sqrt(canvas.getWidth() * canvas.getHeight()) / 250;
+                paint.setTextSize((float) (18 * relation));
                 // Draw all player info
                 for (int i = 0; i < 5; i++){
                     paint.setColor(colors[i]);
@@ -307,7 +309,7 @@ public class HUDManager {
                 // Draw stats
                 double iconFactor = 0.098;
                 for (int i = 0; i < 5; i++){
-                    drawTextWithBorder(iconInfo[i], canvas, (int) (width * 0.1), (int) (height * iconFactor), paint, 23, iconColors[i]);
+                    drawTextWithBorder(iconInfo[i], canvas, (int) (width * 0.1), (int) (height * iconFactor), paint, 12, iconColors[i]);
                     iconFactor += 0.093;
                 }
 
@@ -315,9 +317,9 @@ public class HUDManager {
                 Entity currEnemy = BattleManager.getCurrentEnemy();
                 if (currEnemy != null){
                     drawCenteredTextWithBorder(currEnemy.getName() + ": " + currEnemy.getHP() + "/" + currEnemy.getMaxHP(), canvas, width / 2,
-                            (int) (height * 0.12), paint, 25, Color.rgb(0,191,255));
+                            (int) (height * 0.12), paint, 12, Color.rgb(0,191,255));
                 }else{
-                    drawCenteredTextWithBorder("Waiting for enemy...", canvas, width / 2, (int) (height * 0.12), paint, 25, Color.rgb(0,191,255));
+                    drawCenteredTextWithBorder("Waiting for enemy...", canvas, width / 2, (int) (height * 0.12), paint, 18, Color.rgb(0,191,255));
                 }
 
                 // If the player doesn't have a spell, draw the empty button
@@ -335,11 +337,11 @@ public class HUDManager {
                 canvas.drawBitmap(invMenu, 0, 0, paint);
 
                 // Inventory title
-                drawCenteredText("Inventory", canvas, width / 2, (int) (height * 0.2), paint, 40, Color.WHITE);
+                drawCenteredText("Inventory", canvas, width / 2, (int) (height * 0.2), paint, 20, Color.WHITE);
 
                 // When the player enters the inventory screen (0)
                 if (GameManager.invSelection == 0){
-                    drawCenteredText("Tap on an item for more info.", canvas, width / 2, (int) (height * 0.84), paint, 25, Color.WHITE);
+                    drawCenteredText("Tap on an item for more info.", canvas, width / 2, (int) (height * 0.84), paint, 13, Color.WHITE);
                 }
                 // Show info for the selected item
                 if (GameManager.invSelection > 0 && GameManager.invSelection < 5){
@@ -348,18 +350,18 @@ public class HUDManager {
 
                     // Draw green highlight, and description
                     drawCenteredBitmap(invSelected, canvas, paint, (int) (width * (0.285 + (0.1435 * invSel))), (int) (height * 0.498));
-                    drawCenteredText(item.getDescription(), canvas, width / 2, (int) (height * 0.825), paint, 25, Color.WHITE);
+                    drawCenteredText(item.getDescription(), canvas, width / 2, (int) (height * 0.825), paint, 13, Color.WHITE);
 
                     // Draw spell description if it's a spell, or usage instructions otherwise
                     if (Item.isSpell(item)){
-                        drawCenteredText("Costs " + item.getManaCost() + " MP per use.", canvas, width / 2, (int) (height * 0.89), paint, 25, Color.rgb(0,191,255));
+                        drawCenteredText("Costs " + item.getManaCost() + " MP per use.", canvas, width / 2, (int) (height * 0.89), paint, 13, Color.rgb(0,191,255));
                     }else{
-                        drawCenteredText("Tap again to use.", canvas, width / 2, (int) (height * 0.89), paint, 25, Color.GREEN);
+                        drawCenteredText("Tap again to use.", canvas, width / 2, (int) (height * 0.89), paint, 13, Color.GREEN);
                     }
 
                     // After the player uses an item (5)
                 } else if (GameManager.invSelection == 5){
-                    drawCenteredText("Item used.", canvas, width / 2, (int) (height * 0.84), paint, 25, Color.WHITE);
+                    drawCenteredText("Item used.", canvas, width / 2, (int) (height * 0.84), paint, 13, Color.WHITE);
                 }
                 break;
             case SHOP:
@@ -369,7 +371,7 @@ public class HUDManager {
 
                 // Draw shop menu
                 canvas.drawBitmap(itemMenu, 0, 0, paint);
-                drawCenteredText("Stats", canvas, (int) (width * 0.27), (int) (height * 0.17), paint, 35, Color.WHITE);
+                drawCenteredText("Stats", canvas, (int) (width * 0.27), (int) (height * 0.17), paint, 18, Color.WHITE);
                 int[] statColors = {Color.RED, Color.rgb(50, 50, 255), Color.CYAN, Color.rgb(255, 80, 0), Color.GREEN, Color.YELLOW};
                 // Draw gold count
                 String playerInfo[] = {
@@ -383,7 +385,7 @@ public class HUDManager {
                 // Draw stats
                 double shopFactor = 0.26;
                 for (int i = 0; i < 6; i++){
-                    drawCenteredTextWithBorder(playerInfo[i], canvas, (int) (width * 0.27), (int) (height * shopFactor), paint, 23, statColors[i]);
+                    drawCenteredTextWithBorder(playerInfo[i], canvas, (int) (width * 0.27), (int) (height * shopFactor), paint, 12, statColors[i]);
                     shopFactor += 0.08;
                 }
 
@@ -392,20 +394,20 @@ public class HUDManager {
                 ArrayList<Item> consumableItems = new ArrayList<>(GameManager.getShopConsumableInventory().getItems());
                 double sFactor = 0.613;
                 for (Item item : spellItems){
-                    drawCenteredText(item.getCost() + " G", canvas, (int) (width * sFactor), (int) (height * 0.34), paint, 25, Color.YELLOW);
+                    drawCenteredText(item.getCost() + " G", canvas, (int) (width * sFactor), (int) (height * 0.34), paint, 13, Color.YELLOW);
                     sFactor += 0.144;
                 }
                 sFactor = 0.613;
                 for (Item item : consumableItems){
-                    drawCenteredText(item.getCost() + " G", canvas, (int) (width * sFactor), (int) (height * 0.66), paint, 25, Color.YELLOW);
+                    drawCenteredText(item.getCost() + " G", canvas, (int) (width * sFactor), (int) (height * 0.66), paint, 13, Color.YELLOW);
                     sFactor += 0.144;
                 }
 
                 int shopSel = GameManager.shopSelection;
                 // When the player enters the shop (0)
                 if (shopSel == 0){
-                    drawCenteredText("Welcome to the shop!", canvas, width / 2, (int) (height * 0.85), paint, 25, Color.WHITE);
-                    drawCenteredText("Game saved.", canvas, width / 2, (int) (height * 0.92), paint, 25, Color.GREEN);
+                    drawCenteredText("Welcome to the shop!", canvas, width / 2, (int) (height * 0.85), paint, 13, Color.WHITE);
+                    drawCenteredText("Game saved.", canvas, width / 2, (int) (height * 0.92), paint, 13, Color.GREEN);
                 }
                 // Show info for the selected item (spell)
                 else if (shopSel > 0 && shopSel < 4){
@@ -413,30 +415,30 @@ public class HUDManager {
 
                     // Highlight selected item, and draw description
                     drawCenteredBitmap(shopSelected, canvas, paint, (int) (width * (0.469 + (0.1438 * shopSel))), height / 6);
-                    drawCenteredText(item.getDescription(), canvas, width / 2, (int) (height * 0.85), paint, 25, Color.WHITE);
+                    drawCenteredText(item.getDescription(), canvas, width / 2, (int) (height * 0.85), paint, 13, Color.WHITE);
 
                     // Check if the player has enough gold and inventory isn't full
                     if (Player.hasEnoughGold(item.getCost()) && !Player.inventoryIsFull()){
                         // Check if the player has the appropriate role or the item is for all roles
                         if (!Player.getRole().equals(item.getRole()) && !item.getRole().equals(Player.Role.ALL)){
-                            drawCenteredText("Your class can't use this spell.", canvas, width / 2, (int) (height * 0.92), paint, 25, Color.RED);
+                            drawCenteredText("Your class can't use this spell.", canvas, width / 2, (int) (height * 0.92), paint, 13, Color.RED);
 
                         } else if (Player.hasSpell()){
                             // Draw warning if player already has a spell
-                            drawCenteredText("Tap again to replace your old spell.", canvas, width / 2, (int) (height * 0.92), paint, 25, Color.YELLOW);
+                            drawCenteredText("Tap again to replace your old spell.", canvas, width / 2, (int) (height * 0.92), paint, 13, Color.YELLOW);
 
                         }else{
                             // Confirmation
-                            drawCenteredText("Tap again to purchase.", canvas, width / 2, (int) (height * 0.92), paint, 25, Color.GREEN);
+                            drawCenteredText("Tap again to purchase.", canvas, width / 2, (int) (height * 0.92), paint, 13, Color.GREEN);
 
                         }
                     }else if (Player.inventoryIsFull()){
                         // If inventory is full
-                        drawCenteredText("Your inventory is full.", canvas, width / 2, (int) (height * 0.92), paint, 25, Color.RED);
+                        drawCenteredText("Your inventory is full.", canvas, width / 2, (int) (height * 0.92), paint, 13, Color.RED);
 
                     }else if (!Player.hasEnoughGold(item.getCost())){
                         // If not enough gold
-                        drawCenteredText("Not enough gold.", canvas, width / 2, (int) (height * 0.92), paint, 25, Color.RED);
+                        drawCenteredText("Not enough gold.", canvas, width / 2, (int) (height * 0.92), paint, 13, Color.RED);
                     }
 
                 }
@@ -446,22 +448,22 @@ public class HUDManager {
 
                     // Highlight and draw description
                     drawCenteredBitmap(shopSelected, canvas, paint, (int) (width * (0.469 + (0.1438 * (shopSel - 3)))), (int) (height * 0.488));
-                    drawCenteredText(item.getDescription(), canvas, width / 2, (int) (height * 0.85), paint, 25, Color.WHITE);
+                    drawCenteredText(item.getDescription(), canvas, width / 2, (int) (height * 0.85), paint, 13, Color.WHITE);
 
                     // Check if the player has enough gold and inventory isn't full
                     if (Player.hasEnoughGold(item.getCost()) && !Player.inventoryIsFull()){
-                        drawCenteredText("Tap again to purchase.", canvas, width / 2, (int) (height * 0.92), paint, 25, Color.GREEN);
+                        drawCenteredText("Tap again to purchase.", canvas, width / 2, (int) (height * 0.92), paint, 13, Color.GREEN);
                     }else if (Player.inventoryIsFull()){
                         // If inventory is full
-                        drawCenteredText("Your inventory is full.", canvas, width / 2, (int) (height * 0.92), paint, 25, Color.RED);
+                        drawCenteredText("Your inventory is full.", canvas, width / 2, (int) (height * 0.92), paint, 13, Color.RED);
                     }else if (!Player.hasEnoughGold(item.getCost())){
                         // If not enough gold
-                        drawCenteredText("Not enough gold.", canvas, width / 2, (int) (height * 0.92), paint, 25, Color.RED);
+                        drawCenteredText("Not enough gold.", canvas, width / 2, (int) (height * 0.92), paint, 13, Color.RED);
                     }
                 }
                 // An item was purchased (7)
                 else if (shopSel == 7){
-                    drawCenteredText("Item purchased!", canvas, width / 2, (int) (height * 0.88), paint, 25, Color.WHITE);
+                    drawCenteredText("Item purchased!", canvas, width / 2, (int) (height * 0.88), paint, 13, Color.WHITE);
                 }
                 break;
 
@@ -472,11 +474,12 @@ public class HUDManager {
         entityManager.render(canvas, paint);
         animatedTextManager.render(canvas, paint);
     }
-    public void drawCenteredText(String text, Canvas canvas, int x, int y, Paint paint, int textSize, int color){
+    public static void drawCenteredText(String text, Canvas canvas, int x, int y, Paint paint, int textSize, int color){
         float old = paint.getTextSize();
-        double scaledTextSize = textSize * CoreView.resources.getDisplayMetrics().density;
+        double relation = Math.sqrt(canvas.getWidth() * canvas.getHeight()) / 250;
+        float scaledTextSize = (float) (textSize * relation);
         paint.setColor(color);
-        paint.setTextSize((int) scaledTextSize);
+        paint.setTextSize(scaledTextSize);
         Rect bounds = new Rect();
         // Get bounds of the text, then center
         paint.getTextBounds(text, 0, text.length(), bounds);
@@ -486,16 +489,17 @@ public class HUDManager {
         paint.setTextSize(old);
         paint.setColor(Color.WHITE);
     }
-    public void drawCenteredBitmap(Bitmap bitmap, Canvas canvas, Paint paint, int x, int y){
+    public static void drawCenteredBitmap(Bitmap bitmap, Canvas canvas, Paint paint, int x, int y){
         x -= (bitmap.getWidth() / 2);
         y -= (bitmap.getHeight() / 2);
         canvas.drawBitmap(bitmap, x, y, paint);
     }
-    public void drawTextWithBorder(String text, Canvas canvas, int x, int y, Paint paint, int textSize, int color){
+    public static void drawTextWithBorder(String text, Canvas canvas, int x, int y, Paint paint, int textSize, int color){
         paint.setColor(color);
         float old = paint.getTextSize();
-        double scaledTextSize = textSize * CoreView.resources.getDisplayMetrics().density;
-        paint.setTextSize((int) scaledTextSize);
+        double relation = Math.sqrt(canvas.getWidth() * canvas.getHeight()) / 250;
+        float scaledTextSize = (float) (textSize * relation);
+        paint.setTextSize(scaledTextSize);
         paint.setStyle(Paint.Style.FILL);
         paint.setShadowLayer(3, 0, 0, Color.BLACK);
         // Draw normal text
@@ -504,11 +508,12 @@ public class HUDManager {
         paint.setTextSize(old);
         paint.setColor(Color.WHITE);
     }
-    public void drawCenteredTextWithBorder(String text, Canvas canvas, int x, int y, Paint paint, int textSize, int color){
+    public static void drawCenteredTextWithBorder(String text, Canvas canvas, int x, int y, Paint paint, int textSize, int color){
         paint.setColor(color);
         float old = paint.getTextSize();
-        double scaledTextSize = textSize * CoreView.resources.getDisplayMetrics().density;
-        paint.setTextSize((int) scaledTextSize);
+        double relation = Math.sqrt(canvas.getWidth() * canvas.getHeight()) / 250;
+        float scaledTextSize = (float) (textSize * relation);
+        paint.setTextSize(scaledTextSize);
         paint.setStyle(Paint.Style.FILL);
 
         Rect bounds = new Rect();
