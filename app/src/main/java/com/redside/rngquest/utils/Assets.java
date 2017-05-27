@@ -139,7 +139,11 @@ public class Assets {
             istr = assetManager.open(filePath);
             bitmap = BitmapFactory.decodeStream(istr);
         } catch (IOException e) {}
-        return bitmap;
+
+        double x = bitmap.getWidth() * width / 1920;
+        double y = bitmap.getHeight() * height / 1080;
+
+        return Bitmap.createScaledBitmap(bitmap, (int) x, (int) y, true);
     }
     public static AssetFileDescriptor getSoundDesc(Context context, String filePath){
         try{
@@ -157,11 +161,7 @@ public class Assets {
     }
     public static Bitmap getBitmapFromMemory(String name){
         if (bitmapDb.containsKey(name)){
-            Bitmap original = bitmapDb.get(name);
-            double x = original.getWidth() * width / 1920;
-            double y = original.getHeight() * height / 1080;
-
-            return Bitmap.createScaledBitmap(original, (int) x, (int) y, true);
+            return bitmapDb.get(name);
         }
         return null;
     }
