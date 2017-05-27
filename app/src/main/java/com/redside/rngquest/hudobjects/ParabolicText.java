@@ -1,5 +1,7 @@
 package com.redside.rngquest.hudobjects;
 
+import com.redside.rngquest.managers.HUDManager;
+
 public class ParabolicText extends AnimatedText{
     private int ticks;
     private int tick = 0;
@@ -23,7 +25,9 @@ public class ParabolicText extends AnimatedText{
                 super.x += directionVec;
                 // Use the equation y = -0.004(x - vertexX)^2 + vertexY
                 // Since y gets larger as it travels down, the a value must be positive instead of negative
-                super.y = (int) (0.004 * Math.pow(x - this.vertexX, 2) + this.vertexY);
+                // Scale a value with width
+                double a = 0.004 * 1920 / HUDManager.width;
+                super.y = (int) (a * Math.pow(x - this.vertexX, 2) + this.vertexY);
             }else{
                 super.destroy();
             }
