@@ -32,6 +32,7 @@ public class GameManager {
     private static Inventory shopConsumableInventory = new Inventory();
     public static int shopSelection = 0;
     public static int invSelection = 0;
+    public static ScreenState lastState;
     public GameManager(){
         battleManager = new BattleManager();
         width = HUDManager.width;
@@ -51,6 +52,7 @@ public class GameManager {
         return part;
     }
     public static void onStateChange(ScreenState oldState, ScreenState newState){
+        lastState = oldState;
         battleManager.close();
         switch(newState){
             case TITLE:
@@ -120,6 +122,9 @@ public class GameManager {
                     Player.removeGold(item.getCost());
                     getShopSpellInventory().removeItem(item);
 
+                    // Save the game
+                    saveGame();
+
                     // Change to "purchased" state, and redraw the item buttons
                     shopSelection = 7;
                     Sound.playSound(SoundEffect.PURCHASE);
@@ -137,6 +142,9 @@ public class GameManager {
                 Player.getInventory().addItem(item);
                 Player.removeGold(item.getCost());
                 getShopConsumableInventory().removeItem(item);
+
+                // Save the game
+                saveGame();
 
                 // Change the purchased state, and redraw shop items
                 shopSelection = 7;
@@ -202,9 +210,13 @@ public class GameManager {
 
             // Check if it is a spell (spells can't be used in the inventory)
             if (!Item.isSpell(item)){
-                // Use the item, and remove it
-                item.use();
-                Player.getInventory().removeItem(item);
+                // Use the item
+                Player.getInventory().useItem(item);
+
+                // Save the game if the player is using it in the shop
+                if (lastState.equals(ScreenState.SHOP)){
+                    saveGame();
+                }
 
                 // Change to "used" state, and redraw inventory items
                 invSelection = 5;

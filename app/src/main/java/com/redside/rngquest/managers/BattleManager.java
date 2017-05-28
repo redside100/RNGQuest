@@ -66,7 +66,7 @@ public class BattleManager {
                         int stage = GameManager.getStage();
 
                         // Give gold reward, scale with stage level
-                        int goldReward = 5 + (int) (stage * 1.5) + RNG.number(0, stage);
+                        int goldReward = 6 + (int) (stage * 1.6) + RNG.number(1, stage);
                         Player.addGold(goldReward);
 
                         HUDManager.displayFadeMessage("Received " + goldReward + " gold!", width / 2, height / 2, 35, 18, Color.YELLOW);
