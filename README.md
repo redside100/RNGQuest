@@ -30,9 +30,9 @@ Still need to add:
 
 # Screenshots
 
-![Title Screen](http://i.imgur.com/YeZ0Me0.jpg) 
-![Wizard](http://i.imgur.com/ddgGc6t.jpg)
-![Blob](http://i.imgur.com/bHMnlXI.jpg)
-![Inventory](http://i.imgur.com/bRzvOOA.jpg)
-![Shop](http://i.imgur.com/My99Nbq.jpg)
+![Title Screen](http://i.imgur.com/edqxTht.jpg) 
+![Wizard](http://i.imgur.com/rfex2kN.jpg)
+![Blob](http://i.imgur.com/tgBoyQy.jpg)
+![Inventory](http://i.imgur.com/es0I7jv.jpg)
+![Shop](http://i.imgur.com/JAygcOi.jpg)
 
