@@ -66,7 +66,7 @@ public class BattleManager {
                         int stage = GameManager.getStage();
 
                         // Give gold reward, scale with stage level
-                        int goldReward = 6 + (int) (stage * 1.6) + RNG.number(1, stage * 2);
+                        int goldReward = 4 + (int) (stage * 1.2) + RNG.number(1, stage / 2);
                         Player.addGold(goldReward);
 
                         HUDManager.displayFadeMessage("Received " + goldReward + " gold!", width / 2, height / 2, 35, 18, Color.YELLOW);
@@ -87,14 +87,14 @@ public class BattleManager {
                                 Player.addATK(atkAmount);
                                 break;
                             case 3:
-                                // Give out 10-25% HP
-                                int healAmount = RNG.number(Player.getMaxHP() / 10, Player.getMaxHP() / 4);
+                                // Give out 5-10% HP
+                                int healAmount = RNG.number(Player.getMaxHP() / 20, Player.getMaxHP() / 10);
                                 HUDManager.displayFadeMessage("Recovered " + healAmount + " HP!", width / 2, (int) (height * 0.6), 35, 18, Color.GREEN);
                                 Player.heal(healAmount);
                                 break;
                             case 4:
-                                // Give out 5-10% max HP
-                                int maxHpAmount = (int) (Player.getMaxHP() * ((double) RNG.number(5, 10) / (double) 100));
+                                // Give out 5-7% max HP
+                                int maxHpAmount = (int) (Player.getMaxHP() * ((double) RNG.number(5, 7) / (double) 100));
                                 HUDManager.displayFadeMessage("Max HP increased by " + maxHpAmount + "!", width / 2, (int) (height * 0.6), 35, 18, Color.GREEN);
                                 Player.increaseMaxHealth(maxHpAmount);
                                 Player.heal(maxHpAmount);
@@ -147,7 +147,7 @@ public class BattleManager {
                             // Check if the player has lifesteal
                             if (Player.hasLifesteal()){
                                 // Heal the player for the amount
-                                int heal = (int) (Player.getATK() * 0.35);
+                                int heal = (int) (Player.getATK() * 0.3);
                                 HUDManager.displayFadeMessage("+ " + heal + " HP", width / 2, (int) (height * 0.82), 30, 15, Color.GREEN);
                                 Player.heal(heal);
                                 Player.toggleLifesteal();

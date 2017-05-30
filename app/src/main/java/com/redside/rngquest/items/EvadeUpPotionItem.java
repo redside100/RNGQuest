@@ -12,14 +12,14 @@ import com.redside.rngquest.utils.Assets;
 
 public class EvadeUpPotionItem extends Item {
     public EvadeUpPotionItem(){
-        super(ItemType.MANA_POTION, Player.Role.ALL, "Evade Up: Increases evade by 3%, up to 80%" , 210, Assets.getBitmapFromMemory("items_evadeup_potion"), 4);
+        super(ItemType.MANA_POTION, Player.Role.ALL, "Evade Up: Increases evade by 2%, up to 75%" , 240, Assets.getBitmapFromMemory("items_evadeup_potion"), 4);
     }
 
     @Override
     public void use(){
         // Display text, and add evade
         AnimatedTextManager.clear();
-        HUDManager.displayFadeMessage("Evade increased by 3%", CoreManager.width / 2, CoreManager.height / 3, 30, 18, Color.GREEN);
-        Player.addEvade(3);
+        HUDManager.displayFadeMessage("Evade increased by 2%", CoreManager.width / 2, CoreManager.height / 3, 30, 18, Color.GREEN);
+        Player.addEvade(2);
     }
 }

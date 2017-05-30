@@ -13,7 +13,7 @@ import com.redside.rngquest.utils.Assets;
 
 public class AgilitySpellItem extends Item {
     public AgilitySpellItem(){
-        super(ItemType.AGILITY_SPELL, Player.Role.ALL, "Agility: Attack and defend on the same turn" , 220, 3,
+        super(ItemType.AGILITY_SPELL, Player.Role.ALL, "Agility: Attack and defend on the same turn" , 230, 3,
                 Assets.getBitmapFromMemory("items_agility_spell"), Assets.getBitmapFromMemory("button_agility"), 6);
     }
 

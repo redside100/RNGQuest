@@ -289,20 +289,20 @@ public class Player {
         return false;
     }
     public static void addATKChance(int amount){
-        if (atkChance + amount < 100){
+        if (atkChance + amount < 80){
             atkChance += amount;
         }else{
-            atkChance = 100;
+            atkChance = 80;
         }
     }
     public static int getEvade(){
         return evade;
     }
     public static void addEvade(int amount){
-        if (evade + amount < 80){
+        if (evade + amount < 75){
             evade += amount;
         }else{
-            evade = 80;
+            evade = 75;
         }
     }
     public static int getArmor(){
