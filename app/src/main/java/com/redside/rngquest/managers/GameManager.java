@@ -12,6 +12,7 @@ import com.redside.rngquest.items.AgilitySpellItem;
 import com.redside.rngquest.items.EvadeUpPotionItem;
 import com.redside.rngquest.items.FireballSpellItem;
 import com.redside.rngquest.items.LargePotionItem;
+import com.redside.rngquest.items.LifestealSpellItem;
 import com.redside.rngquest.items.ManaPotionItem;
 import com.redside.rngquest.items.ManaUpPotionItem;
 import com.redside.rngquest.items.SmallPotionItem;
@@ -254,9 +255,21 @@ public class GameManager {
                         shopConsumableInventory.addItem(new EvadeUpPotionItem());
                         break;
                 }
-                // For now just add three agility spells
-                shopSpellInventory.addItem(new AgilitySpellItem());
             }
+            for (int i = 0; i < 3; i++){
+                switch (RNG.number(1, 3)){
+                    case 1:
+                        shopSpellInventory.addItem(new FireballSpellItem());
+                        break;
+                    case 2:
+                        shopSpellInventory.addItem(new AgilitySpellItem());
+                        break;
+                    case 3:
+                        shopSpellInventory.addItem(new LifestealSpellItem());
+                        break;
+                }
+            }
+
         }
     }
     private static void recreateShopButtons(){

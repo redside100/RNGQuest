@@ -7,6 +7,7 @@ import com.redside.rngquest.items.AgilitySpellItem;
 import com.redside.rngquest.items.EvadeUpPotionItem;
 import com.redside.rngquest.items.FireballSpellItem;
 import com.redside.rngquest.items.LargePotionItem;
+import com.redside.rngquest.items.LifestealSpellItem;
 import com.redside.rngquest.items.ManaPotionItem;
 import com.redside.rngquest.items.ManaUpPotionItem;
 import com.redside.rngquest.items.SmallPotionItem;
@@ -83,6 +84,7 @@ public class Item {
         switch(type){
             case FIREBALL_SPELL:
             case ARMOR_SPELL:
+            case LIFESTEAL_SPELL:
             case TRIPLE_ATTACK_SPELL:
             case AGILITY_SPELL:
                 return true;
@@ -105,11 +107,13 @@ public class Item {
                 return new FireballSpellItem();
             case 6:
                 return new AgilitySpellItem();
+            case 7:
+                return new LifestealSpellItem();
         }
         return null;
     }
 
     public enum ItemType{
-        FIREBALL_SPELL, ARMOR_SPELL, TRIPLE_ATTACK_SPELL, AGILITY_SPELL, SMALL_POTION, LARGE_POTION, MANA_POTION, MANAUP_POTION, EVADEUP_POTION
+        FIREBALL_SPELL, LIFESTEAL_SPELL, ARMOR_SPELL, TRIPLE_ATTACK_SPELL, AGILITY_SPELL, SMALL_POTION, LARGE_POTION, MANA_POTION, MANAUP_POTION, EVADEUP_POTION
     }
 }

@@ -66,7 +66,7 @@ public class BattleManager {
                         int stage = GameManager.getStage();
 
                         // Give gold reward, scale with stage level
-                        int goldReward = 6 + (int) (stage * 1.6) + RNG.number(1, stage);
+                        int goldReward = 6 + (int) (stage * 1.6) + RNG.number(1, stage * 2);
                         Player.addGold(goldReward);
 
                         HUDManager.displayFadeMessage("Received " + goldReward + " gold!", width / 2, height / 2, 35, 18, Color.YELLOW);
@@ -134,13 +134,30 @@ public class BattleManager {
                 break;
             case PLAYER_ATTACK:
                 switch(tick){
+                    case 1:
+                        new SlashAnimation((int) currentEnemy.x, (int) currentEnemy.y);
+                        break;
                     // Check for hit
                     case 10:
                         // Roll the dice
                         if (RNG.pass(Player.getATKChance())){
                             Sound.playSound(SoundEffect.ENEMY_HIT);
                             damageEnemy(Player.getATK());
+
+                            // Check if the player has lifesteal
+                            if (Player.hasLifesteal()){
+                                // Heal the player for the amount
+                                int heal = (int) (Player.getATK() * 0.35);
+                                HUDManager.displayFadeMessage("+ " + heal + " HP", width / 2, (int) (height * 0.82), 30, 15, Color.GREEN);
+                                Player.heal(heal);
+                                Player.toggleLifesteal();
+                            }
                         }else{
+
+                            // Toggle life steal if player has it without any reward (since the player missed)
+                            if (Player.hasLifesteal()){
+                                Player.toggleLifesteal();
+                            }
                             Sound.playSound(SoundEffect.MISS);
                             HUDManager.displayFadeMessage("MISS", (int) currentEnemy.x, (int) (currentEnemy.y - height * 0.15), 30, 18, Color.RED);
                         }
@@ -302,8 +319,6 @@ public class BattleManager {
     public static void playerAttack(){
         // Spawn slash animation and go to attack state if it's player turn
         if (battleState.equals(BattleState.PLAYER_TURN)){
-            // Play attack sound in the future
-            new SlashAnimation((int) currentEnemy.x, (int) currentEnemy.y);
             battleState = BattleState.PLAYER_ATTACK;
         }
     }

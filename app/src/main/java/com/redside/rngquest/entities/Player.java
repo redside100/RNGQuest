@@ -6,6 +6,7 @@ import com.redside.rngquest.gameobjects.Inventory;
 import com.redside.rngquest.gameobjects.Item;
 import com.redside.rngquest.items.FireballSpellItem;
 import com.redside.rngquest.items.LargePotionItem;
+import com.redside.rngquest.items.LifestealSpellItem;
 import com.redside.rngquest.items.ManaPotionItem;
 import com.redside.rngquest.items.SmallPotionItem;
 import com.redside.rngquest.managers.CoreManager;
@@ -18,7 +19,7 @@ public class Player {
     private static Inventory inventory = new Inventory();
     private static Role role;
     private static Item currentSpell = null;
-    private static boolean agility = false;
+    private static boolean agility = false, lifesteal = false;
     public static void spawnFromSave(){
         atkChanceBonus = 0;
         inventory.clear();
@@ -151,8 +152,14 @@ public class Player {
     public static void toggleAgility(){
         agility = !agility;
     }
+    public static void toggleLifesteal(){
+        lifesteal = !lifesteal;
+    }
     public static boolean hasAgility(){
         return agility;
+    }
+    public static boolean hasLifesteal(){
+        return lifesteal;
     }
     public static Inventory getInventory(){
         return inventory;
