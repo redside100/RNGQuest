@@ -12,7 +12,8 @@
             android:name=".gameobjects.RNGQuest"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:label="@string/title_activity_rngquest"
-            android:theme="@android:style/Theme.Holo.NoActionBar.Fullscreen">
+            android:theme="@android:style/Theme.Holo.NoActionBar.Fullscreen"
+            android:resizeableActivity="false">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

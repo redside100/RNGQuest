@@ -213,8 +213,9 @@ public class GameManager {
 
             // Check if it is a spell (spells can't be used in the inventory)
             if (!Item.isSpell(item)){
-                // Use the item
+                // Use the item and play a sound
                 Player.getInventory().useItem(item);
+                Sound.playSound(SoundEffect.USE_ITEM);
 
                 // Save the game if the player is using it in the shop
                 if (lastState.equals(ScreenState.SHOP)){

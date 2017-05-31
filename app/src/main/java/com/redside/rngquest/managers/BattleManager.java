@@ -233,6 +233,7 @@ public class BattleManager {
                     // Add armor and atk bonus
                     case 10:
                         SEManager.playEffect(SEManager.Effect.BLUE_FLASH);
+                        Sound.playSound(SoundEffect.ARMOR);
                         // Armor amount (25-33%), attack chance amount (7-10% of real atk)
                         int armorAmount = RNG.number(Player.getMaxArmor() / 4, Player.getMaxArmor() / 3);
                         int atkChanceAmount = RNG.number(Player.getRealATKChance() / 15, Player.getRealATKChance() / 10);

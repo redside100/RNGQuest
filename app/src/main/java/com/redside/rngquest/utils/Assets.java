@@ -127,10 +127,12 @@ public class Assets {
         soundDb.put("battle_theme", getSoundDesc(context, "sounds/battle.ogg"));
         soundDb.put("sound_select", getSoundDesc(context, "sounds/select.wav"));
         soundDb.put("sound_enemy_hit", getSoundDesc(context, "sounds/enemyHit.wav"));
+        soundDb.put("sound_armor", getSoundDesc(context, "sounds/armor.wav"));
         soundDb.put("sound_explode", getSoundDesc(context, "sounds/explode.wav"));
         soundDb.put("sound_player_hit", getSoundDesc(context, "sounds/playerHit.wav"));
         soundDb.put("sound_miss", getSoundDesc(context, "sounds/miss.wav"));
         soundDb.put("sound_purchase", getSoundDesc(context, "sounds/purchaseFinal.wav"));
+        soundDb.put("sound_use_item", getSoundDesc(context, "sounds/useItem.wav"));
 
     }
     public static Bitmap getBitmap(Context context, String filePath) {
