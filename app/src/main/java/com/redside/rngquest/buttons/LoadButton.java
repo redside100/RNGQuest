@@ -21,17 +21,17 @@ public class LoadButton extends Button {
         super(image, x, y);
     }
     @Override
-    public void trigger(){
+    public void trigger() {
         Sound.playSound(SoundEffect.SELECT);
         ArrayList<String> saveInfo = CoreView.getSave(CoreManager.context);
-        for (String line : saveInfo){
+        for (String line : saveInfo) {
             String property = line.split(": ")[0];
             String value = line.split(": ")[1];
-            if (property.startsWith("available")){
-                if (value.equalsIgnoreCase("true")){
+            if (property.startsWith("available")) {
+                if (value.equalsIgnoreCase("true")) {
                     Player.spawnFromSave();
                     SEManager.playEffect(SEManager.Effect.FADE_TRANSITION, ScreenState.LOAD);
-                }else{
+                } else {
                     HUDManager.displayFadeMessage("No save data found", CoreManager.width / 2, (int) (CoreManager.height * 0.85), 30, 15, Color.RED);
                 }
             }

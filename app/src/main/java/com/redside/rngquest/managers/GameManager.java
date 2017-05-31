@@ -192,10 +192,12 @@ public class GameManager {
         for (Item item : playerItems){
             items += item.getId() + ",";
         }
-        // Add to list
-        data.add("items: " + items);
+        if (Player.getInventory().items.size() > 0){
+            // Add to list if has at least one item
+            data.add("items: " + items);
+        }
 
-        // Add current spell id
+        // Add current spell id if has a spell
         if (Player.hasSpell() && Player.getCurrentSpell() != null){
             data.add("currentspell: " + Player.getCurrentSpell().getId());
         }
