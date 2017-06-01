@@ -268,7 +268,7 @@ public class HUDManager {
                         "EVA: " + Player.getEvade() + "%"
                 };
 
-                int[] colors = {Color.RED, Color.rgb(50, 50, 255), Color.CYAN, Color.rgb(255, 80, 0), Color.GREEN};
+                int[] colors = {Color.RED, Color.rgb(75, 75, 255), Color.CYAN, Color.rgb(255, 80, 0), Color.GREEN};
                 double factor = 0.44;
                 double relation = Math.sqrt(canvas.getWidth() * canvas.getHeight()) / 250;
                 paint.setTextSize((float) (18 * relation));
@@ -297,7 +297,7 @@ public class HUDManager {
                         Player.getATK() + " (" + Player.getATKChance() + "%)",
                         Player.getEvade() + "%"
                 };
-                int[] iconColors = {Color.RED, Color.rgb(50, 50, 255), Color.CYAN, Color.rgb(255, 80, 0), Color.GREEN};
+                int[] iconColors = {Color.RED, Color.rgb(75, 75, 255), Color.CYAN, Color.rgb(255, 80, 0), Color.GREEN};
 
                 // Draw icons
                 drawCenteredBitmap(hpIcon, canvas, paint, (int) (width * 0.05), (int) (height * 0.08));
