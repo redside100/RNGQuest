@@ -20,6 +20,14 @@ public class Wizard extends Entity{
     private ArrayList<Bitmap> attackFrames = new ArrayList<>();
     private ArrayList<Bitmap> damageFrame = new ArrayList<>();
 
+    /**
+     *
+     * @param hp The starting and max HP of the Ghost
+     * @param atk The attack value of the Ghost
+     * @param x The x position of the Ghost
+     * @param y The y position of the Ghost
+     * @param startingAlpha The starting opacity of the Ghost
+     */
     public Wizard(int hp, int atk, int x, int y, int startingAlpha){
 
         super("Wizard", hp, atk, x, y, startingAlpha);
@@ -53,6 +61,9 @@ public class Wizard extends Entity{
         animator.update(System.currentTimeMillis());
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void setState(EAState newState){
         super.state = newState;
@@ -68,6 +79,10 @@ public class Wizard extends Entity{
                 break;
         }
     }
+
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void tick(){
         super.tick();
@@ -84,6 +99,9 @@ public class Wizard extends Entity{
         tick++;
     }
 
+    /**
+     * {@inerhitDoc}
+     */
     @Override
     public void render(Canvas canvas, Paint paint){
 
@@ -96,6 +114,15 @@ public class Wizard extends Entity{
         paint.setAlpha(oldAlpha);
     }
 
+    /**
+     * Draws a bitmap, centered to the position given.
+     *
+     * @param bitmap The {@link Bitmap} image to be drawn
+     * @param canvas The {@link Canvas} object to draw to
+     * @param paint The {@link Paint} object to draw with
+     * @param x The x position of the bitmap
+     * @param y The y position of the bitmap
+     */
     public void drawCenteredBitmap(Bitmap bitmap, Canvas canvas, Paint paint, int x, int y){
         x -= (bitmap.getWidth() / 2);
         y -= (bitmap.getHeight() / 2);

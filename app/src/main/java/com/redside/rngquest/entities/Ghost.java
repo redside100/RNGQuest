@@ -16,6 +16,14 @@ public class Ghost extends Entity{
     private Bitmap currentSprite;
     private ArrayList<Bitmap> sprites = new ArrayList<>();
 
+    /**
+     *
+     * @param hp The starting and max HP of the Ghost
+     * @param atk The attack value of the Ghost
+     * @param x The x position of the Ghost
+     * @param y The y position of the Ghost
+     * @param startingAlpha The starting opacity of the Ghost
+     */
     public Ghost(int hp, int atk, int x, int y, int startingAlpha){
 
         super("Ghost", hp, atk, x, y, startingAlpha);
@@ -29,6 +37,9 @@ public class Ghost extends Entity{
         currentSprite = sprites.get(0);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void setState(EAState newState){
         super.state = newState;
@@ -44,6 +55,10 @@ public class Ghost extends Entity{
                 break;
         }
     }
+
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void tick(){
         super.tick();
@@ -60,6 +75,9 @@ public class Ghost extends Entity{
         tick++;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void render(Canvas canvas, Paint paint){
         int oldAlpha = paint.getAlpha();
@@ -67,7 +85,15 @@ public class Ghost extends Entity{
         drawCenteredBitmap(currentSprite, canvas, paint, (int) super.x, (int) super.y);
         paint.setAlpha(oldAlpha);
     }
-
+    /**
+     * Draws a bitmap, centered to the position given.
+     *
+     * @param bitmap The {@link Bitmap} image to be drawn
+     * @param canvas The {@link Canvas} object to draw to
+     * @param paint The {@link Paint} object to draw with
+     * @param x The x position of the bitmap
+     * @param y The y position of the bitmap
+     */
     public void drawCenteredBitmap(Bitmap bitmap, Canvas canvas, Paint paint, int x, int y){
         x -= (bitmap.getWidth() / 2);
         y -= (bitmap.getHeight() / 2);

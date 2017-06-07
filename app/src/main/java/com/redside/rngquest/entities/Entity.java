@@ -24,6 +24,15 @@ public class Entity {
     private int maxFadeTicks = 0;
     private boolean shakeLeft = false, shakeRight = false;
 
+    /**
+     *
+     * @param name The name of the Entity
+     * @param hp The starting and max HP of the Entity
+     * @param atk The attack value of the Entity
+     * @param x The x position of the Entity
+     * @param y The y position of the Entity
+     * @param startingAlpha The starting opacity of the Entity
+     */
     public Entity(String name, int hp, int atk, int x, int y, int startingAlpha){
 
         currAlpha = startingAlpha;
@@ -41,27 +50,66 @@ public class Entity {
         spawn();
     }
 
+    /**
+     * Sets the entity to a new animation state.
+     * @param newState The new {@link EAState} to switch to
+     */
     public void setState(EAState newState){
         state = newState;
     }
+
+    /**
+     * Returns the Entity's name.
+     * @return The name
+     */
     public String getName(){
         return name;
     }
+
+    /**
+     * Returns the current animation state.
+     * @return The {@link EAState}
+     */
     public EAState getState(){
         return state;
     }
+
+    /**
+     * Sets the Entity's max HP.
+     * @param maxHp The desired max HP value
+     */
     public void setMaxHP(int maxHp){
         this.maxHp = maxHp;
     }
+
+    /**
+     * Returns the Entity's current HP.
+     * @return The HP value
+     */
     public int getHP(){
         return hp;
     }
+
+    /**
+     * Returns the Entity's max HP.
+     * @return The max HP value
+     */
     public int getMaxHP(){
         return maxHp;
     }
+
+    /**
+     * Returns the Entity's attack value.
+     * @return The attack value
+     */
     public int getAtk(){
         return atk;
     }
+
+    /**
+     * Damages the Entity, causing it to lose HP.
+     * @param amount The amount of the damage
+     */
     public void damage(int amount){
         if (hp - amount > 0){
             hp -= amount;
@@ -69,6 +117,11 @@ public class Entity {
             hp = 0;
         }
     }
+
+    /**
+     * Heals the Entity, causing it to gain HP.
+     * @param amount The amount of the healing
+     */
     public void heal(int amount){
         if (hp + amount < maxHp){
             hp += amount;
@@ -76,11 +129,19 @@ public class Entity {
             hp = maxHp;
         }
     }
+
+    /**
+     * Checks if the Entity is dead.
+     * @return {@code true} if Entity is dead
+     */
     public boolean isDead(){
         return (hp == 0);
     }
 
-    // To be overridden
+    /**
+     * Called when the game ticks.
+     * Handles shaking and fading.
+     */
     public void tick(){
         if (shaking){
 
@@ -165,28 +226,64 @@ public class Entity {
             }
         }
     }
+
+    /**
+     * Shakes the Entity, left to right.
+     * @param ticks The amount of time to shake, in ticks
+     */
     public void shake(int ticks){
         shaking = true;
         maxShakeTicks = ticks;
         oldX = x;
     }
+
+    /**
+     * Spawns the Entity, causing it to be rendered and ticked.
+     */
     public void spawn(){
         alive = true;
         EntityManager.addEntity(this);
     }
+
+    /**
+     * Destroys the Entity, causing it to no longer be rendered and ticked.
+     */
     public void destroy(){
         alive = false;
         EntityManager.removeEntity(this);
     }
+
+    /**
+     * Fades the Entity in.
+     * @param ticks The amount of time to fade in, in ticks
+     */
     public void fadeIn(int ticks){
         fadingIn = true;
         maxFadeTicks = ticks;
     }
+
+    /**
+     * Fades the Entity out.
+     * @param ticks The amount of time to fade out, in ticks
+     */
     public void fadeOut(int ticks){
         fadingOut = true;
         maxFadeTicks = ticks;
     }
+
+    /**
+     * Called when the game renders.
+     * Renders the Entity onto the screen.
+     * @param canvas The {@link Canvas} object to render to
+     * @param paint The {@link Paint} object to render with
+     */
     public void render(Canvas canvas, Paint paint){}
+
+    /**
+     * Checks if the Entity is equal to another object.
+     * @param obj The object to compare to
+     * @return {@code true} if they are equal
+     */
     public boolean equals(Object obj){
         if (obj == null) return false;
         if (obj == this) return true;

@@ -39,6 +39,13 @@ public class CoreView extends View {
     private int width;
     private int height;
     public static Resources resources;
+
+    /**
+     *
+     * @param context The {@link Context} object to pass on
+     * @param width The width of the view
+     * @param height The height of the view
+     */
     public CoreView(Context context, int width, int height) {
         super(context);
         this.width = width;
@@ -46,6 +53,10 @@ public class CoreView extends View {
         this.resources = getResources();
         init();
     }
+
+    /**
+     * Initializes the asset manager, core manager, game loop, and save file.
+     */
     private void init(){
         // Init assets, main manager, game loop, and set font
         assets = new Assets(getContext(), width, height);
@@ -75,6 +86,12 @@ public class CoreView extends View {
          * being its corresponding value.
          */
     }
+
+    /**
+     * Returns a {@link String} {@link ArrayList} containing save info.
+     * @param context The {@link Context} object to pass on
+     * @return The save info
+     */
     public static ArrayList<String> getSave(Context context) {
         try {
             // Open a new input stream from save.ini using the context
@@ -109,6 +126,12 @@ public class CoreView extends View {
             return null;
         }
     }
+
+    /**
+     * Saves data into the save file.
+     * @param context The {@link Context} object to pass on
+     * @param info The {@link String} {@link ArrayList} holding the data
+     */
     public static void save(Context context, ArrayList<String> info){
         try{
             // Create temp file
@@ -147,6 +170,10 @@ public class CoreView extends View {
 
         }catch(IOException e){}
     }
+
+    /**
+     * {@inheritDoc}
+     */
     @Override
     protected void onDraw(Canvas canvas) {
         // Where everything is drawn
@@ -161,6 +188,10 @@ public class CoreView extends View {
         // Always render the core manager
         manager.render(canvas, paint);
     }
+
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public boolean onTouchEvent(MotionEvent e){
         // Source of detecting touches. Only check for when the user lets go
@@ -171,10 +202,18 @@ public class CoreView extends View {
         }
         return true;
     }
+
+    /**
+     * Called when the game renders. Draws graphics.
+     */
     public void render(){
         // Invalidate recalls onDraw()
         invalidate();
     }
+
+    /**
+     * Called when the game ticks. Ticks managers.
+     */
     public void tick(){
         // Ticks the main manager.
         manager.tick();
