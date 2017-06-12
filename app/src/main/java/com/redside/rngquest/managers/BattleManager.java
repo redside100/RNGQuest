@@ -87,8 +87,8 @@ public class BattleManager {
                                 Player.addATK(atkAmount);
                                 break;
                             case 3:
-                                // Give out 5-10% HP
-                                int healAmount = RNG.number(Player.getMaxHP() / 20, Player.getMaxHP() / 10);
+                                // Give out 5-15% HP
+                                int healAmount = RNG.number(Player.getMaxHP() / 20, (int) (Player.getMaxHP() * 0.15));
                                 HUDManager.displayFadeMessage("Recovered " + healAmount + " HP!", width / 2, (int) (height * 0.6), 35, 18, Color.GREEN);
                                 Player.heal(healAmount);
                                 break;
@@ -106,8 +106,8 @@ public class BattleManager {
                                 Player.addArmor(armorAmount);
                                 break;
                             case 6:
-                                // Give out 10-20% MP
-                                int manaAmount = RNG.number(Player.getMaxMana() / 10, Player.getMaxMana() / 5);
+                                // Give out 15-25% MP
+                                int manaAmount = RNG.number((int) (Player.getMaxMana() * 0.15), Player.getMaxMana() / 4);
                                 HUDManager.displayFadeMessage("Gained " + manaAmount + " MP!", width / 2, (int) (height * 0.6), 35, 18, Color.GREEN);
                                 Player.addMana(manaAmount);
                                 break;
@@ -282,6 +282,7 @@ public class BattleManager {
                         if (Player.isDead()){
                             ArrayList<String> erase = new ArrayList<>();
                             erase.add("available: false");
+                            erase.add("highStage: " + GameManager.getHighStage());
                             CoreView.save(CoreManager.context, erase);
                             SEManager.playEffect(SEManager.Effect.FADE_TRANSITION, ScreenState.TITLE);
                         }else{

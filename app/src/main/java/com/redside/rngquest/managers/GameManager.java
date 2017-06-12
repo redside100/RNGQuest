@@ -20,8 +20,11 @@ import com.redside.rngquest.utils.RNG;
 
 import java.util.ArrayList;
 
+import static com.redside.rngquest.gameobjects.CoreView.getSave;
+
 public class GameManager {
     public static int stage = 1;
+    public static int highStage = 1;
     public static int part = 1;
     private static int width;
     private static int height;
@@ -49,6 +52,18 @@ public class GameManager {
     public static int getStage(){
         return stage;
     }
+    public static int getHighStage() { return highStage; }
+    public static void updateHighStage() {
+        ArrayList<String> save = CoreView.getSave(CoreManager.context);
+        for (String line : save){
+            if (line.split(": ")[0].equalsIgnoreCase("highStage")){
+                int saveStage = Integer.parseInt(line.split(": ")[1]);
+                if (highStage < saveStage){
+                    highStage = saveStage;
+                }
+            }
+        }
+    }
     public static int getPart(){
         return part;
     }
@@ -70,6 +85,7 @@ public class GameManager {
                 revisit = true;
 
                 // Save game in case the user bought items from the shop
+                updateHighStage();
                 saveGame();
 
                 Soundtrack.playSong(Song.WAVE);
@@ -159,6 +175,11 @@ public class GameManager {
         // First add all stats into the list
         ArrayList<String> data = new ArrayList<>();
         data.add("available: true");
+        if (stage > highStage){
+            data.add("highStage: " + stage);
+        }else{
+            data.add("highStage: " + highStage);
+        }
         data.add("stage: " + stage);
         data.add("hp: " + Player.getHP());
         data.add("maxhp: " + Player.getMaxHP());

@@ -22,7 +22,15 @@ public class Item {
     private Bitmap bitmap;
     private Bitmap buttonBitmap;
 
-    // Constructor for consumable items
+    /**
+     * Initializes a consumable item.
+     * @param itemType The {@link ItemType} to identify
+     * @param role The {@link Player.Role} the item belongs to
+     * @param description The description of the item
+     * @param cost The gold cost of the item
+     * @param bitmap The item {@link Bitmap}
+     * @param id The number ID of the item
+     */
     public Item(ItemType itemType, Player.Role role, String description, int cost, Bitmap bitmap, int id){
         this.itemType = itemType;
         this.role = role;
@@ -33,7 +41,18 @@ public class Item {
         buttonBitmap = null;
         this.id = id;
     }
-    // Constructor for spell items
+
+    /**
+     * Initializes a spell item.
+     * @param itemType The {@link ItemType} to identify
+     * @param role The {@link Player.Role} the spell belongs to
+     * @param description The description of the spell
+     * @param cost The gold cost of the spell
+     * @param manaCost The MP cost of the spell
+     * @param bitmap The item {@link Bitmap} of the spell
+     * @param buttonBitmap The button {@link Bitmap} of the spell
+     * @param id The number ID of the spell item
+     */
     public Item(ItemType itemType, Player.Role role, String description, int cost, int manaCost, Bitmap bitmap, Bitmap buttonBitmap, int id){
         this.itemType = itemType;
         this.role = role;
@@ -45,26 +64,71 @@ public class Item {
         this.id = id;
     }
 
+    /**
+     * Called when the Item is used.
+     */
     public void use(){}
+
+    /**
+     * Returns the gold cost of the Item.
+     * @return The gold cost of the Item
+     */
     public int getCost(){
         return cost;
     }
+
+    /**
+     * Returns the MP cost of the Item.
+     * @return The MP cost of the Item
+     */
     public int getManaCost() {return manaCost;}
+
+    /**
+     * Returns the description of the Item.
+     * @return The description of the Item
+     */
     public String getDescription(){
         return description;
     }
+
+    /**
+     * Returns the Item's {@link Bitmap}.
+     * @return The Item's {@link Bitmap}
+     */
     public Bitmap getBitmap(){
         return bitmap;
     }
+
+    /**
+     * Returns the Item's button {@link Bitmap}.
+     * Returns null if the Item is a consumable.
+     * @return The Item's button {@link Bitmap}
+     */
     public Bitmap getButtonBitmap() {
         return buttonBitmap;
     }
+
+    /**
+     * Returns the {@link ItemType} of the Item.
+     * @return The {@link ItemType} of the Item
+     */
     public ItemType getItemType(){
         return itemType;
     }
+
+    /**
+     * Returns the {@link Player.Role} the Item belongs to
+     * @return The {@link Player.Role} the Item belongs to
+     */
     public Player.Role getRole(){
         return role;
     }
+
+    /**
+     * Checks if two Items are equal.
+     * @param object The object to compare to
+     * @return {@code true} if the two are equal
+     */
     public boolean equals(Object object){
         if (object instanceof Item){
             Item item = (Item) object;
@@ -75,9 +139,20 @@ public class Item {
         }
         return false;
     }
+
+    /**
+     * Returns the Item's ID.
+     * @return The Item's ID
+     */
     public int getId(){
         return id;
     }
+
+    /**
+     * Checks if an Item is a spell.
+     * @param item The {@link Item} to check
+     * @return {@code true} if the {@link Item} is a spell
+     */
     public static boolean isSpell(Item item){
         // Check item types
         ItemType type = item.getItemType();
@@ -91,6 +166,12 @@ public class Item {
         }
         return false;
     }
+
+    /**
+     * Returns an {@link Item}, according to the ID given.
+     * @param id The ID of the Item
+     * @return The {@link Item}, according to the ID
+     */
     public static Item getItemById(int id){
         switch(id){
             case 0:

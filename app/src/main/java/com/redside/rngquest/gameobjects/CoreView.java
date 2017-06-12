@@ -12,7 +12,11 @@ import android.os.Build;
 import android.view.Display;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.RelativeLayout;
 
+import com.google.android.gms.ads.AdSize;
+import com.google.android.gms.ads.AdView;
+import com.redside.rngquest.R;
 import com.redside.rngquest.managers.CoreManager;
 import com.redside.rngquest.managers.Soundtrack;
 import com.redside.rngquest.utils.Assets;
@@ -58,6 +62,7 @@ public class CoreView extends View {
      * Initializes the asset manager, core manager, game loop, and save file.
      */
     private void init(){
+
         // Init assets, main manager, game loop, and set font
         assets = new Assets(getContext(), width, height);
         manager = new CoreManager(getContext(), width, height);
@@ -74,6 +79,7 @@ public class CoreView extends View {
                 save.createNewFile();
                 ArrayList<String> defaultInfo = new ArrayList<>();
                 defaultInfo.add("available: false");
+                defaultInfo.add("highStage: 1");
                 save(getContext(), defaultInfo);
 
             }catch(IOException e){}

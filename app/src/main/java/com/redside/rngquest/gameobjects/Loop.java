@@ -17,6 +17,11 @@ public class Loop {
     private int framesSkipped;
     private int framePeriod = (int) (1000 / FPS);
     private int maxFrameSkips = 5;
+
+    /**
+     * Initializes and starts the game loop.
+     * @param coreView The {@link CoreView} to pass on
+     */
     public Loop(CoreView coreView){
         sleepTime = 0;
         c = coreView;

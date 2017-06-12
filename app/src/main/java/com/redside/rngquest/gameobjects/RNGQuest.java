@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.view.View;
 
+import com.google.android.gms.ads.MobileAds;
 import com.redside.rngquest.managers.Soundtrack;
 
 
@@ -26,6 +27,7 @@ public class RNGQuest extends Activity {
         // Set system flags to allow full screen and transparent non sticky navigation bar
         int uiOptions = View.SYSTEM_UI_FLAG_FULLSCREEN | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY;
         decorView.setSystemUiVisibility(uiOptions);
+
     }
     @Override
     public void onBackPressed() {}

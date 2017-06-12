@@ -322,6 +322,12 @@ public class HUDManager {
                     drawCenteredTextWithBorder("Waiting for enemy...", canvas, width / 2, (int) (height * 0.12), paint, 12, Color.rgb(0,191,255));
                 }
 
+                // Draw stage count and highest stage
+                paint.setTextAlign(Paint.Align.RIGHT);
+                drawTextWithBorder("Current: " + GameManager.getStage(), canvas, (int) (width * 0.97), (int) (height * 0.1), paint, 12, Color.YELLOW);
+                drawTextWithBorder("High: " + GameManager.getHighStage(), canvas, (int) (width * 0.97), (int) (height * 0.19), paint, 12, Color.YELLOW);
+                paint.setTextAlign(Paint.Align.LEFT);
+
                 // If the player doesn't have a spell, draw the empty button
                 if (Player.getCurrentSpell() == null){
                     Bitmap emptyButton = Assets.getBitmapFromMemory("button_empty");
