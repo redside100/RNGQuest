@@ -96,6 +96,7 @@ public class Assets {
         bitmapDb.put("button_attack", getBitmap(context, "buttons/attack.png"));
         bitmapDb.put("button_defend", getBitmap(context, "buttons/defend.png"));
         bitmapDb.put("button_next", getBitmap(context, "buttons/next.png"));
+        bitmapDb.put("button_nextInfo", getBitmap(context, "buttons/nextInfo.png"));
         bitmapDb.put("button_inv", getBitmap(context, "buttons/inv.png"));
         bitmapDb.put("button_inventory", getBitmap(context, "buttons/inventory.png"));
         bitmapDb.put("button_empty", getBitmap(context, "buttons/empty.png"));

@@ -43,4 +43,9 @@ public class RNGQuest extends Activity {
         Soundtrack.resume();
         Loop.paused = false;
     }
+    @Override
+    public void onDestroy(){
+        super.onDestroy();
+        System.exit(0);
+    }
 }

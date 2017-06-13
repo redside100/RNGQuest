@@ -2,8 +2,6 @@ package com.redside.rngquest.gameobjects;
 
 import android.os.Handler;
 
-import java.util.Random;
-
 
 public class Loop {
     public static int FPS = 60;

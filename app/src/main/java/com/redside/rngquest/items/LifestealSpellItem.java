@@ -12,7 +12,7 @@ import com.redside.rngquest.utils.Assets;
 
 public class LifestealSpellItem extends Item {
     public LifestealSpellItem(){
-        super(ItemType.LIFESTEAL_SPELL, Player.Role.ALL, "Lifesteal: Attack and recover 30% of the damage as HP" , 270, 4,
+        super(ItemType.LIFESTEAL_SPELL, Player.Role.ALL, "Lifesteal: Attack and recover 30% as HP" , 270, 4,
                 Assets.getBitmapFromMemory("items_lifesteal_spell"), Assets.getBitmapFromMemory("button_lifesteal"), 7);
     }
 

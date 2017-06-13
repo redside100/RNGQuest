@@ -11,6 +11,7 @@ import com.redside.rngquest.R;
 import com.redside.rngquest.buttons.AttackButton;
 import com.redside.rngquest.buttons.CharSelectButton;
 import com.redside.rngquest.buttons.DefendButton;
+import com.redside.rngquest.buttons.InfoChangeButton;
 import com.redside.rngquest.buttons.InventoryButton;
 import com.redside.rngquest.buttons.InventoryItemButton;
 import com.redside.rngquest.buttons.LoadButton;
@@ -42,6 +43,7 @@ public class HUDManager {
     private static AnimatedTextManager animatedTextManager;
     private static EntityManager entityManager;
     public static int selection = 0;
+    public static int infoState = 0;
     public HUDManager(){
         this.width = CoreManager.width;
         this.height = CoreManager.height;
@@ -83,12 +85,17 @@ public class HUDManager {
 
                 Bitmap load = Assets.getBitmapFromMemory("button_load");
                 LoadButton bLoadMenu = new LoadButton(load, (int) (width * 0.57), (int) (height / 1.5));
+
+                // Reset info state
+                infoState = 0;
                 break;
 
 
             case INFO:
-                // Create back button
-                StateChangeButton bBackInfo = new StateChangeButton(back, (int) (width * 0.9), (int) (height * 0.9), ScreenState.TITLE);
+                // Create back and next button
+                StateChangeButton bBackInfo = new StateChangeButton(back, (int) (width * 0.1), (int) (height * 0.9), ScreenState.TITLE);
+                Bitmap infoNext = Assets.getBitmapFromMemory("button_nextInfo");
+                InfoChangeButton infoChangeButton = new InfoChangeButton(infoNext, (int) (width * 0.9), (int) (height * 0.9));
                 break;
 
             case LOAD:
@@ -183,9 +190,48 @@ public class HUDManager {
 
             // Info Screen
             case INFO:
+                // Draw page number
+                drawCenteredText((infoState + 1) + "", canvas, (int) (width * 0.95), (int) (height * 0.1), paint, 12, Color.WHITE);
                 // Info title and info
-                drawCenteredText("Info", canvas, width / 2, (int) (height / 3.5), paint, 25, Color.WHITE);
-                drawCenteredText("There's nothing here lol", canvas, width / 2, height / 2, paint, 15, Color.WHITE);
+                switch(infoState){
+                    // Info screen
+                    case 0:
+                        drawCenteredText("Info", canvas, width / 2, (int) (height / 3.5), paint, 25, Color.WHITE);
+                        drawCenteredText("This is a game about chance.", canvas, width / 2, (int) (height * 0.4), paint, 15, Color.YELLOW);
+                        drawCenteredText("Each stage, you fight 7 enemies.", canvas, width / 2, (int) (height * 0.5), paint, 15, Color.YELLOW);
+                        drawCenteredText("The outcome of each battle depends on", canvas, width / 2, (int) (height * 0.6), paint, 15, Color.GREEN);
+                        drawCenteredText("attack chance, and evade chance.", canvas, width / 2, (int) (height * 0.7), paint, 15, Color.GREEN);
+                        break;
+                    // Combat Screen
+                    case 1:
+                        drawCenteredText("Combat", canvas, width / 2, (int) (height / 3.5), paint, 25, Color.WHITE);
+                        drawCenteredText("During your turn, you can attack or defend.", canvas, width / 2, (int) (height * 0.4), paint, 15, Color.YELLOW);
+                        drawCenteredText("After your turn, the enemy attacks.", canvas, width / 2, (int) (height * 0.49), paint, 15, Color.YELLOW);
+                        drawCenteredText("If the enemy is slain, gold is rewarded,", canvas, width / 2, (int) (height * 0.6), paint, 15, Color.GREEN);
+                        drawCenteredText("as well as a random stat reward.", canvas, width / 2, (int) (height * 0.68), paint, 15, Color.GREEN);
+                        drawCenteredText("If your HP reaches zero, you die.", canvas, width / 2, (int) (height * 0.78), paint, 15, Color.RED);
+                        break;
+                    // Skills screen
+                    case 2:
+                        drawCenteredText("Skills", canvas, width / 2, (int) (height / 3.5), paint, 25, Color.WHITE);
+                        Bitmap attackInfo = Assets.getBitmapFromMemory("button_attack");
+                        Bitmap defendInfo = Assets.getBitmapFromMemory("button_defend");
+                        drawCenteredBitmap(attackInfo, canvas, paint, width / 5, (int) (height * 0.45));
+                        drawCenteredBitmap(defendInfo, canvas, paint, width / 5, (int) (height * 0.7));
+                        drawText("Deal damage equal to your ATK.", canvas, (int) (width * 0.3), (int) (height * 0.47), paint, 15, Color.GREEN);
+                        drawText("Gain 23-33% of your max armor,", canvas, (int) (width * 0.3), (int) (height * 0.68), paint, 15, Color.CYAN);
+                        drawText("and gain temporary ATK chance.", canvas, (int) (width * 0.3), (int) (height * 0.75), paint, 15, Color.CYAN);
+                        break;
+                    // Items screen
+                    case 3:
+                        drawCenteredText("Items", canvas, width / 2, (int) (height / 3.5), paint, 25, Color.WHITE);
+                        drawCenteredText("After a stage, you enter the shop.", canvas, width / 2, (int) (height * 0.4), paint, 15, Color.YELLOW);
+                        drawCenteredText("Gold can be used to buy consumables and spells.", canvas, width / 2, (int) (height * 0.49), paint, 15, Color.YELLOW);
+                        drawCenteredText("Consumables can restore and", canvas, width / 2, (int) (height * 0.59), paint, 15, Color.GREEN);
+                        drawCenteredText("upgrade HP, MP, and EVA.", canvas, width / 2, (int) (height * 0.67), paint, 15, Color.GREEN);
+                        drawCenteredText("Spells are used in battle, and cost MP.", canvas, width / 2, (int) (height * 0.77), paint, 15, Color.rgb(75, 75, 255));
+                        break;
+                }
                 break;
 
             // Load screen
@@ -270,13 +316,9 @@ public class HUDManager {
 
                 int[] colors = {Color.RED, Color.rgb(75, 75, 255), Color.CYAN, Color.rgb(255, 80, 0), Color.GREEN};
                 double factor = 0.44;
-                double relation = Math.sqrt(canvas.getWidth() * canvas.getHeight()) / 250;
-                paint.setTextSize((float) (18 * relation));
                 // Draw all player info
                 for (int i = 0; i < 5; i++){
-                    paint.setColor(colors[i]);
-                    canvas.drawText(info[i], (int) (width * 0.5), (int) (height * factor), paint);
-                    paint.setColor(Color.WHITE);
+                    drawText(info[i], canvas, (int) (width * 0.5), (int) (height * factor), paint, 18, colors[i]);
                     factor += 0.09;
                 }
                 break;
@@ -491,6 +533,18 @@ public class HUDManager {
         paint.getTextBounds(text, 0, text.length(), bounds);
         x -= bounds.width() / 2;
         y -= bounds.height() / 2;
+        canvas.drawText(text, x, y, paint);
+        paint.setTextSize(old);
+        paint.setColor(Color.WHITE);
+    }
+    public static void drawText(String text, Canvas canvas, int x, int y, Paint paint, int textSize, int color){
+        float old = paint.getTextSize();
+        double relation = Math.sqrt(canvas.getWidth() * canvas.getHeight()) / 250;
+        float scaledTextSize = (float) (textSize * relation);
+
+        paint.setColor(color);
+        paint.setTextSize(scaledTextSize);
+
         canvas.drawText(text, x, y, paint);
         paint.setTextSize(old);
         paint.setColor(Color.WHITE);
