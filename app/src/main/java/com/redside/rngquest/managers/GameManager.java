@@ -42,17 +42,39 @@ public class GameManager {
         width = HUDManager.width;
         height = HUDManager.height;
     }
+
+    /**
+     * Advances to the next stage.
+     */
     public static void nextStage(){
         stage++;
         part = 1;
     }
+
+    /**
+     * Advances to the next part of the stage.
+     */
     public static void nextPart(){
         part++;
     }
+
+    /**
+     * Returns the current stage.
+     * @return The current stage
+     */
     public static int getStage(){
         return stage;
     }
+
+    /**
+     * Returns the highest stage reached.
+     * @return The highest stage reached
+     */
     public static int getHighStage() { return highStage; }
+
+    /**
+     * Updates the highest stage reached from the save file.
+     */
     public static void updateHighStage() {
         ArrayList<String> save = CoreView.getSave(CoreManager.context);
         for (String line : save){
@@ -64,9 +86,20 @@ public class GameManager {
             }
         }
     }
+
+    /**
+     * Returns the current part of the stage.
+     * @return The current part of the stage
+     */
     public static int getPart(){
         return part;
     }
+
+    /**
+     * Called when the {@link ScreenState} changes.
+     * @param oldState The previous {@link ScreenState}
+     * @param newState The new {@link ScreenState}
+     */
     public static void onStateChange(ScreenState oldState, ScreenState newState){
         lastState = oldState;
         battleManager.close();
@@ -112,12 +145,27 @@ public class GameManager {
                 break;
         }
     }
+
+    /**
+     * Returns the current shop spell {@link Inventory}
+     * @return The shop spell {@link Inventory}
+     */
     public static Inventory getShopSpellInventory(){
         return shopSpellInventory;
     }
+
+    /**
+     * Returns the current shop consumable {@link Inventory}
+     * @return The shop consumable {@link Inventory}
+     */
     public static Inventory getShopConsumableInventory(){
         return shopConsumableInventory;
     }
+
+    /**
+     * Buys a shop item.
+     * @param selection The index of the item
+     */
     public static void buyShopItem(int selection){
         // Check if a spell is selected (top row, 1-3)
         if (selection > 0 && selection < 4){
@@ -170,6 +218,10 @@ public class GameManager {
             }
         }
     }
+
+    /**
+     * Saves the game into the save file.
+     */
     public static void saveGame(){
         // Save game data into a file
         // First add all stats into the list
@@ -226,6 +278,11 @@ public class GameManager {
         // Save
         CoreView.save(CoreManager.context, data);
     }
+
+    /**
+     * Makes the player use an {@link Item} in their {@link Inventory}.
+     * @param selection The index of the {@link Item}
+     */
     public static void useInventoryItem(int selection){
         // Check if the selection is in range (1-4)
         if (selection > 0 && selection < 5){
@@ -249,6 +306,10 @@ public class GameManager {
             }
         }
     }
+
+    /**
+     * Generates new Items in the shop.
+     */
     public static void generateShop(){
         // Check if it should be restocked
         // It shouldn't if coming from inventory screen
@@ -296,6 +357,10 @@ public class GameManager {
 
         }
     }
+
+    /**
+     * Recreates shop {@link Item} buttons, after the Player buys an {@link Item}.
+     */
     private static void recreateShopButtons(){
         // Destroy all shop item buttons
         ArrayList<Button> temp = new ArrayList<>(ButtonManager.getButtons());
@@ -320,6 +385,10 @@ public class GameManager {
             sFactor += 0.144;
         }
     }
+
+    /**
+     * Recreates inventory {@link Item} buttons, after the Player uses an {@link Item}.
+     */
     private static void recreateInventoryButtons(){
         // Destroy all inventory item buttons
         ArrayList<Button> temp = new ArrayList<>(ButtonManager.getButtons());
@@ -337,10 +406,18 @@ public class GameManager {
             invFactor += 0.1435;
         }
     }
+
+    /**
+     * Resets the stage and part of the game.
+     */
     public static void reset(){
         stage = 1;
         part = 1;
     }
+
+    /**
+     * Called when the game ticks.
+     */
     public void tick(){
         // Tick battle manager
         battleManager.tick();

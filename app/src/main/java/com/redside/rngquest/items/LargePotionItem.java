@@ -14,7 +14,9 @@ public class LargePotionItem extends Item {
     public LargePotionItem(){
         super(ItemType.LARGE_POTION, Player.Role.ALL, "Large Potion: Restores 75 HP" , 100, Assets.getBitmapFromMemory("items_large_potion"), 1);
     }
-
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void use(){
         // Display text, and heal

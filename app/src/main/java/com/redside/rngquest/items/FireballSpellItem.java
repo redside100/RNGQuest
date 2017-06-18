@@ -16,7 +16,9 @@ public class FireballSpellItem extends Item {
         super(ItemType.FIREBALL_SPELL, Player.Role.MAGE, "Fireball: 75% chance to deal 1.5x total ATK" , 300, 7,
                 Assets.getBitmapFromMemory("items_fireball_spell"), Assets.getBitmapFromMemory("button_fireball"), 5);
     }
-
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void use(){
         // Check for mana

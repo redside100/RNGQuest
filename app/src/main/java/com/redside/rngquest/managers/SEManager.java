@@ -13,6 +13,10 @@ public class SEManager {
     private static Effect currentEffect = Effect.NOTHING;
     private static ScreenState nextState = null;
 
+    /**
+     * Called when the game ticks.
+     * Handles all screen effects, and calls state changes accordingly.
+     */
     public void tick(){
         switch(currentEffect){
             // Check for current playing effects
@@ -71,6 +75,13 @@ public class SEManager {
                 break;
         }
     }
+
+    /**
+     * Called when the game renders.
+     * Renders all screen effects.
+     * @param canvas The {@link Canvas} to draw on
+     * @param paint The {@link Paint} object to draw with
+     */
     public void render(Canvas canvas, Paint paint){
         if (running){
             switch(currentEffect){
@@ -119,6 +130,12 @@ public class SEManager {
             }
         }
     }
+
+    /**
+     * Plays a screen effect, with a new {@link ScreenState} to transition to.
+     * @param effect The {@link Effect} to play
+     * @param newState The new {@link ScreenState} to transition to
+     */
     public static void playEffect(Effect effect, ScreenState newState){
         if (!running){
             running = true;
@@ -141,6 +158,11 @@ public class SEManager {
             }
         }
     }
+
+    /**
+     * Plays a screen effect.
+     * @param effect The {@link Effect} to play
+     */
     public static void playEffect(Effect effect){
         if (!running){
             running = true;
@@ -161,9 +183,6 @@ public class SEManager {
                     break;
             }
         }
-    }
-    public static void onStateChange(ScreenState oldState, ScreenState newState){
-
     }
     public enum Effect {
         NOTHING, FADE_TRANSITION, SHAKE, RED_FLASH, YELLOW_FLASH, GREEN_FLASH, BLUE_FLASH, PURPLE_FLASH

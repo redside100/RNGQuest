@@ -9,6 +9,16 @@ public class ParabolicText extends AnimatedText{
     private int vertexX;
     private int vertexY;
 
+    /**
+     *
+     * @param text The text to draw
+     * @param ticks The amount of time to draw
+     * @param x The x position of the text
+     * @param y The y position of the text
+     * @param textSize The size of the text
+     * @param color The color of the text
+     * @param directionVec The direction vector of the text (negative or positive)
+     */
     public ParabolicText(String text, int ticks, int x, int y, int textSize, int color, double directionVec){
         super(text, x, y, textSize, color, 255);
         this.ticks = ticks;
@@ -17,6 +27,9 @@ public class ParabolicText extends AnimatedText{
         this.vertexY = y;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void tick(){
         if (super.active){

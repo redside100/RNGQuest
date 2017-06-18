@@ -30,6 +30,11 @@ public class Background {
         animate.update(System.currentTimeMillis());
         onStateChange(ScreenState.TITLE, ScreenState.TITLE);
     }
+
+    /**
+     * Called when the game ticks.
+     * Handles moving elements in the background.
+     */
     public void tick(){
         switch(CoreManager.state){
             // All movement for things in the background are handled here.
@@ -45,6 +50,12 @@ public class Background {
                 break;
         }
     }
+
+    /**
+     * Called when the {@link ScreenState} changes.
+     * @param oldState The previous {@link ScreenState}
+     * @param newState The new {@link ScreenState}
+     */
     public static void onStateChange(ScreenState oldState, ScreenState newState){
         // No matter what, clear all frames in the background, and reload.
         background.clear();
@@ -79,6 +90,12 @@ public class Background {
         }
         animate.replace(background);
     }
+
+    /**
+     * Called when the game renders.
+     * @param canvas The {@link Canvas} to draw on
+     * @param paint The {@link Paint} object to draw with
+     */
     public void render(Canvas canvas, Paint paint){
         // Draw current frame and update animator with time
         if (background.size() > 0){

@@ -14,7 +14,9 @@ public class EvadeUpPotionItem extends Item {
     public EvadeUpPotionItem(){
         super(ItemType.MANA_POTION, Player.Role.ALL, "Evade Up: Increases evade by 2%, up to 75%" , 240, Assets.getBitmapFromMemory("items_evadeup_potion"), 4);
     }
-
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void use(){
         // Display text, and add evade

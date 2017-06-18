@@ -14,7 +14,9 @@ public class ManaUpPotionItem extends Item {
     public ManaUpPotionItem(){
         super(ItemType.MANA_POTION, Player.Role.ALL, "Mana Up: Increases max MP by 10" , 100, Assets.getBitmapFromMemory("items_manaup_potion"), 3);
     }
-
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void use(){
         // Display text, and add mana

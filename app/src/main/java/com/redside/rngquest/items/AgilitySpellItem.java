@@ -17,6 +17,9 @@ public class AgilitySpellItem extends Item {
                 Assets.getBitmapFromMemory("items_agility_spell"), Assets.getBitmapFromMemory("button_agility"), 6);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void use(){
         // Check for mana

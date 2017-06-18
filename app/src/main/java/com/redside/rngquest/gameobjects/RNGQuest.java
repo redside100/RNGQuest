@@ -29,6 +29,7 @@ public class RNGQuest extends Activity {
         decorView.setSystemUiVisibility(uiOptions);
 
     }
+
     @Override
     public void onBackPressed() {}
     @Override

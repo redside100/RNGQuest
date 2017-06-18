@@ -9,13 +9,27 @@ import com.redside.rngquest.utils.Assets;
 public class Soundtrack {
     public static MediaPlayer mediaPlayer = new MediaPlayer();
     public static Song song = Song.NONE;
+
+    /**
+     * Returns the current {@link Song} playing.
+     * @return The current {@link Song}
+     */
     public static Song getCurrentSong(){
         return song;
     }
+
+    /**
+     * Plays a {@link Song}, at a slightly reduced volume.
+     * @param newSong The {@link Song} to play
+     */
     public static void playSong(Song newSong){
         int max = 100;
+        // Scale volume logarithmically
+        // Set volume to 90%
         final float volume = (float) (1 - (Math.log(max - 90) / Math.log(max)));
         mediaPlayer.setVolume(volume, volume);
+
+        // Load the song from memory
         AssetFileDescriptor afd = null;
         switch(newSong){
             case TITLE:
@@ -35,6 +49,7 @@ public class Soundtrack {
                 break;
         }
         song = newSong;
+        // Play the song, and loop it
         try{
             if (mediaPlayer.isPlaying()) {
                 mediaPlayer.stop();
@@ -53,6 +68,10 @@ public class Soundtrack {
         }
 
     }
+
+    /**
+     * Stops the current {@link Song}.
+     */
     public static void stop(){
         if (mediaPlayer.isPlaying()){
             mediaPlayer.stop();
@@ -60,11 +79,19 @@ public class Soundtrack {
             song = Song.NONE;
         }
     }
+
+    /**
+     * Pauses the current {@link Song}.
+     */
     public static void pause(){
         if (mediaPlayer.isPlaying()){
             mediaPlayer.pause();
         }
     }
+
+    /**
+     * Resumes the current {@link Song}.
+     */
     public static void resume(){
         if (!mediaPlayer.isPlaying() && mediaPlayer != null){
             mediaPlayer.start();

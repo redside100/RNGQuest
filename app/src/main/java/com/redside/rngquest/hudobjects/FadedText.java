@@ -1,17 +1,19 @@
 package com.redside.rngquest.hudobjects;
 
-import android.graphics.Canvas;
-import android.graphics.Color;
-import android.graphics.Paint;
-import android.graphics.Rect;
-
-import com.redside.rngquest.managers.AnimatedTextManager;
-
 public class FadedText extends AnimatedText{
     private int tick = 0;
     private int maxTick;
     private int time;
 
+    /**
+     *
+     * @param text The text to draw
+     * @param ticks The amount of time to draw
+     * @param x The x position of the text
+     * @param y The y position of the text
+     * @param textSize The size of the text
+     * @param color The color of the text
+     */
     public FadedText(String text, int ticks, int x, int y, int textSize, int color){
 
         super(text, x, y, textSize, color, 0);
@@ -20,6 +22,9 @@ public class FadedText extends AnimatedText{
 
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void tick(){
         if (super.active){

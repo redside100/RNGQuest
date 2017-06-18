@@ -14,7 +14,9 @@ public class SmallPotionItem extends Item {
     public SmallPotionItem(){
         super(ItemType.SMALL_POTION, Player.Role.ALL, "Tonic: Restores 30 HP" , 50, Assets.getBitmapFromMemory("items_small_potion"), 0);
     }
-
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void use(){
         // Display text, and heal

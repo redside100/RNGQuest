@@ -16,6 +16,15 @@ public class AnimatedText {
     public boolean active = false;
     public int currAlpha;
 
+    /**
+     *
+     * @param text The text to show
+     * @param x The x position of the text
+     * @param y The y position of the text
+     * @param textSize The size of the text
+     * @param color The color of the text
+     * @param startingAlpha The starting opacity of the text
+     */
     public AnimatedText(String text, int x, int y, int textSize, int color, int startingAlpha){
         this.text = text;
         this.textSize = textSize;
@@ -25,26 +34,45 @@ public class AnimatedText {
         currAlpha = startingAlpha;
     }
 
-    // To be overridden
+    /**
+     * Called when the game ticks.
+     */
     public void tick(){
 
     }
 
+    /**
+     * Called when the game renders.
+     * Renders the AnimatedText onto the screen
+     * @param canvas The {@link Canvas} object to render to
+     * @param paint The {@link Paint} object to render with
+     */
     public void render(Canvas canvas, Paint paint){
         drawCenteredText(text, canvas, (int) x, (int) y, paint, textSize, color);
     }
 
-    // Must be called to start the animation
+
+    /**
+     * Starts animating the text.
+     */
     public void play(){
         active = true;
         AnimatedTextManager.addText(this);
     }
 
+    /**
+     * Stops the animated text.
+     */
     public void destroy(){
         active = false;
         AnimatedTextManager.removeText(this);
     }
 
+    /**
+     * Checks if it is equal to another object.
+     * @param obj The object to compare to
+     * @return {@code true} if the it is equal
+     */
     public boolean equals(Object obj){
         if (obj == null) return false;
         if (obj == this) return true;
@@ -56,6 +84,16 @@ public class AnimatedText {
         return false;
     }
 
+    /**
+     * Draws text, centered to the position given.
+     * @param text The text to draw
+     * @param canvas The {@link Canvas} to draw on
+     * @param x The x position of the text
+     * @param y The y position of the text
+     * @param paint The {@link Paint} object to draw with
+     * @param textSize The size of the text
+     * @param color The color of the text
+     */
     public void drawCenteredText(String text, Canvas canvas, int x, int y, Paint paint, int textSize, int color){
         float old = paint.getTextSize();
         double relation = Math.sqrt(canvas.getWidth() * canvas.getHeight()) / 250;

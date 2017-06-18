@@ -30,6 +30,10 @@ public class CoreManager{
         this.height = height;
         init();
     }
+
+    /**
+     * Called when this manager is initialized.
+     */
     public void init(){
         // Initialize HUD manager, background manager, and SE manager
         // Load sound effects
@@ -44,20 +48,30 @@ public class CoreManager{
         background.onStateChange(state ,state);
         gm.onStateChange(state, state);
     }
-    public static void stateChange(ScreenState oldState, ScreenState newState){
-        // Usually state changes are handled in SE
-        se.onStateChange(oldState, newState);
-    }
+
+    /**
+     * Called when the user lets go on the screen.
+     * @param e The {@link MotionEvent} to listen to
+     */
     public void touchEvent(MotionEvent e){
         if (allowTouch){
             hud.touchEvent(e);
         }
     }
+    /**
+     * Called when the user first touches the screen.
+     * @param e The {@link MotionEvent} to listen to
+     */
     public void preTouchEvent(MotionEvent e){
         if (allowTouch){
             hud.preTouchEvent(e);
         }
     }
+
+    /**
+     * Called when the game ticks.
+     * Ticks all managers in order.
+     */
     public void tick(){
         // Tick all managers in order
         background.tick();
@@ -65,9 +79,21 @@ public class CoreManager{
         se.tick();
         gm.tick();
     }
+
+    /**
+     * Sets if the game should detect touches or not.
+     * @param touch Touch
+     */
     public static void setAllowTouch(boolean touch){
         allowTouch = touch;
     }
+
+    /**
+     * Called when the game renders.
+     * Renders all managers in order.
+     * @param canvas The {@link Canvas} to draw on
+     * @param paint The {@link Paint} object to draw with
+     */
     public void render(Canvas canvas, Paint paint){
         // Render all managers in order. This determines the layering
         background.render(canvas, paint);

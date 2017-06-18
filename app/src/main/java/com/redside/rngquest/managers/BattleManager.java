@@ -26,6 +26,11 @@ public class BattleManager {
         this.height = HUDManager.height;
         battleState = BattleState.PLAYER_TURN;
     }
+
+    /**
+     * Called when the game ticks.
+     * Handles all combat logic.
+     */
     public void tick(){
 
         switch(battleState){
@@ -297,6 +302,11 @@ public class BattleManager {
         }
 
     }
+
+    /**
+     * Initiates a new battle with an {@link Entity}
+     * @param enemy The {@link Entity} to fight
+     */
     public static void startBattle(Entity enemy){
         // Start new battle with given enemy
         currentEnemy = enemy;
@@ -304,6 +314,11 @@ public class BattleManager {
         tick = 0;
         currentEnemy.fadeIn(50);
     }
+
+    /**
+     * Resumes a battle with an {@link Entity}
+     * @param enemy The {@link Entity} to fight
+     */
     public static void resumeBattle(Entity enemy){
         // Resume battle with given enemy (no fade in)
         currentEnemy = enemy;
@@ -311,6 +326,10 @@ public class BattleManager {
         battleState = BattleState.PLAYER_TURN;
         tick = 0;
     }
+
+    /**
+     * Uses the Player's spell.
+     */
     public static void playerSpell(){
         // Use spell if it's player turn
         // Play spell sound
@@ -318,12 +337,20 @@ public class BattleManager {
             Player.getCurrentSpell().use();
         }
     }
+
+    /**
+     * Makes the Player attack.
+     */
     public static void playerAttack(){
         // Spawn slash animation and go to attack state if it's player turn
         if (battleState.equals(BattleState.PLAYER_TURN)){
             battleState = BattleState.PLAYER_ATTACK;
         }
     }
+
+    /**
+     * Makes the Player defend.
+     */
     public static void playerDefend(){
         // Go to defend state if it's player turn
         if (battleState.equals(BattleState.PLAYER_TURN)){
@@ -331,6 +358,10 @@ public class BattleManager {
             battleState = BattleState.PLAYER_DEFEND;
         }
     }
+
+    /**
+     * Enters the Player's {@link com.redside.rngquest.gameobjects.Inventory}
+     */
     public static void playerInventory(){
         // Save the current enemy and go to inventory screen if it's player turn
         if (battleState.equals(BattleState.PLAYER_TURN)){
@@ -339,9 +370,18 @@ public class BattleManager {
             SEManager.playEffect(SEManager.Effect.FADE_TRANSITION, ScreenState.INVENTORY);
         }
     }
+
+    /**
+     * Sets the new {@link BattleState}
+     * @param newState The new {@link BattleState}
+     */
     public static void setBattleState(BattleState newState){
         battleState = newState;
     }
+
+    /**
+     * Safely closes the BattleManager (until a new battle is initiated)
+     */
     public static void close(){
         // Discard currentEnemy entity
         if (currentEnemy != null){
@@ -352,6 +392,11 @@ public class BattleManager {
         tick = 0;
         battleState = BattleState.NONE;
     }
+
+    /**
+     * Damages the current enemy.
+     * @param amount The amount of damage to inflict
+     */
     private static void damageEnemy(int amount){
         // Speed for the flying text
         double speed = HUDManager.getSpeed(CoreManager.width, 274);
@@ -367,6 +412,11 @@ public class BattleManager {
         currentEnemy.damage(amount);
         currentEnemy.setState(EAState.DAMAGE);
     }
+
+    /**
+     * Returns the current enemy.
+     * @return The enemy as an {@link Entity}
+     */
     public static Entity getCurrentEnemy(){
         return currentEnemy;
     }

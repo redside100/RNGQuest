@@ -11,6 +11,10 @@ import java.util.HashMap;
 public class Sound {
     private static SoundPool sp;
     private static HashMap<SoundEffect, Integer> sounds = new HashMap<>();
+
+    /**
+     * Loads all sound effects.
+     */
     public static void loadSounds(){
         sp = new SoundPool(5, AudioManager.STREAM_MUSIC, 0);
         sounds.put(SoundEffect.SELECT, sp.load(Assets.getSoundDescFromMemory("sound_select"), 1));
@@ -22,6 +26,11 @@ public class Sound {
         sounds.put(SoundEffect.PURCHASE, sp.load(Assets.getSoundDescFromMemory("sound_purchase"), 1));
         sounds.put(SoundEffect.USE_ITEM, sp.load(Assets.getSoundDescFromMemory("sound_use_item"), 1));
     }
+
+    /**
+     * Plays a sound effect, in a new {@link Thread}.
+     * @param sound
+     */
     public static void playSound(final SoundEffect sound){
         new Thread(new Runnable(){
             public void run(){

@@ -24,6 +24,10 @@ public class Assets {
         soundDb = new HashMap<>();
         init();
     }
+
+    /**
+     * Initializes all {@link Bitmap} image assets, and sound assets.
+     */
     public void init(){
 
         // Backgrounds
@@ -136,20 +140,37 @@ public class Assets {
         soundDb.put("sound_use_item", getSoundDesc(context, "sounds/useItem.wav"));
 
     }
+
+    /**
+     * Returns a {@link Bitmap} object from a file, scaled accordingly to the screen size.
+     * @param context The {@link Context} to use
+     * @param filePath The file path
+     * @return A {@link Bitmap}
+     */
     public static Bitmap getBitmap(Context context, String filePath) {
         AssetManager assetManager = context.getAssets();
+        // Create a new input stream, and open the path
         InputStream istr;
         Bitmap bitmap = null;
         try {
             istr = assetManager.open(filePath);
+            // Assuming it is a bitmap, decode the stream
             bitmap = BitmapFactory.decodeStream(istr);
         } catch (IOException e) {}
 
+        // Scale bitmap to screen height and width
         double x = bitmap.getWidth() * width / 1920;
         double y = bitmap.getHeight() * height / 1080;
 
         return Bitmap.createScaledBitmap(bitmap, (int) x, (int) y, true);
     }
+
+    /**
+     * Returns the {@link AssetFileDescriptor} of a sound file.
+     * @param context The {@link Context} to use
+     * @param filePath The file path
+     * @return A {@link AssetFileDescriptor}
+     */
     public static AssetFileDescriptor getSoundDesc(Context context, String filePath){
         try{
             AssetFileDescriptor afd = context.getAssets().openFd(filePath);
@@ -158,12 +179,24 @@ public class Assets {
             return null;
         }
     }
+
+    /**
+     * Returns a {@link AssetFileDescriptor} from memory.
+     * @param name The name of the {@link AssetFileDescriptor}
+     * @return A {@link AssetFileDescriptor}
+     */
     public static AssetFileDescriptor getSoundDescFromMemory(String name){
         if (soundDb.containsKey(name)){
             return soundDb.get(name);
         }
         return null;
     }
+
+    /**
+     * Returns a {@link Bitmap} from memory.
+     * @param name The name of the {@link Bitmap}
+     * @return A {@link Bitmap}
+     */
     public static Bitmap getBitmapFromMemory(String name){
         if (bitmapDb.containsKey(name)){
             return bitmapDb.get(name);

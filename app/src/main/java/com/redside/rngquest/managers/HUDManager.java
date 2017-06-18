@@ -58,18 +58,38 @@ public class HUDManager {
         start = Assets.getBitmapFromMemory("button_start");
         onStateChange(ScreenState.TITLE, ScreenState.TITLE);
     }
+
+    /**
+     * Called when the game ticks.
+     */
     public void tick(){
         // Tick button manager + faded text
         entityManager.tick();
         buttonManager.tick();
         animatedTextManager.tick();
     }
+
+    /**
+     * Called when the user lets go of the screen.
+     * @param e The {@link MotionEvent} to listen to
+     */
     public void touchEvent(MotionEvent e){
         buttonManager.checkButtons(e);
     }
+    /**
+     * Called when the user initially taps the screen.
+     * @param e The {@link MotionEvent} to listen to
+     */
     public void preTouchEvent(MotionEvent e){
         buttonManager.checkButtonPretouch(e);
     }
+
+    /**
+     * Called when the {@link ScreenState} changes.
+     * Creates all buttons.
+     * @param oldState The previous {@link ScreenState}
+     * @param newState The new {@link ScreenState}
+     */
     public static void onStateChange(ScreenState oldState, ScreenState newState){
         // Clear buttons no matter what
         buttonManager.clearButtons();
@@ -178,6 +198,13 @@ public class HUDManager {
                 break;
         }
     }
+
+    /**
+     * Called when the game renders.
+     * Renders all text and images.
+     * @param canvas The {@link Canvas} to draw on
+     * @param paint The {@link Paint} object to draw with
+     */
     public void render(Canvas canvas, Paint paint){
         // Render all text, HUD items, etc. depending on state
         switch(CoreManager.state){
@@ -522,6 +549,17 @@ public class HUDManager {
         entityManager.render(canvas, paint);
         animatedTextManager.render(canvas, paint);
     }
+
+    /**
+     * Draws text, centered to the position given.
+     * @param text The text to draw
+     * @param canvas The {@link Canvas} to draw on
+     * @param x The x position of the text
+     * @param y The y position of the text
+     * @param paint The {@link Paint} object to draw with
+     * @param textSize The size of the text
+     * @param color The color of the text
+     */
     public static void drawCenteredText(String text, Canvas canvas, int x, int y, Paint paint, int textSize, int color){
         float old = paint.getTextSize();
         double relation = Math.sqrt(canvas.getWidth() * canvas.getHeight()) / 250;
@@ -537,6 +575,16 @@ public class HUDManager {
         paint.setTextSize(old);
         paint.setColor(Color.WHITE);
     }
+    /**
+     * Draws text, starting from the position given, from left to right.
+     * @param text The text to draw
+     * @param canvas The {@link Canvas} to draw on
+     * @param x The x position of the text
+     * @param y The y position of the text
+     * @param paint The {@link Paint} object to draw with
+     * @param textSize The size of the text
+     * @param color The color of the text
+     */
     public static void drawText(String text, Canvas canvas, int x, int y, Paint paint, int textSize, int color){
         float old = paint.getTextSize();
         double relation = Math.sqrt(canvas.getWidth() * canvas.getHeight()) / 250;
@@ -549,11 +597,31 @@ public class HUDManager {
         paint.setTextSize(old);
         paint.setColor(Color.WHITE);
     }
+    /**
+     * Draws a bitmap, centered to the position given.
+     *
+     * @param bitmap The {@link Bitmap} image to be drawn
+     * @param canvas The {@link Canvas} object to draw to
+     * @param paint The {@link Paint} object to draw with
+     * @param x The x position of the bitmap
+     * @param y The y position of the bitmap
+     */
     public static void drawCenteredBitmap(Bitmap bitmap, Canvas canvas, Paint paint, int x, int y){
         x -= (bitmap.getWidth() / 2);
         y -= (bitmap.getHeight() / 2);
         canvas.drawBitmap(bitmap, x, y, paint);
     }
+
+    /**
+     * Draws text, with a dark border.
+     * @param text The text to draw
+     * @param canvas The {@link Canvas} to draw on
+     * @param x The x position of the text
+     * @param y The y position of the text
+     * @param paint The {@link Paint} object to draw with
+     * @param textSize The size of the text
+     * @param color The color of the text
+     */
     public static void drawTextWithBorder(String text, Canvas canvas, int x, int y, Paint paint, int textSize, int color){
         paint.setColor(color);
         float old = paint.getTextSize();
@@ -568,6 +636,17 @@ public class HUDManager {
         paint.setTextSize(old);
         paint.setColor(Color.WHITE);
     }
+
+    /**
+     * Draws text, centered to the position given, with a dark border.
+     * @param text The text to draw
+     * @param canvas The {@link Canvas} to draw on
+     * @param x The x position of the text
+     * @param y The y position of the text
+     * @param paint The {@link Paint} object to draw with
+     * @param textSize The size of the text
+     * @param color The color of the text
+     */
     public static void drawCenteredTextWithBorder(String text, Canvas canvas, int x, int y, Paint paint, int textSize, int color){
         paint.setColor(color);
         float old = paint.getTextSize();
@@ -591,14 +670,43 @@ public class HUDManager {
         paint.setTextSize(old);
         paint.setColor(Color.WHITE);
     }
+
+    /**
+     * Displays a message that fades in and out.
+     * @param message The message to draw
+     * @param x The x position of the message
+     * @param y The y position of the message
+     * @param ticks The time the message stays visible
+     * @param textSize The size of the message
+     * @param color The color of the message
+     */
     public static void displayFadeMessage(String message, int x, int y, int ticks, int textSize, int color){
         FadedText fade = new FadedText(message, ticks, x, y, textSize, color);
         fade.play();
     }
+
+    /**
+     * Displays text that flies downward in an arch.
+     * @param message The message to draw
+     * @param x The initial x position of the message
+     * @param y The initial y position of the message
+     * @param ticks The time the message stays visible
+     * @param textSize The size of the message
+     * @param color The color of the message
+     * @param directionVec The direction vector of the message
+     */
     public static void displayParabolicText(String message, int x, int y, int ticks, int textSize, int color, double directionVec){
         ParabolicText parabola = new ParabolicText(message, ticks, x, y, textSize, color, directionVec);
         parabola.play();
     }
+
+    /**
+     * Returns the speed of an object, given the distance to travel and amount of time taken.
+     * Scales with screen size.
+     * @param distance The distance to travel
+     * @param ticksToReach The amount of time needed
+     * @return The speed in pixels
+     */
     public static double getSpeed(double distance, int ticksToReach){
         // Determine velocity (distance / time), should be used to determine the correct speeds
         // on different screen sizes
