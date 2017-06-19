@@ -8,6 +8,11 @@ import android.graphics.Rect;
 import com.redside.rngquest.gameobjects.CoreView;
 import com.redside.rngquest.managers.AnimatedTextManager;
 
+/**
+ * Represents a piece of text that either fades in, or moves around.
+ * @author Andrew Peng
+ * @since July 19, 2017
+ */
 public class AnimatedText {
     public double x, y;
     public String text;

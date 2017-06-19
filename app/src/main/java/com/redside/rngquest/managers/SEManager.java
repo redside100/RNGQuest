@@ -5,6 +5,12 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
 
+/**
+ * Manages all screen effects, including transitions, and flashes.
+ * Calls state changes to other managers.
+ * @author Andrew Peng
+ * @since July 19, 2017
+ */
 public class SEManager {
     private static int tick = 0;
     private static int opacity = 0;

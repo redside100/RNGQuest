@@ -8,6 +8,11 @@ import com.redside.rngquest.utils.Assets;
 
 import java.util.HashMap;
 
+/**
+ * Plays short sound effects, used throughout the game.
+ * @author Andrew Peng
+ * @since July 19, 2017
+ */
 public class Sound {
     private static SoundPool sp;
     private static HashMap<SoundEffect, Integer> sounds = new HashMap<>();

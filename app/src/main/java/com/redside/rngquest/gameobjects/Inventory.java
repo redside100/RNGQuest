@@ -3,6 +3,12 @@ package com.redside.rngquest.gameobjects;
 
 import java.util.ArrayList;
 
+/**
+ * A inventory that has managing capabilities.
+ * Stores {@link Item} objects.
+ * @author Andrew Peng
+ * @since July 19, 2017
+ */
 public class Inventory {
     public ArrayList<Item> items;
 

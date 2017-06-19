@@ -9,7 +9,11 @@ import android.view.View;
 import com.google.android.gms.ads.MobileAds;
 import com.redside.rngquest.managers.Soundtrack;
 
-
+/**
+ * The main activity.
+ * @author Andrew Peng
+ * @since July 19, 2017
+ */
 public class RNGQuest extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {

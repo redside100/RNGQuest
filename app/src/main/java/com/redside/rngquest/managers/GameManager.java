@@ -22,6 +22,12 @@ import java.util.ArrayList;
 
 import static com.redside.rngquest.gameobjects.CoreView.getSave;
 
+/**
+ * Manages game logic and states, as well as progress saving.
+ * Also manages shop logic.
+ * @author Andrew Peng
+ * @since July 19, 2017
+ */
 public class GameManager {
     public static int stage = 1;
     public static int highStage = 1;

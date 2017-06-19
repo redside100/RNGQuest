@@ -35,6 +35,13 @@ import java.util.ArrayList;
 
 import static com.redside.rngquest.managers.ScreenState.SHOP;
 
+/**
+ * Manages all interface elements on the screen.
+ * Draws all images and text in render, and ticks other managers.
+ * Creates new buttons on state changes.
+ * @author Andrew Peng
+ * @since July 19, 2017
+ */
 public class HUDManager {
     public static int width = 0;
     public static int height = 0;

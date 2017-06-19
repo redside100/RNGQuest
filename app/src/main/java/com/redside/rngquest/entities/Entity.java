@@ -7,6 +7,12 @@ import com.redside.rngquest.managers.CoreManager;
 import com.redside.rngquest.managers.EntityManager;
 import com.redside.rngquest.managers.HUDManager;
 
+/**
+ * Represents any entity that is rendered on the screen.
+ * This can be an animation, or an enemy object.
+ * @author Andrew Peng
+ * @since July 19, 2017
+ */
 public class Entity {
 
     public Object i;

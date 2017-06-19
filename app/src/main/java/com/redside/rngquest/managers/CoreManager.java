@@ -10,6 +10,12 @@ import android.view.MotionEvent;
 import com.redside.rngquest.gameobjects.CoreView;
 import com.redside.rngquest.utils.Assets;
 
+/**
+ * Manages other managers.
+ * The long chain of ticks and renders start here.
+ * @author Andrew Peng
+ * @since July 19, 2017
+ */
 public class CoreManager{
     public static int width;
     public static int height;

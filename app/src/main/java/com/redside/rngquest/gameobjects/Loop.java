@@ -2,7 +2,11 @@ package com.redside.rngquest.gameobjects;
 
 import android.os.Handler;
 
-
+/**
+ * The main game loop. Updates 60 times per second.
+ * @author Andrew Peng
+ * @since July 19, 2017
+ */
 public class Loop {
     public static int FPS = 60;
     public static boolean paused = false;

@@ -14,6 +14,11 @@ import com.redside.rngquest.utils.RNG;
 
 import java.util.ArrayList;
 
+/**
+ * Manages combat logic and states.
+ * @author Andrew Peng
+ * @since July 19, 2017
+ */
 public class BattleManager {
     public static Entity currentEnemy = null;
     public static Entity savedEnemy = null;

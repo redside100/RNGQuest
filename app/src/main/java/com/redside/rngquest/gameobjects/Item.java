@@ -12,6 +12,12 @@ import com.redside.rngquest.items.ManaPotionItem;
 import com.redside.rngquest.items.ManaUpPotionItem;
 import com.redside.rngquest.items.SmallPotionItem;
 
+/**
+ * Represents two types of items: consumables and spells.
+ * Can be placed in an {@link Inventory}.
+ * @author Andrew Peng
+ * @since July 19, 2017
+ */
 public class Item {
     private ItemType itemType;
     private String description;

@@ -8,6 +8,11 @@ import com.redside.rngquest.hudobjects.FadedText;
 
 import java.util.ArrayList;
 
+/**
+ * Manages the ticking and rendering of active animated texts.
+ * @author Andrew Peng
+ * @since July 19, 2017
+ */
 public class AnimatedTextManager {
     public static ArrayList<AnimatedText> activeAnimatedTexts = new ArrayList<>();
     public static void addText(AnimatedText text){

@@ -6,6 +6,11 @@ import android.media.MediaPlayer;
 
 import com.redside.rngquest.utils.Assets;
 
+/**
+ * Plays longer sound files, such as the game's soundtrack.
+ * @author Andrew Peng
+ * @since July 19, 2017
+ */
 public class Soundtrack {
     public static MediaPlayer mediaPlayer = new MediaPlayer();
     public static Song song = Song.NONE;

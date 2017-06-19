@@ -33,6 +33,12 @@ import java.io.OutputStreamWriter;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 
+/**
+ * The main view the content is set to.
+ * Also handles shenanigans with the save file.
+ * @author Andrew Peng
+ * @since July 19, 2017
+ */
 public class CoreView extends View {
     public Canvas canvas;
     Typeface font;

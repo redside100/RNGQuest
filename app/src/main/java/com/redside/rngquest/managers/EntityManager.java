@@ -7,6 +7,12 @@ import com.redside.rngquest.entities.Entity;
 
 import java.util.ArrayList;
 
+/**
+ * Manages all entities on the screen.
+ * Renders and ticks entities that are alive.
+ * @author Andrew Peng
+ * @since July 19, 2017
+ */
 public class EntityManager {
     private static ArrayList<Entity> entities;
     public EntityManager(){

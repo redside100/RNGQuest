@@ -9,7 +9,11 @@ import com.redside.rngquest.utils.Assets;
 
 import java.util.ArrayList;
 
-
+/**
+ * Manages the ticking and rendering of the background, and background objects.
+ * @author Andrew Peng
+ * @since July 19, 2017
+ */
 public class Background {
     private static ArrayList<Bitmap> background;
     private Bitmap clouds, block;

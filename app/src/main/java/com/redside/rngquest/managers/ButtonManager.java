@@ -8,6 +8,12 @@ import com.redside.rngquest.gameobjects.Button;
 
 import java.util.ArrayList;
 
+/**
+ * Manages all buttons on the screen.
+ * Ticks and renders active ones.
+ * @author Andrew Peng
+ * @since July 19, 2017
+ */
 public class ButtonManager {
     private static ArrayList<Button> buttons;
     public ButtonManager(){

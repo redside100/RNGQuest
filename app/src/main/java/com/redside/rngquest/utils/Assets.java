@@ -10,6 +10,11 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.HashMap;
 
+/**
+ * Loads all assets into memory, ready to be used.
+ * @author Andrew Peng
+ * @since July 19, 2017
+ */
 public class Assets {
     private static HashMap<String, Bitmap> bitmapDb;
     private static HashMap<String, AssetFileDescriptor> soundDb;

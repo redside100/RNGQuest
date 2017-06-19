@@ -4,6 +4,11 @@ import android.graphics.Bitmap;
 
 import java.util.ArrayList;
 
+/**
+ * Animates a set of frames, with a given speed.
+ * @author Andrew Peng
+ * @since July 19, 2017
+ */
 public class Animator {
     private ArrayList<Bitmap> frames;
     private volatile boolean isRunning = false;

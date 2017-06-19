@@ -3,6 +3,11 @@ package com.redside.rngquest.utils;
 
 import java.util.Random;
 
+/**
+ * A random number generator.
+ * @author Andrew Peng
+ * @since July 19, 2017
+ */
 public class RNG {
     public static Random random = new Random();
 

@@ -7,6 +7,11 @@ import android.graphics.Rect;
 
 import com.redside.rngquest.managers.ButtonManager;
 
+/**
+ * Represents a button that can be pressed, and performs actions when triggered.
+ * @author Andrew Peng
+ * @since July 19, 2017
+ */
 public class Button{
     private Bitmap image;
     private int x;
