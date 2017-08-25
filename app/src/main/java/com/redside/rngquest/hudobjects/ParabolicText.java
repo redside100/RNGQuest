@@ -20,7 +20,7 @@ public class ParabolicText extends AnimatedText{
      * @param directionVec The direction vector of the text (negative or positive)
      */
     public ParabolicText(String text, int ticks, int x, int y, int textSize, int color, double directionVec){
-        super(text, x, y, textSize, color, 255);
+        super(text, x, y, textSize, color, 255, true);
         this.ticks = ticks;
         this.directionVec = directionVec;
         this.vertexX = x;

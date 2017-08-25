@@ -16,7 +16,7 @@ public class FadedText extends AnimatedText{
      */
     public FadedText(String text, int ticks, int x, int y, int textSize, int color){
 
-        super(text, x, y, textSize, color, 0);
+        super(text, x, y, textSize, color, 0, true);
         // Allow 30 ticks of fade in, and 30 ticks of fade out
         maxTick = ticks + 60;
 

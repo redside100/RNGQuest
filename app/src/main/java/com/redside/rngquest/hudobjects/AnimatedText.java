@@ -7,6 +7,7 @@ import android.graphics.Rect;
 
 import com.redside.rngquest.gameobjects.CoreView;
 import com.redside.rngquest.managers.AnimatedTextManager;
+import com.redside.rngquest.managers.HUDManager;
 
 /**
  * Represents a piece of text that either fades in, or moves around.
@@ -20,6 +21,7 @@ public class AnimatedText {
     public int color;
     public boolean active = false;
     public int currAlpha;
+    public boolean centered;
 
     /**
      *
@@ -30,12 +32,13 @@ public class AnimatedText {
      * @param color The color of the text
      * @param startingAlpha The starting opacity of the text
      */
-    public AnimatedText(String text, int x, int y, int textSize, int color, int startingAlpha){
+    public AnimatedText(String text, int x, int y, int textSize, int color, int startingAlpha, boolean centered){
         this.text = text;
         this.textSize = textSize;
         this.color = color;
         this.x = x;
         this.y = y;
+        this.centered = centered;
         currAlpha = startingAlpha;
     }
 
@@ -53,7 +56,11 @@ public class AnimatedText {
      * @param paint The {@link Paint} object to render with
      */
     public void render(Canvas canvas, Paint paint){
-        drawCenteredText(text, canvas, (int) x, (int) y, paint, textSize, color);
+        if (centered){
+            drawCenteredText(text, canvas, (int) x, (int) y, paint, textSize, color);
+        }else{
+            HUDManager.drawText(text, canvas, (int) x, (int) y, paint, textSize, color);
+        }
     }
 
 

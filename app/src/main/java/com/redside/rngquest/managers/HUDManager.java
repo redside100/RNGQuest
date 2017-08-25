@@ -25,6 +25,7 @@ import com.redside.rngquest.gameobjects.CoreView;
 import com.redside.rngquest.gameobjects.Item;
 import com.redside.rngquest.hudobjects.FadedText;
 import com.redside.rngquest.hudobjects.ParabolicText;
+import com.redside.rngquest.hudobjects.TypingText;
 import com.redside.rngquest.items.LargePotionItem;
 import com.redside.rngquest.items.ManaPotionItem;
 import com.redside.rngquest.items.SmallPotionItem;
@@ -705,6 +706,10 @@ public class HUDManager {
     public static void displayParabolicText(String message, int x, int y, int ticks, int textSize, int color, double directionVec){
         ParabolicText parabola = new ParabolicText(message, ticks, x, y, textSize, color, directionVec);
         parabola.play();
+    }
+    public static void displayTypingText(String message, int x, int y, int tickDelay, int textSize, int color, boolean centered){
+        TypingText type = new TypingText(message, x, y, tickDelay, textSize, color, centered);
+        type.play();
     }
 
     /**
