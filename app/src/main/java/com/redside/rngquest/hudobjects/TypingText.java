@@ -17,7 +17,7 @@ public class TypingText extends AnimatedText{
      * @param textSize The size of the text
      * @param color The color of the text
      */
-    public TypingText(String text, int tickDelay, int x, int y, int textSize, int color, boolean centered){
+    public TypingText(String text, int x, int y, int tickDelay, int textSize, int color, boolean centered){
         super("", x, y, textSize, color, 255, centered);
         this.tickDelay = tickDelay;
         this.text = text;

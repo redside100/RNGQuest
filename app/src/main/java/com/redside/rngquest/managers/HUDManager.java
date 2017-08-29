@@ -145,6 +145,9 @@ public class HUDManager {
                 CharSelectButton bWizardCS = new CharSelectButton(wizardCS, (width / 4), (height / 2), 1);
                 CharSelectButton bWarriorCS = new CharSelectButton(warriorCS, (width / 2), (height / 2), 2);
                 CharSelectButton bTankCS = new CharSelectButton(tankCS, (width / 4) * 3, (height / 2), 3);
+
+                HUDManager.displayTypingText("Choose a character...", width / 2, (int) (height * 0.83), 2, 11, Color.rgb(0,191,255), true);
+
                 break;
 
             case BATTLE:
@@ -178,6 +181,10 @@ public class HUDManager {
 
                 // Create back button
                 StateChangeButton invBack = new StateChangeButton(back, (int) (width * 0.09), (int) (height * 0.075), oldState);
+
+                // When the player enters the inventory screen (0)
+                displayTypingText("Tap on an item for more info.", width / 2, (int) (height * 0.84), 2, 13, Color.WHITE, true);
+
                 break;
             case SHOP:
                 // Generate the shop
@@ -294,23 +301,6 @@ public class HUDManager {
             case CHAR_SELECT:
                 // Char select title
                 drawCenteredText("Character Select", canvas, width / 2, (int) (height / 3.5), paint, 25, Color.WHITE);
-                String character = "";
-                // Draw depending on character selection
-                switch(selection){
-                    case 0:
-                        character = "Choose a character...";
-                        break;
-                    case 1: // Mage
-                        character = "Mage: +12 ATK (30%), +20 HP, +60 MP, +65% EVA, +Fireball";
-                        break;
-                    case 2: // Warrior
-                        character = "Warrior: +12 ATK (60%), +50 HP, +10 MP, +15 AMR, +35% EVA";
-                        break;
-                    case 3: // Tank
-                        character = "Tank: +7 ATK (40%), +90 HP, +40 AMR, +20% EVA";
-                        break;
-                }
-                drawCenteredText(character, canvas, width / 2, (int) (height * 0.83), paint, 11, Color.rgb(0,191,255));
                 break;
 
             // Stage Transition Screen
@@ -421,30 +411,11 @@ public class HUDManager {
 
                 // Inventory title
                 drawCenteredText("Inventory", canvas, width / 2, (int) (height * 0.2), paint, 20, Color.WHITE);
-
-                // When the player enters the inventory screen (0)
-                if (GameManager.invSelection == 0){
-                    drawCenteredText("Tap on an item for more info.", canvas, width / 2, (int) (height * 0.84), paint, 13, Color.WHITE);
-                }
                 // Show info for the selected item
                 if (GameManager.invSelection > 0 && GameManager.invSelection < 5){
                     int invSel = GameManager.invSelection - 1;
-                    Item item = Player.getInventory().getItems().get(invSel);
-
                     // Draw green highlight, and description
                     drawCenteredBitmap(invSelected, canvas, paint, (int) (width * (0.285 + (0.1435 * invSel))), (int) (height * 0.498));
-                    drawCenteredText(item.getDescription(), canvas, width / 2, (int) (height * 0.825), paint, 13, Color.WHITE);
-
-                    // Draw spell description if it's a spell, or usage instructions otherwise
-                    if (Item.isSpell(item)){
-                        drawCenteredText("Costs " + item.getManaCost() + " MP per use.", canvas, width / 2, (int) (height * 0.89), paint, 13, Color.rgb(0,191,255));
-                    }else{
-                        drawCenteredText("Tap again to use.", canvas, width / 2, (int) (height * 0.89), paint, 13, Color.GREEN);
-                    }
-
-                    // After the player uses an item (5)
-                } else if (GameManager.invSelection == 5){
-                    drawCenteredText("Item used.", canvas, width / 2, (int) (height * 0.84), paint, 13, Color.WHITE);
                 }
                 break;
             case SHOP:

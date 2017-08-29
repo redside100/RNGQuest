@@ -172,6 +172,23 @@ public class Item {
         }
         return false;
     }
+    /**
+     * Checks if an this Item is a spell.
+     * @return {@code true} if the {@link Item} is a spell
+     */
+    public boolean isSpell(){
+        // Check item types
+        switch(itemType){
+            case FIREBALL_SPELL:
+            case ARMOR_SPELL:
+            case LIFESTEAL_SPELL:
+            case TRIPLE_ATTACK_SPELL:
+            case AGILITY_SPELL:
+                return true;
+        }
+        return false;
+    }
+
 
     /**
      * Returns an {@link Item}, according to the ID given.
