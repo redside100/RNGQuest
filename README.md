@@ -18,15 +18,15 @@ Features so far:
 * Inventory + Items + Shop system
 
 Still need to add:
+* World system, 8 worlds, boss at end of each
 * Different spells for different classes
 * More consumable items
 * More enemies
 * Different backgrounds + animated backgrounds in combat
 * Balancing
-* Bosses...?
-* Sound effects
-* Complete info screen (haha)
-* MORE COMMENTS :(
+* More sound effects
+* Story
+* Cutscenes with characters
 
 # Screenshots
 
