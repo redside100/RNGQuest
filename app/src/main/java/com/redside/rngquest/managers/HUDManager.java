@@ -183,7 +183,7 @@ public class HUDManager {
                 StateChangeButton invBack = new StateChangeButton(back, (int) (width * 0.09), (int) (height * 0.075), oldState);
 
                 // When the player enters the inventory screen (0)
-                displayTypingText("Tap on an item for more info.", width / 2, (int) (height * 0.84), 2, 13, Color.WHITE, true);
+                displayTypingText("Tap on an item for more info.", width / 2, (int) (height * 0.835), 2, 13, Color.WHITE, true);
 
                 break;
             case SHOP:
@@ -210,6 +210,11 @@ public class HUDManager {
                 // Create back and inv buttons
                 StateChangeButton nextB = new StateChangeButton(next, (int) (width * 0.92), (int) (height * 0.91), ScreenState.STAGE_TRANSITION);
                 StateChangeButton invB = new StateChangeButton(inv, (int) (width * 0.08), (int) (height * 0.91), ScreenState.INVENTORY);
+
+                // Display typing text when first entered
+                displayTypingText("Welcome to the shop!", width / 2, (int) (height * 0.83), 2, 13, Color.WHITE, true);
+                displayTypingText("Game saved.", width / 2, (int) (height * 0.9), 2, 13, Color.GREEN, true);
+
                 break;
         }
     }
@@ -278,8 +283,8 @@ public class HUDManager {
 
             // Load screen
             case LOAD:
-                drawCenteredText("Continue?", canvas, width / 2, (int) (height / 3.5), paint, 25, Color.WHITE);
-                drawCenteredText("Stage " + GameManager.getStage(), canvas, width / 2, (int) (height * 0.85), paint, 20, Color.YELLOW);
+                drawCenteredText("Continue?", canvas, width / 2, height / 4, paint, 25, Color.WHITE);
+                drawCenteredText("Stage " + GameManager.getStage(), canvas, width / 2, (int) (height * 0.83), paint, 20, Color.YELLOW);
                 Bitmap portrait = null;
                 // Set role text and portrait depending on role
                 switch(Player.getRole()){
@@ -300,13 +305,13 @@ public class HUDManager {
             // Character Selection Screen
             case CHAR_SELECT:
                 // Char select title
-                drawCenteredText("Character Select", canvas, width / 2, (int) (height / 3.5), paint, 25, Color.WHITE);
+                drawCenteredText("Character Select", canvas, width / 2, height / 4, paint, 25, Color.WHITE);
                 break;
 
             // Stage Transition Screen
             case STAGE_TRANSITION:
                 // Stage transition title
-                drawCenteredText("Stage " + GameManager.getStage(), canvas, width / 2, (int) (height / 3.5), paint, 25, Color.YELLOW);
+                drawCenteredText("Stage " + GameManager.getStage(), canvas, width / 2, height / 4, paint, 25, Color.YELLOW);
                 String role = "";
                 Bitmap picture = null;
                 // Set role text and portrait depending on role
@@ -325,7 +330,7 @@ public class HUDManager {
                         break;
                 }
                 // Draw role name and portrait
-                drawCenteredText(role, canvas, (int) (width * 0.3), (int) (height / 2.5), paint, 20, Color.WHITE);
+                drawCenteredText(role, canvas, (int) (width * 0.3), (int) (height / 2.8), paint, 20, Color.WHITE);
                 drawCenteredBitmap(picture, canvas, paint, (int) (width * 0.3), (int) (height * 0.6));
 
                 // Draw gold count underneath
@@ -410,7 +415,7 @@ public class HUDManager {
                 canvas.drawBitmap(invMenu, 0, 0, paint);
 
                 // Inventory title
-                drawCenteredText("Inventory", canvas, width / 2, (int) (height * 0.2), paint, 20, Color.WHITE);
+                drawCenteredText("Inventory", canvas, width / 2, (int) (height * 0.18), paint, 20, Color.WHITE);
                 // Show info for the selected item
                 if (GameManager.invSelection > 0 && GameManager.invSelection < 5){
                     int invSel = GameManager.invSelection - 1;
@@ -427,7 +432,6 @@ public class HUDManager {
                 canvas.drawBitmap(itemMenu, 0, 0, paint);
                 drawCenteredText("Stats", canvas, (int) (width * 0.27), (int) (height * 0.17), paint, 18, Color.WHITE);
                 int[] statColors = {Color.RED, Color.rgb(50, 50, 255), Color.CYAN, Color.rgb(255, 80, 0), Color.GREEN, Color.YELLOW};
-                // Draw gold count
                 String playerInfo[] = {
                         Player.getHP() + "/" + Player.getMaxHP() + " HP",
                         Player.getMana() + "/" + Player.getMaxMana() + " MP",
@@ -448,76 +452,30 @@ public class HUDManager {
                 ArrayList<Item> consumableItems = new ArrayList<>(GameManager.getShopConsumableInventory().getItems());
                 double sFactor = 0.613;
                 for (Item item : spellItems){
-                    drawCenteredText(item.getCost() + " G", canvas, (int) (width * sFactor), (int) (height * 0.34), paint, 13, Color.YELLOW);
+                    drawCenteredText(item.getCost() + " G", canvas, (int) (width * sFactor), (int) (height * 0.32), paint, 13, Color.YELLOW);
                     sFactor += 0.144;
                 }
                 sFactor = 0.613;
                 for (Item item : consumableItems){
-                    drawCenteredText(item.getCost() + " G", canvas, (int) (width * sFactor), (int) (height * 0.66), paint, 13, Color.YELLOW);
+                    drawCenteredText(item.getCost() + " G", canvas, (int) (width * sFactor), (int) (height * 0.64), paint, 13, Color.YELLOW);
                     sFactor += 0.144;
                 }
 
                 int shopSel = GameManager.shopSelection;
-                // When the player enters the shop (0)
-                if (shopSel == 0){
-                    drawCenteredText("Welcome to the shop!", canvas, width / 2, (int) (height * 0.85), paint, 13, Color.WHITE);
-                    drawCenteredText("Game saved.", canvas, width / 2, (int) (height * 0.92), paint, 13, Color.GREEN);
-                }
+
                 // Show info for the selected item (spell)
-                else if (shopSel > 0 && shopSel < 4){
-                    Item item = spellItems.get(shopSel - 1);
+                if (shopSel > 0 && shopSel < 4){
 
                     // Highlight selected item, and draw description
                     drawCenteredBitmap(shopSelected, canvas, paint, (int) (width * (0.469 + (0.1438 * shopSel))), height / 6);
-                    drawCenteredText(item.getDescription(), canvas, width / 2, (int) (height * 0.85), paint, 13, Color.WHITE);
-
-                    // Check if the player has enough gold and inventory isn't full
-                    if (Player.hasEnoughGold(item.getCost()) && !Player.inventoryIsFull()){
-                        // Check if the player has the appropriate role or the item is for all roles
-                        if (!Player.getRole().equals(item.getRole()) && !item.getRole().equals(Player.Role.ALL)){
-                            drawCenteredText("Your class can't use this spell.", canvas, width / 2, (int) (height * 0.92), paint, 13, Color.RED);
-
-                        } else if (Player.hasSpell()){
-                            // Draw warning if player already has a spell
-                            drawCenteredText("Tap again to replace your old spell.", canvas, width / 2, (int) (height * 0.92), paint, 13, Color.YELLOW);
-
-                        }else{
-                            // Confirmation
-                            drawCenteredText("Tap again to purchase.", canvas, width / 2, (int) (height * 0.92), paint, 13, Color.GREEN);
-
-                        }
-                    }else if (Player.inventoryIsFull()){
-                        // If inventory is full
-                        drawCenteredText("Your inventory is full.", canvas, width / 2, (int) (height * 0.92), paint, 13, Color.RED);
-
-                    }else if (!Player.hasEnoughGold(item.getCost())){
-                        // If not enough gold
-                        drawCenteredText("Not enough gold.", canvas, width / 2, (int) (height * 0.92), paint, 13, Color.RED);
-                    }
-
                 }
+
                 // Show info for the selected item (consumable)
-                else if (shopSel > 3 && shopSel < 7){
-                    Item item = consumableItems.get(shopSel - 4);
+                else if (shopSel > 3 && shopSel < 7) {
 
                     // Highlight and draw description
                     drawCenteredBitmap(shopSelected, canvas, paint, (int) (width * (0.469 + (0.1438 * (shopSel - 3)))), (int) (height * 0.488));
-                    drawCenteredText(item.getDescription(), canvas, width / 2, (int) (height * 0.85), paint, 13, Color.WHITE);
 
-                    // Check if the player has enough gold and inventory isn't full
-                    if (Player.hasEnoughGold(item.getCost()) && !Player.inventoryIsFull()){
-                        drawCenteredText("Tap again to purchase.", canvas, width / 2, (int) (height * 0.92), paint, 13, Color.GREEN);
-                    }else if (Player.inventoryIsFull()){
-                        // If inventory is full
-                        drawCenteredText("Your inventory is full.", canvas, width / 2, (int) (height * 0.92), paint, 13, Color.RED);
-                    }else if (!Player.hasEnoughGold(item.getCost())){
-                        // If not enough gold
-                        drawCenteredText("Not enough gold.", canvas, width / 2, (int) (height * 0.92), paint, 13, Color.RED);
-                    }
-                }
-                // An item was purchased (7)
-                else if (shopSel == 7){
-                    drawCenteredText("Item purchased!", canvas, width / 2, (int) (height * 0.88), paint, 13, Color.WHITE);
                 }
                 break;
 
@@ -549,7 +507,7 @@ public class HUDManager {
         // Get bounds of the text, then center
         paint.getTextBounds(text, 0, text.length(), bounds);
         x -= bounds.width() / 2;
-        y -= bounds.height() / 2;
+//        y -= bounds.height() / 2;
         canvas.drawText(text, x, y, paint);
         paint.setTextSize(old);
         paint.setColor(Color.WHITE);
@@ -638,7 +596,7 @@ public class HUDManager {
         // Get bounds of the text, then center
         paint.getTextBounds(text, 0, text.length(), bounds);
         x -= bounds.width() / 2;
-        y -= bounds.height() / 2;
+//        y -= bounds.height() / 2;
 
         // Draw normal text
         paint.setShadowLayer(3, 0, 0, Color.BLACK);

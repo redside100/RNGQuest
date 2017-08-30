@@ -20,8 +20,7 @@ public class ManaUpPotionItem extends Item {
     @Override
     public void use(){
         // Display text, and add mana
-        AnimatedTextManager.clear();
-        HUDManager.displayFadeMessage("Max MP increased by 10", CoreManager.width / 2, CoreManager.height / 3, 30, 18, Color.BLUE);
+        HUDManager.displayFadeMessage("Max MP increased by 10", CoreManager.width / 2, (int) (CoreManager.height * 0.31), 30, 18, Color.BLUE);
         Player.increaseMaxMana(10);
         Player.addMana(10);
     }

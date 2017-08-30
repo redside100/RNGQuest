@@ -2,8 +2,10 @@ package com.redside.rngquest.buttons;
 
 
 import android.graphics.Bitmap;
+import android.graphics.Color;
 
 import com.redside.rngquest.gameobjects.Button;
+import com.redside.rngquest.managers.AnimatedTextManager;
 import com.redside.rngquest.managers.CoreManager;
 import com.redside.rngquest.managers.GameManager;
 import com.redside.rngquest.managers.HUDManager;
@@ -28,9 +30,13 @@ public class StartGameButton extends Button {
      */
     @Override
     public void trigger(){
+        Sound.playSound(SoundEffect.SELECT);
         if (HUDManager.selection != 0 || CoreManager.state.equals(ScreenState.LOAD)){
-            Sound.playSound(SoundEffect.SELECT);
             SEManager.playEffect(SEManager.Effect.FADE_TRANSITION, ScreenState.STAGE_TRANSITION);
+//            SEManager.playEffect(SEManager.Effect.FADE_TRANSITION, ScreenState.SHOP);
+        }else{
+            AnimatedTextManager.clear();
+            HUDManager.displayTypingText("Choose a character...", HUDManager.width / 2, (int) (HUDManager.height * 0.83), 2, 11, Color.rgb(0,191,255), true);
         }
     }
 }

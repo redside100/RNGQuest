@@ -36,23 +36,23 @@ public class InventoryItemButton extends Button {
         if (GameManager.invSelection == selection){
             int invSel = GameManager.invSelection - 1;
             Item item = Player.getInventory().getItems().get(invSel);
-            GameManager.useInventoryItem(selection);
             if (!item.isSpell()){
                 AnimatedTextManager.clear();
-                HUDManager.displayTypingText("Item used.", HUDManager.width / 2, (int) (HUDManager.height * 0.825), 2, 13, Color.WHITE, true);
+                HUDManager.displayTypingText("Item used.", HUDManager.width / 2, (int) (HUDManager.height * 0.835), 2, 13, Color.WHITE, true);
             }
+            GameManager.useInventoryItem(selection);
         }else{
             AnimatedTextManager.clear();
             // If not, then set it to the selection
             GameManager.invSelection = selection;
             int invSel = GameManager.invSelection - 1;
             Item item = Player.getInventory().getItems().get(invSel);
-            HUDManager.displayTypingText(item.getDescription(), HUDManager.width / 2, (int) (HUDManager.height * 0.825), 2, 13, Color.WHITE, true);
+            HUDManager.displayTypingText(item.getDescription(), HUDManager.width / 2, (int) (HUDManager.height * 0.8), 2, 13, Color.WHITE, true);
             // Draw spell description if it's a spell, or usage instructions otherwise
             if (Item.isSpell(item)){
-                HUDManager.displayTypingText("Costs " + item.getManaCost() + " MP per use.", HUDManager.width / 2, (int) (HUDManager.height * 0.89), 2, 13, Color.rgb(0,191,255), true);
+                HUDManager.displayTypingText("Costs " + item.getManaCost() + " MP per use.", HUDManager.width / 2, (int) (HUDManager.height * 0.87), 2, 13, Color.rgb(0,191,255), true);
             }else{
-                HUDManager.displayTypingText("Tap again to use.", HUDManager.width / 2, (int) (HUDManager.height * 0.89), 2, 13, Color.GREEN, true);
+                HUDManager.displayTypingText("Tap again to use.", HUDManager.width / 2, (int) (HUDManager.height * 0.87), 2, 13, Color.GREEN, true);
             }
         }
     }

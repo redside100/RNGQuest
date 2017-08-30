@@ -20,8 +20,7 @@ public class SmallPotionItem extends Item {
     @Override
     public void use(){
         // Display text, and heal
-        AnimatedTextManager.clear();
-        HUDManager.displayFadeMessage("Recovered 30 HP", CoreManager.width / 2, CoreManager.height / 3, 30, 18, Color.GREEN);
+        HUDManager.displayFadeMessage("Recovered 30 HP", CoreManager.width / 2, (int) (CoreManager.height * 0.31), 30, 18, Color.GREEN);
         Player.heal(30);
     }
 }

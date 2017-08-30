@@ -117,7 +117,7 @@ public class AnimatedText {
         // Get bounds of the text, then center
         paint.getTextBounds(text, 0, text.length(), bounds);
         x -= bounds.width() / 2;
-        y -= bounds.height() / 2;
+//        y -= bounds.height() / 2;
         canvas.drawText(text, x, y, paint);
         paint.setTextSize(old);
         paint.setColor(Color.WHITE);
