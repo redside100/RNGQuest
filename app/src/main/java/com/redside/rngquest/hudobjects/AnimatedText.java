@@ -57,9 +57,17 @@ public class AnimatedText {
      */
     public void render(Canvas canvas, Paint paint){
         if (centered){
-            drawCenteredText(text, canvas, (int) x, (int) y, paint, textSize, color);
+            int add = 0;
+            for (String textSegment : text.split("\n")){
+                drawCenteredText(textSegment, canvas, (int) x, (int) y + add, paint, textSize, color);
+                add += textSize * 5.5;
+            }
         }else{
-            HUDManager.drawText(text, canvas, (int) x, (int) y, paint, textSize, color);
+            int add = 0;
+            for (String textSegment : text.split("\n")){
+                HUDManager.drawText(textSegment, canvas, (int) x, (int) y, paint, textSize, color);
+                add += textSize * 5.5;
+            }
         }
     }
 

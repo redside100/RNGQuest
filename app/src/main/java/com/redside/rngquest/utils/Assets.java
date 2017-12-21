@@ -18,6 +18,7 @@ import java.util.HashMap;
 public class Assets {
     private static HashMap<String, Bitmap> bitmapDb;
     private static HashMap<String, AssetFileDescriptor> soundDb;
+    private static HashMap<String, String> messages;
     private Context context;
     private static int width;
     private static int height;
@@ -27,6 +28,7 @@ public class Assets {
         this.context = context;
         bitmapDb = new HashMap<>();
         soundDb = new HashMap<>();
+        messages = new HashMap<>();
         init();
     }
 
@@ -56,6 +58,7 @@ public class Assets {
         bitmapDb.put("menu_shop_items", getBitmap(context, "menus/shop_item_menu.png"));
         bitmapDb.put("menu_inventory_items", getBitmap(context, "menus/inventory_item_menu.png"));
         bitmapDb.put("menu_selected_item", getBitmap(context, "menus/selectedItem.png"));
+        bitmapDb.put("menu_dialog", getBitmap(context, "menus/dialog_menu.png"));
 
         // Slash
         for (int i = 0; i < 8; i++){
@@ -143,6 +146,15 @@ public class Assets {
         soundDb.put("sound_miss", getSoundDesc(context, "sounds/miss.wav"));
         soundDb.put("sound_purchase", getSoundDesc(context, "sounds/purchaseFinal.wav"));
         soundDb.put("sound_use_item", getSoundDesc(context, "sounds/useItem.wav"));
+
+        // Messages (dialogue stuff)
+//        AssetManager assetManager = context.getAssets();
+//        try{
+//            InputStream is = assetManager.open("messages.txt");
+//            BufferedReader br = new BufferedReader(new InputStreamReader(is));
+//        }catch(IOException e){}
+
+
 
     }
 

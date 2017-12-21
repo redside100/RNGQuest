@@ -45,7 +45,7 @@ public class CharSelectButton extends Button {
                 character = "Tank: +7 ATK (40%), +90 HP, +40 AMR, +20% EVA";
                 break;
         }
-        HUDManager.displayTypingText(character, HUDManager.width / 2, (int) (HUDManager.height * 0.83), 2, 11, Color.rgb(0,191,255), true);
+        HUDManager.displayTypingText(character, HUDManager.width / 2, (int) (HUDManager.height * 0.81), 2, 11, Color.rgb(0,191,255), true);
         Player.spawn(selection);
     }
 }

@@ -7,7 +7,6 @@ import android.graphics.Color;
 import com.redside.rngquest.gameobjects.Button;
 import com.redside.rngquest.managers.AnimatedTextManager;
 import com.redside.rngquest.managers.CoreManager;
-import com.redside.rngquest.managers.GameManager;
 import com.redside.rngquest.managers.HUDManager;
 import com.redside.rngquest.managers.SEManager;
 import com.redside.rngquest.managers.ScreenState;

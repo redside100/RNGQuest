@@ -7,7 +7,6 @@ import android.graphics.Paint;
 import android.graphics.Rect;
 import android.view.MotionEvent;
 
-import com.redside.rngquest.R;
 import com.redside.rngquest.buttons.AttackButton;
 import com.redside.rngquest.buttons.CharSelectButton;
 import com.redside.rngquest.buttons.DefendButton;
@@ -21,20 +20,14 @@ import com.redside.rngquest.buttons.StartGameButton;
 import com.redside.rngquest.buttons.StateChangeButton;
 import com.redside.rngquest.entities.Entity;
 import com.redside.rngquest.entities.Player;
-import com.redside.rngquest.gameobjects.CoreView;
 import com.redside.rngquest.gameobjects.Item;
 import com.redside.rngquest.hudobjects.FadedText;
 import com.redside.rngquest.hudobjects.ParabolicText;
 import com.redside.rngquest.hudobjects.TypingText;
-import com.redside.rngquest.items.LargePotionItem;
-import com.redside.rngquest.items.ManaPotionItem;
-import com.redside.rngquest.items.SmallPotionItem;
 import com.redside.rngquest.utils.Assets;
-import com.redside.rngquest.utils.RNG;
 
 import java.util.ArrayList;
-
-import static com.redside.rngquest.managers.ScreenState.SHOP;
+import java.util.HashMap;
 
 /**
  * Manages all interface elements on the screen.
@@ -52,7 +45,9 @@ public class HUDManager {
     private static EntityManager entityManager;
     public static int selection = 0;
     public static int infoState = 0;
+    public static HashMap<String, Integer[]> hudEndPositions;
     public HUDManager(){
+        hudEndPositions = new HashMap<>();
         this.width = CoreManager.width;
         this.height = CoreManager.height;
         // Init new button manager
@@ -146,7 +141,7 @@ public class HUDManager {
                 CharSelectButton bWarriorCS = new CharSelectButton(warriorCS, (width / 2), (height / 2), 2);
                 CharSelectButton bTankCS = new CharSelectButton(tankCS, (width / 4) * 3, (height / 2), 3);
 
-                HUDManager.displayTypingText("Choose a character...", width / 2, (int) (height * 0.83), 2, 11, Color.rgb(0,191,255), true);
+                HUDManager.displayTypingText("Choose a character...", width / 2, (int) (height * 0.81), 2, 11, Color.rgb(0,191,255), true);
 
                 break;
 
@@ -369,6 +364,8 @@ public class HUDManager {
                         Player.getATK() + " (" + Player.getATKChance() + "%)",
                         Player.getEvade() + "%"
                 };
+
+
                 int[] iconColors = {Color.RED, Color.rgb(75, 75, 255), Color.CYAN, Color.rgb(255, 80, 0), Color.GREEN};
 
                 // Draw icons
@@ -389,15 +386,15 @@ public class HUDManager {
                 Entity currEnemy = BattleManager.getCurrentEnemy();
                 if (currEnemy != null){
                     drawCenteredTextWithBorder(currEnemy.getName() + ": " + currEnemy.getHP() + "/" + currEnemy.getMaxHP(), canvas, width / 2,
-                            (int) (height * 0.12), paint, 12, Color.rgb(0,191,255));
+                            (int) (height * 0.08), paint, 12, Color.rgb(0,191,255));
                 }else{
-                    drawCenteredTextWithBorder("Waiting for enemy...", canvas, width / 2, (int) (height * 0.12), paint, 12, Color.rgb(0,191,255));
+                    drawCenteredTextWithBorder("Waiting for enemy...", canvas, width / 2, (int) (height * 0.08), paint, 12, Color.rgb(0,191,255));
                 }
 
                 // Draw stage count and highest stage
                 paint.setTextAlign(Paint.Align.RIGHT);
-                drawTextWithBorder("Current: " + GameManager.getStage(), canvas, (int) (width * 0.97), (int) (height * 0.1), paint, 12, Color.YELLOW);
-                drawTextWithBorder("High: " + GameManager.getHighStage(), canvas, (int) (width * 0.97), (int) (height * 0.19), paint, 12, Color.YELLOW);
+                drawTextWithBorder("Current: " + GameManager.getStage(), canvas, (int) (width * 0.97), (int) (height * 0.08), paint, 12, Color.YELLOW);
+                drawTextWithBorder("High: " + GameManager.getHighStage(), canvas, (int) (width * 0.97), (int) (height * 0.17), paint, 12, Color.YELLOW);
                 paint.setTextAlign(Paint.Align.LEFT);
 
                 // If the player doesn't have a spell, draw the empty button
@@ -652,5 +649,17 @@ public class HUDManager {
         // Determine velocity (distance / time), should be used to determine the correct speeds
         // on different screen sizes
         return distance / (double) ticksToReach;
+    }
+
+    /**
+     * Displays the particle effect.
+     */
+    public static void displayParticleEffect(){
+        double exclamationSpeedA = HUDManager.getSpeed(CoreManager.width, 304);
+        double exclamationSpeedB = HUDManager.getSpeed(CoreManager.width, 274);
+        displayParabolicText(".", (int) (width * 0.25), height / 2, 120, 15, Color.YELLOW, -exclamationSpeedA);
+        displayParabolicText(".", (int) (width * 0.28), (int) (height * 0.47), 120, 15, Color.YELLOW, -exclamationSpeedB);
+        displayParabolicText(".", (int) (width * 0.75), height / 2, 120, 15, Color.YELLOW, exclamationSpeedA);
+        displayParabolicText(".", (int) (width * 0.72), (int) (height * 0.47), 120, 15, Color.YELLOW, exclamationSpeedB);
     }
 }

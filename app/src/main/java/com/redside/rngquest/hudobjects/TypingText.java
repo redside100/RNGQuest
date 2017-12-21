@@ -2,6 +2,7 @@ package com.redside.rngquest.hudobjects;
 
 public class TypingText extends AnimatedText{
     private int tick = 0;
+    private int wait = 0;
     private int tickDelay;
     private boolean typing = true;
     private String currentText = "";
@@ -30,12 +31,26 @@ public class TypingText extends AnimatedText{
     public void tick(){
         if (super.active){
             if (typing){
+                // Initial check for waiting ticks
+                if (wait > 0){
+                    wait--;
+                    return;
+                }
+                // Type next char every interval according to tick delay
                 if (tick % tickDelay == 0){
                     if (currentIndex <= text.length() - 1){
+                        // Skip spaces
                         while (text.charAt(currentIndex) == ' '){
                             currentText += " ";
                             currentIndex++;
                         }
+                        // Check for symbol for pauses
+                        if (text.charAt(currentIndex) == '§'){
+                            wait += 10;
+                            currentIndex++;
+                            return;
+                        }
+                        // Append next char, and continue
                         currentText += text.charAt(currentIndex);
                         super.text = currentText;
                         currentIndex++;
@@ -46,5 +61,8 @@ public class TypingText extends AnimatedText{
                 tick++;
             }
         }
+    }
+    public boolean finished(){
+        return typing;
     }
 }
