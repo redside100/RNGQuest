@@ -427,10 +427,10 @@ public class GameManager {
     public void tick(){
         // Tick battle manager
         battleManager.tick();
-        // Check if it is transitioning, if so proceed to battle state if it hits 195 ticks
+        // Check if it is transitioning, if so proceed to battle state if it hits 155 ticks
         if (sTransition){
             tick++;
-            if (tick == 195){
+            if (tick == 155){
                 tick = 0;
                 sTransition = false;
                 SEManager.playEffect(SEManager.Effect.FADE_TRANSITION, ScreenState.BATTLE);

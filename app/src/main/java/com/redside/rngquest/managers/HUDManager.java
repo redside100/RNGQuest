@@ -27,7 +27,6 @@ import com.redside.rngquest.hudobjects.TypingText;
 import com.redside.rngquest.utils.Assets;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
 /**
  * Manages all interface elements on the screen.
@@ -45,9 +44,11 @@ public class HUDManager {
     private static EntityManager entityManager;
     public static int selection = 0;
     public static int infoState = 0;
-    public static HashMap<String, Integer[]> hudEndPositions;
+    public static int hudEndXPositions[] = new int[5];
+    public static int hudEndYPositions[] = new int[5];
+
+    public static int[] colors = {Color.RED, Color.rgb(75, 75, 255), Color.CYAN, Color.rgb(255, 80, 0), Color.GREEN};
     public HUDManager(){
-        hudEndPositions = new HashMap<>();
         this.width = CoreManager.width;
         this.height = CoreManager.height;
         // Init new button manager
@@ -339,7 +340,6 @@ public class HUDManager {
                         "EVA: " + Player.getEvade() + "%"
                 };
 
-                int[] colors = {Color.RED, Color.rgb(75, 75, 255), Color.CYAN, Color.rgb(255, 80, 0), Color.GREEN};
                 double factor = 0.44;
                 // Draw all player info
                 for (int i = 0; i < 5; i++){
@@ -379,6 +379,8 @@ public class HUDManager {
                 double iconFactor = 0.098;
                 for (int i = 0; i < 5; i++){
                     drawTextWithBorder(iconInfo[i], canvas, (int) (width * 0.1), (int) (height * iconFactor), paint, 12, iconColors[i]);
+                    hudEndXPositions[i] = getTextElementEndPosition(iconInfo[i], canvas, paint, 18);
+                    hudEndYPositions[i] = (int) (height * iconFactor);
                     iconFactor += 0.093;
                 }
 
@@ -482,6 +484,21 @@ public class HUDManager {
         buttonManager.render(canvas, paint);
         entityManager.render(canvas, paint);
         animatedTextManager.render(canvas, paint);
+    }
+
+    private static int getTextElementEndPosition(String text, Canvas canvas, Paint paint, int textSize){
+        float old = paint.getTextSize();
+        double relation = Math.sqrt(canvas.getWidth() * canvas.getHeight()) / 250;
+        float scaledTextSize = (float) (textSize * relation);
+        paint.setTextSize(scaledTextSize);
+        Rect bounds = new Rect();
+
+        paint.getTextBounds(text, 0, text.length(), bounds);
+        paint.setTextSize(old);
+        paint.setColor(Color.WHITE);
+
+        int padding = width / 15;
+        return bounds.centerX() + (bounds.width() / 2) + padding;
     }
 
     /**
@@ -633,6 +650,21 @@ public class HUDManager {
         ParabolicText parabola = new ParabolicText(message, ticks, x, y, textSize, color, directionVec);
         parabola.play();
     }
+    /**
+     * Displays text that flies downward in an arch.
+     * @param message The message to draw
+     * @param x The initial x position of the message
+     * @param y The initial y position of the message
+     * @param ticks The time the message stays visible
+     * @param textSize The size of the message
+     * @param color The color of the message
+     * @param directionVec The direction vector of the message
+     * @param initialA The initial a value of the parabola
+     */
+    public static void displayParabolicText(String message, int x, int y, int ticks, int textSize, int color, double directionVec, double initialA){
+        ParabolicText parabola = new ParabolicText(message, ticks, x, y, textSize, color, directionVec, initialA);
+        parabola.play();
+    }
     public static void displayTypingText(String message, int x, int y, int tickDelay, int textSize, int color, boolean centered){
         TypingText type = new TypingText(message, x, y, tickDelay, textSize, color, centered);
         type.play();
@@ -653,13 +685,15 @@ public class HUDManager {
 
     /**
      * Displays the particle effect.
+     * @param y The y level of the upper particles.
+     * @param y2 The y level of the lower particles.
      */
-    public static void displayParticleEffect(){
+    public static void displayParticleEffect(int y, int y2, int color){
         double exclamationSpeedA = HUDManager.getSpeed(CoreManager.width, 304);
         double exclamationSpeedB = HUDManager.getSpeed(CoreManager.width, 274);
-        displayParabolicText(".", (int) (width * 0.25), height / 2, 120, 15, Color.YELLOW, -exclamationSpeedA);
-        displayParabolicText(".", (int) (width * 0.28), (int) (height * 0.47), 120, 15, Color.YELLOW, -exclamationSpeedB);
-        displayParabolicText(".", (int) (width * 0.75), height / 2, 120, 15, Color.YELLOW, exclamationSpeedA);
-        displayParabolicText(".", (int) (width * 0.72), (int) (height * 0.47), 120, 15, Color.YELLOW, exclamationSpeedB);
+        displayParabolicText(".", (int) (width * 0.25), y, 120, 15, color, -exclamationSpeedA);
+        displayParabolicText(".", (int) (width * 0.28), y2, 120, 15, color, -exclamationSpeedB);
+        displayParabolicText(".", (int) (width * 0.75), y, 120, 15, color, exclamationSpeedA);
+        displayParabolicText(".", (int) (width * 0.72), y2, 120, 15, color, exclamationSpeedB);
     }
 }

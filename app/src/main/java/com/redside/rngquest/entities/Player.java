@@ -6,11 +6,12 @@ import com.redside.rngquest.gameobjects.Inventory;
 import com.redside.rngquest.gameobjects.Item;
 import com.redside.rngquest.items.FireballSpellItem;
 import com.redside.rngquest.items.LargePotionItem;
-import com.redside.rngquest.items.LifestealSpellItem;
 import com.redside.rngquest.items.ManaPotionItem;
 import com.redside.rngquest.items.SmallPotionItem;
+import com.redside.rngquest.managers.BattleManager;
 import com.redside.rngquest.managers.CoreManager;
 import com.redside.rngquest.managers.GameManager;
+import com.redside.rngquest.managers.HUDManager;
 
 import java.util.ArrayList;
 
@@ -20,6 +21,8 @@ public class Player {
     private static Role role;
     private static Item currentSpell = null;
     private static boolean agility = false, lifesteal = false;
+    private static double parabolicA = 0.02;
+    private static double parabolicSpeed = HUDManager.getSpeed(HUDManager.width, 535);
 
     /**
      * Sets the Player's statistics, inventory items, and current spell from the save file.
@@ -227,6 +230,9 @@ public class Player {
      */
     public static void addAtkChanceBonus(int bonus){
         atkChanceBonus += bonus;
+        if (BattleManager.getCurrentEnemy() != null){
+            HUDManager.displayParabolicText("+" + bonus + "%", HUDManager.hudEndXPositions[3], HUDManager.hudEndYPositions[3], 130, 12, HUDManager.colors[3], parabolicSpeed, parabolicA);
+        }
     }
 
     /**
@@ -259,6 +265,9 @@ public class Player {
     public static void addMana(int amount){
         if (mana + amount <= maxMana){
             mana += amount;
+            if (BattleManager.getCurrentEnemy() != null){
+                HUDManager.displayParabolicText("+" + amount, HUDManager.hudEndXPositions[1], HUDManager.hudEndYPositions[1], 130, 12, HUDManager.colors[1], parabolicSpeed, parabolicA);
+            }
         }else{
             mana = maxMana;
         }
@@ -279,6 +288,9 @@ public class Player {
     public static void removeMana(int amount){
         if (mana - amount >= 0){
             mana -= amount;
+            if (BattleManager.getCurrentEnemy() != null){
+                HUDManager.displayParabolicText("-" + amount, HUDManager.hudEndXPositions[1], HUDManager.hudEndYPositions[1], 130, 12, HUDManager.colors[1], parabolicSpeed, parabolicA);
+            }
         }else{
             mana = 0;
         }
@@ -334,9 +346,15 @@ public class Player {
         if (armor > 0){
             if (armor - amount >= 0){
                 armor -= amount;
+                if (BattleManager.getCurrentEnemy() != null){
+                    HUDManager.displayParabolicText("-" + amount, HUDManager.hudEndXPositions[2], HUDManager.hudEndYPositions[2], 130, 12, HUDManager.colors[2], parabolicSpeed, parabolicA);
+                }
                 amount = 0;
             }else{
                 amount -= armor;
+                if (BattleManager.getCurrentEnemy() != null){
+                    HUDManager.displayParabolicText("-" + armor, HUDManager.hudEndXPositions[2], HUDManager.hudEndYPositions[2], 130, 12, HUDManager.colors[2], parabolicSpeed, parabolicA);
+                }
                 armor = 0;
             }
         }
@@ -344,6 +362,9 @@ public class Player {
             hp -= amount;
         }else{
             hp = 0;
+        }
+        if (BattleManager.getCurrentEnemy() != null && amount > 0){
+            HUDManager.displayParabolicText("-" + amount, HUDManager.hudEndXPositions[0], HUDManager.hudEndYPositions[0], 130, 12, HUDManager.colors[0], parabolicSpeed, parabolicA);
         }
     }
 
@@ -357,6 +378,9 @@ public class Player {
         }else{
             hp = maxHp;
         }
+        if (BattleManager.getCurrentEnemy() != null){
+            HUDManager.displayParabolicText("+" + amount, HUDManager.hudEndXPositions[0], HUDManager.hudEndYPositions[0], 130, 12, HUDManager.colors[0], parabolicSpeed, parabolicA);
+        }
     }
 
     /**
@@ -369,6 +393,9 @@ public class Player {
         }else{
             armor = maxArmor;
         }
+        if (BattleManager.getCurrentEnemy() != null && amount > 0){
+            HUDManager.displayParabolicText("+" + amount, HUDManager.hudEndXPositions[2], HUDManager.hudEndYPositions[2], 130, 12, HUDManager.colors[2], parabolicSpeed, parabolicA);
+        }
     }
 
     /**
@@ -377,6 +404,9 @@ public class Player {
      */
     public static void increaseMaxHealth(int amount){
         maxHp += amount;
+        if (BattleManager.getCurrentEnemy() != null){
+            HUDManager.displayParabolicText("+" + amount, HUDManager.hudEndXPositions[0], HUDManager.hudEndYPositions[0], 130, 12, HUDManager.colors[0], parabolicSpeed, parabolicA);
+        }
     }
 
     /**
@@ -385,6 +415,9 @@ public class Player {
      */
     public static void increaseMaxArmor(int amount){
         maxArmor += amount;
+        if (BattleManager.getCurrentEnemy() != null){
+            HUDManager.displayParabolicText("+" + amount, HUDManager.hudEndXPositions[2], HUDManager.hudEndYPositions[2], 130, 12, HUDManager.colors[2], parabolicSpeed, parabolicA);
+        }
     }
 
     /**
@@ -437,6 +470,9 @@ public class Player {
         }else{
             atk = 9999;
         }
+        if (BattleManager.getCurrentEnemy() != null){
+            HUDManager.displayParabolicText("+" + amount, HUDManager.hudEndXPositions[3], HUDManager.hudEndYPositions[3], 130, 12, HUDManager.colors[3], parabolicSpeed, parabolicA);
+        }
     }
 
     /**
@@ -461,6 +497,9 @@ public class Player {
             atkChance += amount;
         }else{
             atkChance = 80;
+        }
+        if (BattleManager.getCurrentEnemy() != null){
+            HUDManager.displayParabolicText("+" + amount + "%", HUDManager.hudEndXPositions[3], HUDManager.hudEndYPositions[3], 130, 12, HUDManager.colors[3], parabolicSpeed, parabolicA);
         }
     }
 

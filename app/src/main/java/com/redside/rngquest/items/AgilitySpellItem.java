@@ -26,6 +26,7 @@ public class AgilitySpellItem extends Item {
         if (Player.hasEnoughMana(3)){
             // Display text, and go to attack battle state with agility active
             Player.removeMana(3);
+
             SEManager.playEffect(SEManager.Effect.PURPLE_FLASH);
             HUDManager.displayFadeMessage("Agility", CoreManager.width / 2, (int) (CoreManager.height * 0.75), 30, 15, Color.rgb(180, 50, 255));
             BattleManager.playerAttack();

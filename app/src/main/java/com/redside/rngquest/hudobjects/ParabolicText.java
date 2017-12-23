@@ -8,6 +8,7 @@ public class ParabolicText extends AnimatedText{
     private double directionVec;
     private int vertexX;
     private int vertexY;
+    private double initialA;
 
     /**
      *
@@ -25,8 +26,16 @@ public class ParabolicText extends AnimatedText{
         this.directionVec = directionVec;
         this.vertexX = x;
         this.vertexY = y;
+        initialA = 0.004;
     }
-
+    public ParabolicText(String text, int ticks, int x, int y, int textSize, int color, double directionVec, double initialA){
+        super(text, x, y, textSize, color, 255, true);
+        this.ticks = ticks;
+        this.directionVec = directionVec;
+        this.vertexX = x;
+        this.vertexY = y;
+        this.initialA = initialA;
+    }
     /**
      * {@inheritDoc}
      */
@@ -36,10 +45,10 @@ public class ParabolicText extends AnimatedText{
             if (tick != ticks){
                 // Increment x by the amount given (if positive, it travels right, if negative, it travels left)
                 super.x += directionVec;
-                // Use the equation y = -0.004(x - vertexX)^2 + vertexY
+                // Use the equation y = -a(x - vertexX)^2 + vertexY
                 // Since y gets larger as it travels down, the a value must be positive instead of negative
                 // Scale a value with width
-                double a = 0.004 * 1920 / HUDManager.width;
+                double a = initialA * 1920 / HUDManager.width;
                 super.y = (int) (a * Math.pow(x - this.vertexX, 2) + this.vertexY);
             }else{
                 super.destroy();

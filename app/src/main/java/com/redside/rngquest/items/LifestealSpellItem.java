@@ -24,6 +24,7 @@ public class LifestealSpellItem extends Item {
         if (Player.hasEnoughMana(3)){
             // Display text, and go to attack battle state, while toggling lifesteal
             Player.removeMana(3);
+
             HUDManager.displayFadeMessage("Lifesteal", CoreManager.width / 2, (int) (CoreManager.height * 0.75), 30, 15, Color.GREEN);
             BattleManager.setBattleState(BattleManager.BattleState.PLAYER_ATTACK);
             Player.toggleLifesteal();

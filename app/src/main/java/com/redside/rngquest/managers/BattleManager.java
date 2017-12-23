@@ -62,7 +62,7 @@ public class BattleManager {
                         }
                         break;
                     // Set state to player's turn 110 ticks after initiating
-                    case 120:
+                    case 110:
                         battleState = BattleState.PLAYER_TURN;
                         tick = 0;
                         break;
@@ -77,10 +77,11 @@ public class BattleManager {
 
                         // Give gold reward, scale with stage level
                         int goldReward = 6 + (int) (stage * 1.4) + RNG.number(1, (int) ((stage + 1) * 0.84));
-                        int rewardDisplayTime = 10;
+                        int rewardDisplayTime = 15;
                         int rewardTextSize = 18;
 
                         Player.addGold(goldReward);
+                        HUDManager.displayParticleEffect(height / 2, (int) (height * 0.53), Color.GREEN);
 
                         HUDManager.displayFadeMessage("Received " + goldReward + " gold!", width / 2, height / 2, rewardDisplayTime, rewardTextSize, Color.YELLOW);
                         // Give random stat reward
@@ -126,7 +127,7 @@ public class BattleManager {
                         }
                         break;
                     // Next battle, or announce stage clear
-                    case 65:
+                    case 70:
                         // Check if it's the end of the stage (7 enemies)
                         if (GameManager.getPart() < 8){
                             GameManager.nextPart();
@@ -134,11 +135,11 @@ public class BattleManager {
                             tick = 0;
                         }else{
                             HUDManager.displayFadeMessage("Stage " + GameManager.getStage() + " cleared!", width / 2, height / 2, 90, 18, Color.YELLOW);
-                            HUDManager.displayParticleEffect();
+                            HUDManager.displayParticleEffect(height, (int) (height * 0.47), Color.YELLOW);
                         }
                         break;
                     // If stage cleared, then proceed to shop
-                    case 150:
+                    case 170:
                         SEManager.playEffect(SEManager.Effect.FADE_TRANSITION, ScreenState.SHOP);
                         close();
                         break;
@@ -177,7 +178,7 @@ public class BattleManager {
                         Player.resetAtkChanceBonus();
                         break;
                     // Check if the enemy is dead, if it's not, proceed to enemy's turn
-                    case 80:
+                    case 70:
                         if (currentEnemy.isDead()){
                             if (Player.hasAgility()){
                                 Player.toggleAgility();
@@ -196,7 +197,7 @@ public class BattleManager {
                         }
                         break;
                     // If the enemy is dead, continue to reward state
-                    case 120:
+                    case 110:
                         currentEnemy.destroy();
                         battleState = BattleState.REWARD;
                         tick = 0;
@@ -223,7 +224,7 @@ public class BattleManager {
                         }
                         break;
                     // Check if the enemy is dead
-                    case 85:
+                    case 75:
                         if (currentEnemy.isDead()){
                             currentEnemy.fadeOut(50);
                         }else{
@@ -233,7 +234,7 @@ public class BattleManager {
                         }
                         break;
                     // If the enemy is dead, proceed to reward state
-                    case 125:
+                    case 115:
                         currentEnemy.destroy();
                         battleState = BattleState.REWARD;
                         tick = 0;
@@ -257,7 +258,7 @@ public class BattleManager {
                         Player.addArmor(armorAmount);
                         break;
                     // Proceed to enemy's turn
-                    case 90:
+                    case 80:
                         battleState = BattleState.ENEMY_ATTACK;
                         tick = 0;
                         break;
@@ -290,7 +291,7 @@ public class BattleManager {
                         currentEnemy.setState(EAState.IDLE);
                         break;
                     // Check if player is dead, if not, go to player's turn
-                    case 100:
+                    case 95:
                         // For now, if the player is dead, return them back to the title screen and delete their save
                         if (Player.isDead()){
                             ArrayList<String> erase = new ArrayList<>();
