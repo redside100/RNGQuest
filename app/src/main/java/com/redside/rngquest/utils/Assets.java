@@ -115,6 +115,7 @@ public class Assets {
         bitmapDb.put("button_fireball", getBitmap(context, "buttons/fireball.png"));
         bitmapDb.put("button_agility", getBitmap(context, "buttons/agility.png"));
         bitmapDb.put("button_lifesteal", getBitmap(context, "buttons/lifesteal.png"));
+        bitmapDb.put("button_recovery", getBitmap(context, "buttons/recovery.png"));
 
         // Icons
         bitmapDb.put("icons_hp", getBitmap(context, "icons/hp.png"));
@@ -132,6 +133,7 @@ public class Assets {
         bitmapDb.put("items_fireball_spell", getBitmap(context, "items/fireball_spell.png"));
         bitmapDb.put("items_agility_spell", getBitmap(context, "items/agility_spell.png"));
         bitmapDb.put("items_lifesteal_spell", getBitmap(context, "items/lifesteal_spell.png"));
+        bitmapDb.put("items_recovery_spell", getBitmap(context, "items/recovery_spell.png"));
 
         // Sounds
         soundDb.put("title_theme", getSoundDesc(context, "sounds/title.ogg"));

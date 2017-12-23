@@ -21,6 +21,7 @@ public class LargePotionItem extends Item {
     public void use(){
         // Display text, and heal
         HUDManager.displayFadeMessage("Recovered 75 HP", CoreManager.width / 2, (int) (CoreManager.height * 0.31), 30, 18, Color.GREEN);
+        HUDManager.displayParticleEffect((int) (CoreManager.height * 0.28), (int) (CoreManager.height * 0.31), Color.GREEN);
         Player.heal(75);
     }
 }

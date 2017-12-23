@@ -10,6 +10,7 @@ import com.redside.rngquest.entities.Player;
 import com.redside.rngquest.entities.SlashAnimation;
 import com.redside.rngquest.entities.Wizard;
 import com.redside.rngquest.gameobjects.CoreView;
+import com.redside.rngquest.items.RecoverySpellItem;
 import com.redside.rngquest.utils.RNG;
 
 import java.util.ArrayList;
@@ -59,6 +60,12 @@ public class BattleManager {
                             case 3:
                                 startBattle(new Blob(7 * stage, 2 * stage, width / 2, height / 2, 0));
                                 break;
+                        }
+
+                        // See if player has any start of battle passive effects
+                        if (Player.getCurrentSpell() instanceof RecoverySpellItem){
+                            Player.addArmor(1);
+                            Player.heal(1);
                         }
                         break;
                     // Set state to player's turn 110 ticks after initiating

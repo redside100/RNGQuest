@@ -21,6 +21,7 @@ public class ManaUpPotionItem extends Item {
     public void use(){
         // Display text, and add mana
         HUDManager.displayFadeMessage("Max MP increased by 10", CoreManager.width / 2, (int) (CoreManager.height * 0.31), 30, 18, Color.BLUE);
+        HUDManager.displayParticleEffect((int) (CoreManager.height * 0.28), (int) (CoreManager.height * 0.31), Color.BLUE);
         Player.increaseMaxMana(10);
         Player.addMana(10);
     }

@@ -15,6 +15,7 @@ import com.redside.rngquest.items.LargePotionItem;
 import com.redside.rngquest.items.LifestealSpellItem;
 import com.redside.rngquest.items.ManaPotionItem;
 import com.redside.rngquest.items.ManaUpPotionItem;
+import com.redside.rngquest.items.RecoverySpellItem;
 import com.redside.rngquest.items.SmallPotionItem;
 import com.redside.rngquest.utils.RNG;
 
@@ -348,7 +349,7 @@ public class GameManager {
                 }
             }
             for (int i = 0; i < 3; i++){
-                switch (RNG.number(1, 3)){
+                switch (RNG.number(1, 4)){
                     case 1:
                         shopSpellInventory.addItem(new FireballSpellItem());
                         break;
@@ -357,6 +358,9 @@ public class GameManager {
                         break;
                     case 3:
                         shopSpellInventory.addItem(new LifestealSpellItem());
+                        break;
+                    case 4:
+                        shopSpellInventory.addItem(new RecoverySpellItem());
                         break;
                 }
             }
