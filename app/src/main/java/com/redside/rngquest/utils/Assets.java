@@ -99,6 +99,19 @@ public class Assets {
         // Blob damage
         bitmapDb.put("sprites_blob_damage", getBitmap(context, "sprites/blob/blob_damage.png"));
 
+        // Cyclo idle
+        for (int i = 0; i < 4; i++){
+            bitmapDb.put("sprites_cyclo_idle_" + i, getBitmap(context, "sprites/cyclo/cyclo_idle/cyclo_idle" + i + ".png"));
+        }
+
+        // Cyclo attack
+        for (int i = 0; i < 10; i++){
+            bitmapDb.put("sprites_cyclo_attack_" + i, getBitmap(context, "sprites/cyclo/cyclo_attack/cyclo_attack" + i + ".png"));
+        }
+
+        // Cyclo damage
+        bitmapDb.put("sprites_cyclo_damage", getBitmap(context, "sprites/cyclo/cyclo_damage.png"));
+
         // Buttons
         bitmapDb.put("button_play", getBitmap(context, "buttons/play.png"));
         bitmapDb.put("button_back", getBitmap(context, "buttons/back.png"));

@@ -2,6 +2,7 @@ package com.redside.rngquest.managers;
 import android.graphics.Color;
 
 import com.redside.rngquest.entities.Blob;
+import com.redside.rngquest.entities.Cyclo;
 import com.redside.rngquest.entities.EAState;
 import com.redside.rngquest.entities.Entity;
 import com.redside.rngquest.entities.ExplosionAnimation;
@@ -48,17 +49,20 @@ public class BattleManager {
                     // Initiate new battle
                     case 10:
                         // Spawn new enemy, scale stats with stage level
-                        int spawn = RNG.number(1, 3);
+                        int spawn = RNG.number(1, 4);
                         int stage = GameManager.getStage();
                         switch(spawn){
                             case 1:
-                                startBattle(new Ghost((int) (12 * stage * 0.5), (int) (2 * stage * 0.5), width / 2, height / 2, 0));
+                                startBattle(new Ghost(6 * stage, stage, width / 2, height / 2, 0));
                                 break;
                             case 2:
-                                startBattle(new Wizard((int) (20 * stage * 0.5), (int) (5 * stage * 0.5), width / 2, height / 2, 0));
+                                startBattle(new Wizard(9 * stage, (int) (2.4 * stage), width / 2, height / 2, 0));
                                 break;
                             case 3:
                                 startBattle(new Blob(7 * stage, 2 * stage, width / 2, height / 2, 0));
+                                break;
+                            case 4:
+                                startBattle(new Cyclo(6 * stage, (int) (1.7 * stage), width / 2, height / 2, 0));
                                 break;
                         }
 
@@ -185,7 +189,7 @@ public class BattleManager {
                         Player.resetAtkChanceBonus();
                         break;
                     // Check if the enemy is dead, if it's not, proceed to enemy's turn
-                    case 70:
+                    case 60:
                         if (currentEnemy.isDead()){
                             if (Player.hasAgility()){
                                 Player.toggleAgility();
@@ -204,7 +208,7 @@ public class BattleManager {
                         }
                         break;
                     // If the enemy is dead, continue to reward state
-                    case 110:
+                    case 100:
                         currentEnemy.destroy();
                         battleState = BattleState.REWARD;
                         tick = 0;
@@ -231,7 +235,7 @@ public class BattleManager {
                         }
                         break;
                     // Check if the enemy is dead
-                    case 75:
+                    case 65:
                         if (currentEnemy.isDead()){
                             currentEnemy.fadeOut(50);
                         }else{
@@ -241,7 +245,7 @@ public class BattleManager {
                         }
                         break;
                     // If the enemy is dead, proceed to reward state
-                    case 115:
+                    case 105:
                         currentEnemy.destroy();
                         battleState = BattleState.REWARD;
                         tick = 0;
@@ -265,7 +269,7 @@ public class BattleManager {
                         Player.addArmor(armorAmount);
                         break;
                     // Proceed to enemy's turn
-                    case 80:
+                    case 70:
                         battleState = BattleState.ENEMY_ATTACK;
                         tick = 0;
                         break;
@@ -280,7 +284,7 @@ public class BattleManager {
                         currentEnemy.shake(25);
                         break;
                     // Check if hit
-                    case 20:
+                    case 15:
                         // Roll the dice
                         if (RNG.pass(100 - Player.getEvade())){
                             Sound.playSound(SoundEffect.PLAYER_HIT);
@@ -294,11 +298,11 @@ public class BattleManager {
                         }
                         break;
                     // Stop attack state
-                    case 90:
+                    case 85:
                         currentEnemy.setState(EAState.IDLE);
                         break;
                     // Check if player is dead, if not, go to player's turn
-                    case 95:
+                    case 90:
                         // For now, if the player is dead, return them back to the title screen and delete their save
                         if (Player.isDead()){
                             ArrayList<String> erase = new ArrayList<>();

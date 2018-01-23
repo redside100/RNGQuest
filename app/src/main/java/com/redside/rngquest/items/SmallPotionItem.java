@@ -4,7 +4,6 @@ import android.graphics.Color;
 
 import com.redside.rngquest.entities.Player;
 import com.redside.rngquest.gameobjects.Item;
-import com.redside.rngquest.managers.AnimatedTextManager;
 import com.redside.rngquest.managers.CoreManager;
 import com.redside.rngquest.managers.HUDManager;
 import com.redside.rngquest.utils.Assets;

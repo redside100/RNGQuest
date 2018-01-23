@@ -13,7 +13,7 @@ import com.redside.rngquest.utils.Assets;
 
 public class RecoverySpellItem extends Item {
     public RecoverySpellItem(){
-        super(ItemType.AGILITY_SPELL, Player.Role.ALL, "Recovery Orb: +1 HP, +1 AMR each encounter" , 100, 0,
+        super(ItemType.AGILITY_SPELL, Player.Role.ALL, "Recovery Orb: +1 HP, +1 AMR each encounter" , 70, 0,
                 Assets.getBitmapFromMemory("items_recovery_spell"), Assets.getBitmapFromMemory("button_recovery"), 8);
     }
 
